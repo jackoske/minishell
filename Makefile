@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/15 15:11:29 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/05/15 21:30:09 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,49 +15,54 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT = libft/
-
+LIBFT = ./libft/
+INC = -I./includes
 OBJ_DIR = ./obj/
 
+READLINE = -lreadline
+
+SRC_DIR = ./src/main.c
 SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
 
-SRC_PARS = parser.c
+
+SRC_PARS = parser.c prompt.c
 SRC_EXEC = execution.c
 
-SRC = $(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
-	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC))
+SRC = $(SRC_DIR) \
+	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
+	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) 
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
 
+GREEN=\033[0;32m
+RED=\033[0;31m
+NC=\033[0m 
 
 all: $(NAME)
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
-	
+	$(CC) $(CFLAGS) $(INC) $(READLINE) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@make bonus -C $(LIBFT)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)/libft.a
-	$(CC) $(CFLAGS) $(OBJ) $(LIB) $(PRINTF) -o $(NAME)
-	@echo "Minishell built Successfully"
-
+	$(CC) $(CFLAGS) $(INC)  $(READLINE) $(OBJ) -o $(NAME) -L$(LIBFT) -lft
+	@echo -e "$(GREEN)Minishell built Successfully$(NC)"
 
 debug: CFLAGS += -g -fsanitize=address
 debug: re
-	@echo "Debugging Mode built Successfully"
+	@echo -e "$(GREEN)Debugging Mode built Successfully$(NC)"
 
 clean:
-	rm -rf $(LIBFT)/*.o
+	@make clean -C $(LIBFT)
 	rm -rf $(OBJ_DIR)
-	@echo "Objects removed"
+	@echo -e "$(RED)Objects removed$(NC)"
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f $(LIBFT)/libft.a
-	@echo "Minishell removed"
+	@make fclean -C $(LIBFT)
+	@echo -e "$(RED)Minishell removed$(NC)"
 
 re: fclean all
 

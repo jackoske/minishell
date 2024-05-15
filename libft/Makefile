@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/19 17:38:23 by iverniho          #+#    #+#              #
-#    Updated: 2023/12/11 18:40:17 by iverniho         ###   ########.fr        #
+#    Updated: 2024/05/15 21:24:00 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,17 @@ SRC = ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_strchr
 
 
 BONUS_SRC = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstiter.c \
-		ft_lstclear.c ft_lstmap.c
+		ft_lstclear.c ft_lstmap.c ft_realloc.c
 NAME = libft.a
-OBJ = $(SRC:.c=.o)
-BONUS_OBJ = $(BONUS_SRC:.c=.o)
+OBJ_DIR = ./obj
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+BONUS_OBJ = $(addprefix $(OBJ_DIR)/, $(BONUS_SRC:.c=.o))
 
 all: $(NAME)
+
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
@@ -34,7 +39,7 @@ bonus: $(OBJ) $(BONUS_OBJ)
 	ar rc $(NAME) $(OBJ) $(BONUS_OBJ)
 
 clean:
-	rm -rf $(OBJ) $(BONUS_OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -Rf $(NAME)
