@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/21 16:01:49 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/05/21 17:00:57 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,13 @@ SRC_EXEC = execution.c
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \
 	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
-	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) 
+	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC))
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
 
 GREEN=\033[0;32m
 RED=\033[0;31m
-NC=\033[0m 
+NC=\033[0m
 
 all: $(NAME)
 
