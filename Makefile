@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/15 21:30:09 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/05/21 15:51:40 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT = ./libft/
+LIBFT = ./lib/libft/
 INC = -I./includes
 OBJ_DIR = ./obj/
 
@@ -43,7 +43,7 @@ all: $(NAME)
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INC) $(READLINE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@make bonus -C $(LIBFT)
