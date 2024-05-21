@@ -6,36 +6,63 @@
 #    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/14 15:45:46 by iverniho         ###   ########.fr        #
+#    Updated: 2024/05/21 16:56:42 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIBFT = libft/
+
+LIBFT = ./libft/
+INC = -I./includes
+OBJ_DIR = ./obj/
+
+READLINE = -lreadline
+
+SRC_DIR = ./src/main.c
 SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
-SRC_PARS = parser.c
+
+
+SRC_PARS = parser.c prompt.c
 SRC_EXEC = execution.c
-SRC = $(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
+
+SRC = $(SRC_DIR) \
+	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
 	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC))
-OBJ = $(SRC:c=o)
+
+OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
+
+GREEN=\033[0;32m
+RED=\033[0;31m
+NC=\033[0m
 
 all: $(NAME)
 
+$(OBJ_DIR)%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INC) $(READLINE) -c $< -o $@
+
 $(NAME): $(OBJ)
 	@make bonus -C $(LIBFT)
-	@$(CC) -g $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)/libft.a
-	$(CC) -g $(CFLAGS) $(OBJ) $(LIB) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(INC)  $(READLINE) $(OBJ) -o $(NAME) -L$(LIBFT) -lft
+	@echo -e "$(GREEN)Minishell built Successfully$(NC)"
+
+debug: CFLAGS += -g -fsanitize=address
+debug: re
+	@echo -e "$(GREEN)Debugging Mode built Successfully$(NC)"
 
 clean:
-	rm -rf $(LIBFT)/*.o
-	rm -rf $(OBJ)
+	@make clean -C $(LIBFT)
+	rm -rf $(OBJ_DIR)
+	@echo -e "$(RED)Objects removed$(NC)"
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f $(LIBFT)/libft.a
+	@make fclean -C $(LIBFT)
+	@echo -e "$(RED)Minishell removed$(NC)"
 
 re: fclean all
 
