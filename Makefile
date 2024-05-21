@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/21 15:51:40 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/05/21 16:01:49 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 LIBFT = ./lib/libft/
+
+GNL = get_next_line.c get_next_line_utils.c
+SRC_GNL = $(addprefix lib/gnl/, $(GNL))
+
 INC = -I./includes
 OBJ_DIR = ./obj/
 
@@ -30,6 +34,7 @@ SRC_PARS = parser.c prompt.c
 SRC_EXEC = execution.c
 
 SRC = $(SRC_DIR) \
+	$(SRC_GNL) \
 	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
 	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) 
 

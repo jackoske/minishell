@@ -3,31 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 16:30:39 by iverniho          #+#    #+#             */
-/*   Updated: 2023/11/30 18:18:23 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:08:54 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(char *src)
+/*
+ * Duplicates the string 's'. Allocates sufficient memory for a copy of
+ * the string 's', does the copy, and returns a pointer to it.
+ *
+ * @param s A pointer to the string to be duplicated.
+ * @return Returns a pointer to the duplicated string, or NULL if
+ *         memory allocation fails.
+ */
+char	*ft_strdup(const char *s)
 {
-	int		i;
-	int		size;
-	char	*res;
+	size_t	size;
+	char	*result;
+	char	*start;
 
-	i = 0;
-	size = ft_strlen(src);
-	res = (char *)malloc((size + 1) * sizeof(char));
-	if (!res)
-		return (0);
-	while (src[i] != '\0')
-	{
-		res[i] = src[i];
-		i++;
-	}
-	res[i] = 0;
-	return (res);
+	size = ft_strlen(s);
+	result = (char *)malloc((size + 1) * sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	start = result;
+	while (*s)
+		*result++ = *s++;
+	*result = '\0';
+	return (start);
 }
