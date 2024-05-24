@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/23 17:14:57 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/24 18:27:52 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*read_command(void)
 	return (input);
 }
 
-t_token	*ft_lstnew1(void *content)
+t_token	*ft_lstnew1(void *content, char *input)
 {
 	t_token	*item;
 
@@ -47,6 +47,7 @@ t_token	*ft_lstnew1(void *content)
 		return (NULL);
 	item->content = content;
 	item->next = NULL;
+	item->cmd = input;
 	return (item);
 }
 
@@ -75,52 +76,82 @@ int	is_special_character(char c)
 	return (0);
 }
 
-t_token	**split_into_tokens(char *input)
+// void	create_first_el(t_token **token, t_token **head, char *buff, char *input)
+// {
+// 	*token = ft_lstnew1(buff, input);
+// 	(*token)->head = *token;
+// 	head = token;
+// 	printf("Token1: %s\n", (*token)->content);
+// 	printf("test1\n");
+// }
+
+// void	create_second_el(t_token *token, t_token *head, char *buff, char *input)
+// {
+// 	printf("test2\n");
+// 	token = ft_lstnew1(buff, input);
+// 	printf("test3\n");
+// 	printf("Token2: %s\n", token->content);
+// 	printf("head: %s\n", head->content);
+// 	head->next = token;
+// 	printf("test4\n");
+// 	token->head = head;
+// 	printf("test5\n");
+// }
+
+t_token	*split_into_tokens(char *input)
 {
 	t_token	*token;
-	t_token	**tokens;
+	t_token	*tmp;
 	char	**buff;
 	int		i;
-	int		j;
+	t_token	*head;
 
-	token = NULL;
-	tokens = NULL;
-	buff = ft_split(input, ' ');
-	i = -1;
-	j = -1;
-	// while (is_special_character(input[++j]))
-	// 	if (input[j] == ' ')
-	// 		printf("Space detected\n");
+	token = (buff = ft_split(input, ' '), head = NULL, i = -1,NULL);
 	while (buff[++i])
+	{
+		if (i == 0)
+			// create_first_el(token, head, buff[i], input);
 		{
-			printf("buff[%d]: %s\n", i, buff[i]);
-			if (i == 0)
-			{
-				token = ft_lstnew1(buff[i]);
-				tokens = &token;
-				printf("Token1 %d: %s\n", i, token->content);
-			}
-			else
-			{
-				token->next = ft_lstnew1(buff[i]);
-				ft_lstadd_back1(tokens, token);
-				printf("Token2 %d: %s\n", i, token->content);
-			}
+			token = ft_lstnew1(buff[i], input);
+			token->head = token;
+			head = token;
 		}
-	return (tokens);
+		else if (i == 1)
+			// create_second_el(token, head, buff[i], input);
+		{
+			printf("Token2: %s\n", token->content);
+			token = ft_lstnew1(buff[i], input);
+			head->next = token;
+			token->head = head;
+		}
+		else
+		{
+			tmp = ft_lstnew1(buff[i], input);
+			token->next = tmp;
+			token->head = head;
+			token = tmp;
+			// printf("Token2 %d: %s\n", i, token->content);
+		}
+	}
+	return (head);
 }
 
 void	prompt_loop(void)
 {
 	char	*input;
-	t_token	**tokens = NULL;
+	t_token	*token;
 
 	while (1)
 	{
 		print_prompt();
 		input = read_command();
-		tokens = split_into_tokens(input);
-		printf("Token 0: %s\n", (*tokens)->content);
+		token = split_into_tokens(input);
+		t_token	*current_token = token->head;
+		while (current_token)
+		{
+			printf("Token3: %s\n", current_token->content);
+			current_token = current_token->next;
+		}
 		if (input == NULL)
 		{
 			break ;

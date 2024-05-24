@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/23 16:25:11 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:45:32 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 typedef struct s_token
 {
 	char			*content;
+	char			*cmd;
 	struct s_token	*next;
+	struct s_token	*head;
 }	t_token;
 
 void	prompt_loop(void);
