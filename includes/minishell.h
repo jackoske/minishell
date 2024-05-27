@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/27 09:58:06 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:24:21 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef struct s_token
 	t_types			type;
 }	t_token;
 
+typedef struct s_command
+{
+	t_token	*head;
+	int		redirect_in;
+	int		redirect_out;
+}	t_command;
 
 
 void	prompt_loop(void);
