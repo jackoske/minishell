@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/24 18:27:52 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:23:59 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,52 @@ int	is_special_character(char c)
 // 	printf("test5\n");
 // }
 
+int	is_builtin(t_token *token)
+{
+	if (ft_strncmp(token->content, "echo", 4) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "cd", 2) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "pwd", 3) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "export", 6) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "unset", 5) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "env", 3) == 0)
+		return(token->type = builtin, 0);
+	else if (ft_strncmp(token->content, "exit", 4) == 0)
+		return(token->type = builtin, 0);
+	else
+		return (1);
+}
+
+void	add_type(t_token *token)
+{
+	if (ft_strncmp(token->content, ">", 1) == 0)
+		token->type = red_out;
+	else if (ft_strncmp(token->content, ">>", 2) == 0)
+		token->type = append;
+	else if (ft_strncmp(token->content, "<", 1) == 0)
+		token->type = red_in;
+	else if (ft_strncmp(token->content, "|", 1) == 0)
+		token->type = pipe_symb;
+	else if (ft_strncmp(token->content, ">", 1) == 0)
+		token->type = red_out;
+	else if (ft_strncmp(token->content, ">>", 2) == 0)
+		token->type = append;
+	else if (ft_strncmp(token->content, "<", 1) == 0)
+		token->type = red_in;
+	else if (ft_strncmp(token->content, "\"", 1) == 0)
+		token->type = quote;
+	else if (ft_strncmp(token->content, "'", 1) == 0)
+		token->type = quote;
+	else if (is_builtin(token) == 0)
+		token->type = builtin;
+	else
+		token->type = command;
+}
+
 t_token	*split_into_tokens(char *input)
 {
 	t_token	*token;
@@ -114,6 +160,7 @@ t_token	*split_into_tokens(char *input)
 		{
 			token = ft_lstnew1(buff[i], input);
 			token->head = token;
+			add_type(token);
 			head = token;
 		}
 		else if (i == 1)
@@ -123,6 +170,7 @@ t_token	*split_into_tokens(char *input)
 			token = ft_lstnew1(buff[i], input);
 			head->next = token;
 			token->head = head;
+			add_type(token);
 		}
 		else
 		{
@@ -130,6 +178,7 @@ t_token	*split_into_tokens(char *input)
 			token->next = tmp;
 			token->head = head;
 			token = tmp;
+			add_type(token);
 			// printf("Token2 %d: %s\n", i, token->content);
 		}
 	}
@@ -150,6 +199,7 @@ void	prompt_loop(void)
 		while (current_token)
 		{
 			printf("Token3: %s\n", current_token->content);
+			printf("Type: %d\n", current_token->type);
 			current_token = current_token->next;
 		}
 		if (input == NULL)
