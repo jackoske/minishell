@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 10:23:59 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:48:47 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static char	*read_command(void)
 	if (input != NULL && check_command(input))
 	{
 		add_history(input);
-		printf("Command entered: %s\n", input);
 	}
 	return (input);
 }
@@ -76,27 +75,7 @@ int	is_special_character(char c)
 	return (0);
 }
 
-// void	create_first_el(t_token **token, t_token **head, char *buff, char *input)
-// {
-// 	*token = ft_lstnew1(buff, input);
-// 	(*token)->head = *token;
-// 	head = token;
-// 	printf("Token1: %s\n", (*token)->content);
-// 	printf("test1\n");
-// }
 
-// void	create_second_el(t_token *token, t_token *head, char *buff, char *input)
-// {
-// 	printf("test2\n");
-// 	token = ft_lstnew1(buff, input);
-// 	printf("test3\n");
-// 	printf("Token2: %s\n", token->content);
-// 	printf("head: %s\n", head->content);
-// 	head->next = token;
-// 	printf("test4\n");
-// 	token->head = head;
-// 	printf("test5\n");
-// }
 
 int	is_builtin(t_token *token)
 {
@@ -134,9 +113,8 @@ void	add_type(t_token *token)
 		token->type = append;
 	else if (ft_strncmp(token->content, "<", 1) == 0)
 		token->type = red_in;
-	else if (ft_strncmp(token->content, "\"", 1) == 0)
-		token->type = quote;
-	else if (ft_strncmp(token->content, "'", 1) == 0)
+	else if (ft_strncmp(token->content, "\"", 1) == 0 || \
+		ft_strncmp(token->content, "\'", 1) == 0)
 		token->type = quote;
 	else if (is_builtin(token) == 0)
 		token->type = builtin;
@@ -144,44 +122,59 @@ void	add_type(t_token *token)
 		token->type = command;
 }
 
-t_token	*split_into_tokens(char *input)
+static void	create_first_el(t_token **token, t_token **head, char *buff, char *input)
 {
-	t_token	*token;
-	t_token	*tmp;
-	char	**buff;
-	int		i;
-	t_token	*head;
+	(*token) = ft_lstnew1(buff, input);
+	(*token)->head = *token;
+	(*head) = *token;
+	add_type(*token);
+}
 
-	token = (buff = ft_split(input, ' '), head = NULL, i = -1,NULL);
+static void	create_second_el(t_token **token, t_token **head, char *buff, char *input)
+{
+	(*token) = ft_lstnew1(buff, input);
+	(*head)->next = *token;
+	(*token)->head = *head;
+	add_type(*token);
+}
+
+static void create_next_el(t_token **token, t_token **head, char *buff, char *input)
+{
+	t_token	*tmp;
+
+	tmp = ft_lstnew1(buff, input);
+	(*token)->next = tmp;
+	(*token)->head = *head;
+	(*token) = tmp;
+	add_type((*token));
+}
+
+void	init_token(t_token **token, t_token **head, char *input)
+{
+	int		i;
+	char	**buff;
+
+	buff = ft_split(input, ' ');
+	i = -1;
 	while (buff[++i])
 	{
 		if (i == 0)
-			// create_first_el(token, head, buff[i], input);
-		{
-			token = ft_lstnew1(buff[i], input);
-			token->head = token;
-			add_type(token);
-			head = token;
-		}
+			create_first_el(token, head, buff[i], input);
 		else if (i == 1)
-			// create_second_el(token, head, buff[i], input);
-		{
-			printf("Token2: %s\n", token->content);
-			token = ft_lstnew1(buff[i], input);
-			head->next = token;
-			token->head = head;
-			add_type(token);
-		}
+			create_second_el(token, head, buff[i], input);
 		else
-		{
-			tmp = ft_lstnew1(buff[i], input);
-			token->next = tmp;
-			token->head = head;
-			token = tmp;
-			add_type(token);
-			// printf("Token2 %d: %s\n", i, token->content);
-		}
+			create_next_el(token, head, buff[i], input);
 	}
+}
+
+t_token	*split_into_tokens(char *input)
+{
+	t_token	*token;
+	int		i;
+	t_token	*head;
+
+	token = ( head = NULL, i = -1,NULL);
+	init_token(&token, &head, input);
 	return (head);
 }
 
