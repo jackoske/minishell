@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/27 12:24:21 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:19:07 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "../lib/gnl/get_next_line.h"
 
 # define PROMPT "minishell> "
+
+
 
 typedef enum e_types
 {
@@ -48,13 +50,20 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	t_token	*head;
-	int		redirect_in;
-	int		redirect_out;
-}	t_command;
+	char	**envp;
+	t_token	*cmnds;
+}			t_command;
 
 
-void	prompt_loop(void);
+// typedef struct s_command
+// {
+// 	t_token	*head;
+// 	int		redirect_in;
+// 	int		redirect_out;
+// }	t_command;
+
+
+void	prompt_loop(t_command **command);
 int		quotes_closed(char *line);
 
 #endif
