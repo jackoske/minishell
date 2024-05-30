@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 12:17:15 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:10:07 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ t_token	*split_into_tokens(char *input)
 	int		i;
 	t_token	*head;
 
-	token = ( head = NULL, i = -1,NULL);
+	token = ( head = zNULL, i = -1,NULL);
 	init_token(&token, &head, input);
 	return (head);
 }

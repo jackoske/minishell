@@ -3,46 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splice_2d_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 18:16:17 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/29 14:22:22 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/05/30 23:55:57 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
+
+static void	copy_arrays_to_new(char **new, char **dest, char **src, int i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	while (dest[j] && j < i)
+	{
+		new[j] = ft_strdup(dest[j]);
+		j++;
+	}
+	while (src[k])
+	{
+		new[j] = ft_strdup(src[k]);
+		j++;
+		k++;
+	}
+	k = i;
+	while (dest[k])
+	{
+		new[j] = ft_strdup(dest[k]);
+		j++;
+		k++;
+	}
+	new[j] = NULL;
+}
 
 /*
  * Splices a 2d_arrray into another 2d_arrray at a given index.
  *
- * @param big: The 2d_arrray to splice into.
- * @param small: The 2d_arrray to splice.
+ * @param dest: The 2d_arrray to splice into.
+ * @param src: The 2d_arrray to splice.
  * @param target_index: The index to splice the 2d_arrray at.
- *
  * @return: The spliced 2d_arrray.
  */
-char	**ft_splice_2d_arrray(char ***big, char **small, int target_index)
+char	**ft_splice_2d_array(char **dest, char **src, int i)
 {
-	char	**aux;
-	int		copy_index;
-	int		i;
+	char	**new;
 
-	copy_index = 0;
-	i = 0;
-	if (!big || !*big || target_index < 0 || target_index >= ft_2d_array_len(*big))
+	if (!dest || !src || i < 0)
 		return (NULL);
-	aux = ft_calloc(ft_2d_array_len(*big) + ft_2d_array_len(small), sizeof(char *));
-	if (!aux)
+	new = (char **)malloc(sizeof(char *) * (ft_2d_array_len(dest)
+				+ ft_2d_array_len(src) + 1));
+	if (!new)
 		return (NULL);
-	while (big[0][i])
-	{
-		if (i != target_index)
-			ft_copy_2d_array_i(aux, &big[0][i], copy_index);
-		else
-			ft_copy_2d_array_i(aux, small, copy_index);
-		i++;
-	}
-	ft_free_2d_array(big);
-	*big = aux;
-	return (*big);
+	copy_arrays_to_new(new, dest, src, i);
+	return (new);
 }
