@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2021/04/05 17:02:49 by aperez-b          #+#    #+#             */
+/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_putendl_fd(char *s, int fd)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	if (s != NULL)
+	{
+		ft_putstr_fd(s, fd);
+		ft_putchar_fd('\n', fd);
+		return ((int)ft_strlen(s) + 1);
+	}
+	return (0);
 }

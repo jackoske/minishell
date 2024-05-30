@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2021/04/05 17:07:04 by aperez-b          #+#    #+#             */
+/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	const char	*str1;
+	const char	*str2;
+	size_t		i;
+
+	str1 = (const char *)s1;
+	str2 = (const char *)s2;
+	i = 0;
+	while (i < n)
+	{
+		if (str1[i] != str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
+	}
+	return (0);
 }

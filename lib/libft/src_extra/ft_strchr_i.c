@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr_i.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/05/28 17:55:20 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/05/28 18:22:04 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_strchr_i(const char *str, int c)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((unsigned char)str[i] == (unsigned char)c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

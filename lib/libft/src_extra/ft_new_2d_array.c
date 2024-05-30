@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_new_2d_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/05/29 14:07:30 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/05/29 14:11:05 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+/**
+ * Function: ft_new_2d_array
+ * -------------------------
+ * Allocates memory for a new 2D array.
+ *
+ * @param len: The length of the array.
+ *
+ * @return: A pointer to the new 2D array.
+ */
+char	**ft_new_2d_array(int len)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	char	**out;
+
+	out = malloc(sizeof(char *) * len);
+	if (!out)
+		return (NULL);
+	return (out);
 }

@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2021/04/05 17:06:47 by aperez-b          #+#    #+#             */
+/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	unsigned char	*ptr;
+	size_t			i;
+
+	i = 0;
+	ptr = (unsigned char *)s;
+	while (i < n)
+	{
+		if (*ptr == (unsigned char)c)
+			return ((void *)ptr);
+		ptr++;
+		i++;
+	}
+	return (NULL);
 }

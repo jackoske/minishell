@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:50 by Jskehan          ###   ########.fr       */
+/*   Created: 2021/04/05 16:59:00 by aperez-b          #+#    #+#             */
+/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	prompt_loop();
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
-	return (EXIT_SUCCESS);
+	int	len;
+	int	i;
+	int	j;
+
+	if (!s1)
+		return (0);
+	len = ft_strlen(s1);
+	i = 0;
+	j = len - 1;
+	while (i <= len / 2 && ft_strchr(set, s1[i]) != NULL)
+		i++;
+	while (j >= len / 2 && ft_strchr(set, s1[j]) != NULL)
+		j--;
+	if (i > j)
+		return (ft_strdup(""));
+	len = j - i;
+	return (ft_substr(s1, i, len + 1));
 }

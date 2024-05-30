@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/23 16:21:23 by iverniho         ###   ########.fr        #
+#    Updated: 2024/05/30 09:02:19 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT = ./lib/libft/
 GNL = get_next_line.c get_next_line_utils.c
 SRC_GNL = $(addprefix lib/gnl/, $(GNL))
 
-INC = -I./includes
+INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes
 OBJ_DIR = ./obj/
 
 READLINE = -lreadline
@@ -51,7 +51,7 @@ $(OBJ_DIR)%.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJ)
-	@make bonus -C $(LIBFT)
+	@make -C $(LIBFT)
 	$(CC) $(CFLAGS) $(INC)  $(READLINE) $(OBJ) -o $(NAME) -L$(LIBFT) -lft
 	@echo -e "$(GREEN)Minishell built Successfully$(NC)"
 
