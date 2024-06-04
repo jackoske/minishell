@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/28 19:19:07 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:51:39 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "../lib/libft/libft.h"
+# include "../lib/libft/includes/libft.h"
 # include "../lib/gnl/get_next_line.h"
 
 # define PROMPT "minishell> "

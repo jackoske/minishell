@@ -6,11 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:36:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:39 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/05/28 18:11:22 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 /**
  * Function: ft_is_space

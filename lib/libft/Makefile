@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 17:01:09 by Jskehan           #+#    #+#              #
-#    Updated: 2024/05/30 09:04:27 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/04 16:14:34 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ SRCS_BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_b
 			 ft_lstclear.c ft_lstmap.c
 
 SRC_EXTRA_DIR = src_extra/
-SRCS_EXTRA = ft_1st_char_in_set_i.c ft_2d_array_len.c ft_add_row_2d_array.c ft_copy_2d_array_i.c ft_count_char.c ft_duplicate_2d_array.c \
+SRCS_EXTRA = ft_1st_char_in_set_i.c ft_2d_array_len.c ft_add_row_2d_array.c ft_count_char.c ft_duplicate_2d_array.c \
 			 ft_free_2d_array.c ft_is_space.c ft_print_2d_array_fd.c ft_splice_2d_array.c ft_strchr_i.c ft_new_2d_array.c ft_realloc_2d_array.c \
-			 ft_copy_2d_array_i.c ft_add_row_2d_array_i.c
+			 ft_add_row_2d_array_i.c
 
 # Include Directory
 INC = -I./includes

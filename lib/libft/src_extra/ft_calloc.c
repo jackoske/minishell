@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 11:30:00 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/29 15:13:56 by iverniho         ###   ########.fr       */
+/*   Created: 2024/05/28 23:20:39 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/05/29 00:23:03 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_list	*temp;
+	char	*str;
 
-	if (!lst)
+	if (nmemb <= 0 || size <= 0)
+		str = (char *)malloc(1);
+	else
+		str = (char *)malloc(nmemb * size);
+	if (!str)
 		return (NULL);
-	temp = lst;
-	while (temp->next)
-		temp = temp->next;
-	return (temp);
+	return (ft_memset(str, 0, nmemb * size));
 }

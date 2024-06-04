@@ -6,11 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:06:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/29 18:06:30 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/04 12:22:09 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 /**
  * Function: ft_add_row_2d_array
@@ -24,17 +24,18 @@
  *
  * Note: The array must be NULL-terminated.
  */
-char	**ft_add_row_2d_array(char **array, char *row)
+char	**ft_add_row_2d_array(char ***array, char *row)
 {
 	int		len;
-	char	**out;
 
 	if (!row)
-		return (array);
-	len = ft_2d_array_len(array);
-	out = ft_realloc_2d_array(array, len + 1);
-	if (!out)
+		return (*array);
+	len = ft_2d_array_len(*array);
+	ft_realloc_2d_array(array, len + 2);
+	if (!*array)
 		return (NULL);
-	out = ft_add_row_2d_array_i(out, row, len);
-	return (out);
+	(*array)[len] = ft_strdup(row);
+	(*array)[len + 1] = NULL;
+	return (*array);
 }
+

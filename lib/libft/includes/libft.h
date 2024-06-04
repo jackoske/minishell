@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/05/29 18:09:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/04 11:52:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 int					ft_2d_array_len(char **array);
 int					ft_print_2d_array_fd(char **array, int fd);
 void				ft_free_2d_array(char ***array);
-void				ft_copy_2d_array_i(char **dest, char **src, int index);
+void				ft_copy_2d_array_i(char ***dest, char **src, int index);
 char				**ft_new_2d_array(int len);
 char				**ft_duplicate_2d_array(char **array);
-char				**ft_add_row_2d_array(char **array, char *row);
-char				**ft_add_row_2d_array_i(char **out, char *row, int len);
+char				**ft_add_row_2d_array(char ***array, char *row);
+char				**ft_add_row_2d_array_i(char ***out, char *row, int i);
 char				**ft_splice_2d_arrray(char ***big, char **small,
 						int target_index);
-char				**ft_realloc_2d_array(char **array, int new_size);
+char				**ft_realloc_2d_array(char ***array, int new_size);
 int					ft_count_char(const char *str, char c);
 int					ft_1st_char_in_set_i(const char *str, const char *set);
 int					ft_is_space(char c);

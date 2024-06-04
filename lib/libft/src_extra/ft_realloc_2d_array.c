@@ -6,11 +6,12 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:16:05 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/29 14:30:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/04 12:39:16 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
+
 /**
  * Function: ft_realloc_2d_array
  * -----------------------------
@@ -30,6 +31,7 @@ char	**copy_old_array(char **out, char **array, int len)
 
 	i = -1;
 	while (++i < len)
+	
 	{
 		out[i] = ft_strdup(array[i]);
 		if (!out[i])
@@ -41,23 +43,26 @@ char	**copy_old_array(char **out, char **array, int len)
 	return (out);
 }
 
-char	**ft_realloc_2d_array(char **array, int new_size)
+char	**ft_realloc_2d_array(char ***array, int new_size)
 {
 	int		len;
 	char	**out;
 
-	len = ft_2d_array_len(array);
+	if (new_size < 0)
+		return (*array);
+	len = ft_2d_array_len(*array);
 	if (new_size < len)
-		return (array);
+		return (*array);
 	out = ft_new_2d_array(new_size + 1);
 	if (!out)
+		return (*array);
+	if (*array)
 	{
-		ft_free_2d_array(&array);
-		return (NULL);
+		out = copy_old_array(out, *array, len);
+		if (!out)
+			return (*array);
+		ft_free_2d_array(array);
 	}
-	out = copy_old_array(out, array, len);
-	if (!out)
-		return (NULL);
-	ft_free_2d_array(&array);
-	return (out);
+	*array = out;
+	return (*array);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splice_2d_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/30 23:55:57 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:04:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,28 @@ static void	copy_arrays_to_new(char **new, char **dest, char **src, int i)
  * @param dest: The 2d_arrray to splice into.
  * @param src: The 2d_arrray to splice.
  * @param target_index: The index to splice the 2d_arrray at.
- * @return: The spliced 2d_arrray.
+ * @return: The spliced 2d_arrray. NULL if the operation fails.
+ * Note: The function frees the original 2d_arrray. if succesful
+ * Note: NULL if i > dest_len or i < 0
  */
-char	**ft_splice_2d_array(char **dest, char **src, int i)
+char 	**ft_splice_2d_array(char ***dest, char **src, int i)
 {
 	char	**new;
+	int dest_len;
+	int src_len;
 
-	if (!dest || !src || i < 0)
+	
+	if (!dest || !*dest || !src)
 		return (NULL);
-	new = (char **)malloc(sizeof(char *) * (ft_2d_array_len(dest)
-				+ ft_2d_array_len(src) + 1));
+	dest_len = ft_2d_array_len(*dest);
+	src_len = ft_2d_array_len(src);
+	if (i < 0 || i > dest_len)
+		return (NULL);
+	new = ft_calloc(dest_len + src_len + 1, sizeof(char *)); //
 	if (!new)
 		return (NULL);
-	copy_arrays_to_new(new, dest, src, i);
-	return (new);
+	copy_arrays_to_new(new, *dest, src, i);
+	ft_free_2d_array(dest);
+	*dest = new;
+	return *dest;
 }
