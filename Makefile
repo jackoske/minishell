@@ -6,18 +6,18 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/05/30 09:02:19 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/05 19:36:47 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 LIBFT = ./lib/libft/
 
-GNL = get_next_line.c get_next_line_utils.c
+GNL = get_next_line.c #get_next_line_utils.c
 SRC_GNL = $(addprefix lib/gnl/, $(GNL))
 
 INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes

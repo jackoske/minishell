@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/05 17:40:20 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:52:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,16 +154,15 @@ char	**find_env_var_and_replace(char *var, t_command **command, char **splitted)
 	return (out);
 }
 
-char	**expand_vars(char **splitted, int len, t_command **command)
+char	**expand_vars(char **splitted, t_command **command)
 {
 	char	**buff = NULL;
 	char	**last_str = NULL;
 	int		i;
 
 	i = -1;
-	buff = ft_new_2d_array(len + 1);
-	buff = ft_duplicate_2d_array(splitted);
-	i = -1;
+	if(!ft_splice_2d_array(&buff, splitted, 0))
+		return (NULL);
 	while (buff[++i])
 	{
 		if (ft_strchr(buff[i], '$') != NULL)
@@ -243,7 +242,7 @@ char	**split_into_tokens(char *input, t_command **command)
 	j = ((i = -1), (k = -1), (out = NULL), (splitted = NULL), -1);
 	splitted = split_by_spaces(input, calc_w_count(ft_strtrim(input, " ")));
 	out = ft_calloc(calc_w_count(ft_strtrim(input, " ")) + 1, sizeof(char *));
-	out = expand_vars(splitted, calc_w_count(ft_strtrim(input, " ")), command);
+	out = expand_vars(splitted, command);
 	buff2 = ft_calloc(100, sizeof(char *));
 	buff = ft_calloc(100, sizeof(char *));
 	while (out[++i])

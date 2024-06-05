@@ -6,39 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/04 13:04:28 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/05 19:48:46 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
-static void	copy_arrays_to_new(char **new, char **dest, char **src, int i)
-{
-	int	j;
-	int	k;
-
-	j = 0;
-	k = 0;
-	while (dest[j] && j < i)
-	{
-		new[j] = ft_strdup(dest[j]);
-		j++;
-	}
-	while (src[k])
-	{
-		new[j] = ft_strdup(src[k]);
-		j++;
-		k++;
-	}
-	k = i;
-	while (dest[k])
-	{
-		new[j] = ft_strdup(dest[k]);
-		j++;
-		k++;
-	}
-	new[j] = NULL;
-}
 
 /*
  * Splices a 2d_arrray into another 2d_arrray at a given index.
@@ -50,24 +22,29 @@ static void	copy_arrays_to_new(char **new, char **dest, char **src, int i)
  * Note: The function frees the original 2d_arrray. if succesful
  * Note: NULL if i > dest_len or i < 0
  */
-char 	**ft_splice_2d_array(char ***dest, char **src, int i)
+char	**ft_splice_2d_array(char ***big, char **small, int n)
 {
-	char	**new;
-	int dest_len;
-	int src_len;
+	char	**temp;
+	int		big_i;
+	int		small_i;
+	int		total_i;
 
-	
-	if (!dest || !*dest || !src)
+	big_i = -1;
+	small_i = -1;
+	total_i = -1;
+	if (!big || !*big || n < 0 || n >= ft_2d_array_len(*big))
 		return (NULL);
-	dest_len = ft_2d_array_len(*dest);
-	src_len = ft_2d_array_len(src);
-	if (i < 0 || i > dest_len)
-		return (NULL);
-	new = ft_calloc(dest_len + src_len + 1, sizeof(char *)); //
-	if (!new)
-		return (NULL);
-	copy_arrays_to_new(new, *dest, src, i);
-	ft_free_2d_array(dest);
-	*dest = new;
-	return *dest;
+	temp = ft_calloc(ft_2d_array_len(*big) + ft_2d_array_len(small),
+			sizeof(char *));
+	while (temp && big[0][++big_i])
+	{
+		if (big_i != n)
+			temp[++total_i] = ft_strdup(big[0][big_i]);
+		else
+			while (small && small[++small_i])
+				temp[++total_i] = ft_strdup(small[small_i]);
+	}
+	ft_free_2d_array(big);
+	*big = temp;
+	return (*big);
 }

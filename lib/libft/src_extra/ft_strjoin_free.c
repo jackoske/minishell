@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:08:42 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/06/05 19:34:20 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/06/05 19:30:04 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/06/05 19:30:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	size_t	len;
+	char	*str;
+	int		i;
+	int		j;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+	{
+		free(s1);
+		return (NULL);
+	}
+	i = -1;
+	j = -1;
+	while (s1[++i])
+		str[i] = s1[i];
+	while (s2[++j])
+		str[i++] = s2[j];
+	str[i] = '\0';
+	free(s1);
+	return (str);
 }
