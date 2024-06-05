@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/30 11:38:41 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:11:07 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	init_envp(char **envp, t_command **command)
 	if (!command)
 		exit(EXIT_FAILURE);
 	(*command)->envp = envp;
-	(*command)->cmnds = NULL;
+	(*command)->token = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
