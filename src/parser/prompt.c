@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/31 17:58:33 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:40:20 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,6 @@ static char	*read_command(void)
 	return (input);
 }
 
-int ft_print_2d_array_fd(char **array, int fd)
-{
-	int i;
-
-	i = 0;
-	while (array && array[i])
-	{
-		ft_putendl_fd(array[i], fd);
-		i++;
-	}
-	return (i);
-}
-
-
 int	calc_w_count(char *input)
 {
 	int		i;
@@ -79,8 +65,6 @@ int	calc_w_count(char *input)
 	return (count + 1);
 }
 
-
-
 void	set_array(char **splitted, char *input)
 {
 	int		j;
@@ -108,9 +92,6 @@ void	set_array(char **splitted, char *input)
 	}
 }
 
-
-
-
 char	**split_by_spaces(char *input, int w_count)
 {
 	char	**splitted;
@@ -121,56 +102,6 @@ char	**split_by_spaces(char *input, int w_count)
 	set_array(splitted, input);
 	return (splitted);
 }
-
-void	ft_free_2d_array(char ***array)
-{
-	int	i;
-
-	i = 0;
-	while (array && *array && (*array)[i])
-	{
-		free((*array)[i]);
-		i++;
-	}
-	if (array && (*array))
-	{
-		free(*array);
-		*array = NULL;
-	}
-}
-
-int	ft_2d_array_len(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i])
-		i++;
-	return (i);
-}
-
-char	**ft_duplicate_2d_array(char **array)
-{
-	char	**dup;
-	int		i;
-
-	i = 0;
-	dup = (char **)malloc(sizeof(char *) * (ft_2d_array_len(array)));
-	if (!dup)
-		return (NULL);
-
-	while (array && array[i])
-	{
-		dup[i] = ft_strdup(array[i]);
-		if (!dup[i])
-			return (ft_free_2d_array(&dup), NULL);
-		i++;
-	}
-	dup[i] = 0;
-	return (dup);
-}
-
-
 
 char	*find_var(char *var, t_command **command)
 {
@@ -190,34 +121,9 @@ char	*find_var(char *var, t_command **command)
 	return (value);
 }
 
-void	*ft_realloc(void *ptr, size_t size)
-{
-	void	*new_ptr;
-	size_t	copy_size;
-
-	if (ptr == NULL)
-		return (malloc(size));
-	if (size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	new_ptr = malloc(size);
-	if (new_ptr != NULL)
-	{
-		if (size < sizeof(ptr))
-			copy_size = size;
-		else
-			copy_size = sizeof(ptr);
-		ft_memcpy(new_ptr, ptr, copy_size);
-		free(ptr);
-	}
-	return (new_ptr);
-}
-
 char	*replace_var(char *var, char *value)
 {
-	ft_realloc(var, ft_strlen(value));
+	ft_realloc(var, ft_strlen(value) + 1);
 	var = ft_strdup(value);
 	return (var);
 }
@@ -230,16 +136,12 @@ char	**find_env_var_and_replace(char *var, t_command **command, char **splitted)
 	int		j;
 	char **out = NULL;
 
-
-	buff = malloc(sizeof(char) * ft_strlen(var));
-	out = malloc(sizeof(char *) * ft_2d_array_len(splitted));
+	buff = ft_calloc(ft_strlen(var) + 1, sizeof(char));
+	out = ft_calloc(ft_2d_array_len(splitted) + 1, sizeof(char *));
 	j = 0;
 	i = 0;
 	while (var[i++])
-	{
-		buff[j] = var[i];
-		j++;
-	}
+		buff[j++] = var[i];
 	buff[j] = '\0';
 	i = -1;
 	while (splitted[++i])
@@ -249,16 +151,6 @@ char	**find_env_var_and_replace(char *var, t_command **command, char **splitted)
 		else
 			out[i] = ft_strdup(replace_var(var, find_var(buff, command)));
 	}
-	return (out);
-}
-
-char	**ft_new_2d_array(int len)
-{
-	char	**out;
-
-	out = malloc(sizeof(char *) * len);
-	if (!out)
-		return (NULL);
 	return (out);
 }
 
@@ -274,53 +166,123 @@ char	**expand_vars(char **splitted, int len, t_command **command)
 	i = -1;
 	while (buff[++i])
 	{
-
 		if (ft_strchr(buff[i], '$') != NULL)
-		{
 			last_str = find_env_var_and_replace(splitted[i], command, splitted);
-		}
 	}
 	if (!last_str)
 		return (splitted);
 	return (last_str);
 }
+
+int is_special_symbol(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}
+
+int	ft_is_space(char c)
+{
+	return (c == ' ' || (c >= '\t' && c <= '\r'));
+}
+
+/*Function to separate a string into tokens based on special symbols*/
+char	**separate_string(const char* str)
+{
+	char	**tokens;
+	int		token_count = 0;
+	int		i;
+
+	tokens = ft_calloc(100, sizeof(char*));
+	if (!tokens)
+		return (NULL);
+	i = 0;
+	int len = ft_strlen(str);
+	while (i < len)
+	{
+		if (ft_is_space(str[i])) {
+			i++;
+			continue;
+		}
+		if (is_special_symbol(str[i]))
+		{
+			int symbol_len = 1;
+			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '>'))
+				symbol_len = 2;
+			tokens[token_count] = malloc((symbol_len + 1) * sizeof(char));
+			ft_strlcpy(tokens[token_count], &str[i], symbol_len + 1);
+			tokens[token_count][symbol_len] = '\0';
+			token_count++;
+			i += symbol_len;
+		}
+		else
+		{
+			int start = i;
+			while (i < len && !ft_is_space(str[i]) && !is_special_symbol(str[i]))
+				i++;
+			int word_len = i - start;
+			tokens[token_count] = malloc((word_len + 1) * sizeof(char));
+			ft_strlcpy(tokens[token_count], &str[start], word_len + 1);
+			tokens[token_count][word_len] = '\0';
+			token_count++;
+		}
+	}
+	tokens[token_count] = NULL;
+	return tokens;
+}
+
 /*splits by spaces, taking quotted elements into consideration*/
 char	**split_into_tokens(char *input, t_command **command)
 {
 	char	**splitted;
 	char	**out;
-	char	*buff;
+	char	**buff;
+	char	**buff2;
+	int		i;
+	int		j;
+	int		k;
 
-	out = NULL;
-	splitted = NULL;
-	buff = ft_strtrim(input, " ");
-	splitted = split_by_spaces(input, calc_w_count(buff));
-	out = malloc(sizeof(char *) * calc_w_count(buff));
-	out = expand_vars(splitted, calc_w_count(buff), command);
-	return (out);
+	j = ((i = -1), (k = -1), (out = NULL), (splitted = NULL), -1);
+	splitted = split_by_spaces(input, calc_w_count(ft_strtrim(input, " ")));
+	out = ft_calloc(calc_w_count(ft_strtrim(input, " ")) + 1, sizeof(char *));
+	out = expand_vars(splitted, calc_w_count(ft_strtrim(input, " ")), command);
+	buff2 = ft_calloc(100, sizeof(char *));
+	buff = ft_calloc(100, sizeof(char *));
+	while (out[++i])
+	{
+		if (ft_strchr(out[i], '<') || ft_strchr(out[i], '>') || ft_strchr(out[i], '|'))
+		{
+			buff2 = separate_string(out[i]);
+			j = -1;
+			while (buff2[++j])
+			{
+				buff[++k] = ft_strdup(buff2[j]);
+				i++;
+			}
+			i -= 2;
+			free(buff2);
+		}
+		else
+			buff[++k] = ft_strdup(out[i]);
+	}
+	return (buff);
 }
 
 void	prompt_loop(t_command **command)
 {
 	char	*input;
 	char	**splitted;
-	// int i = 0;
 
+	splitted = NULL;
 	while (1)
 	{
 		print_prompt();
-
 		input = read_command();
+		splitted = NULL;
 		splitted = split_into_tokens(input, command);
-		// while (splitted[i])
-		// {
-		// 	printf("splitted very last step: %s\n", splitted[i]);
-		// 	i++;
-		// }
+		int i = -1;
+		while (splitted[++i])
+			printf("splitted very last step: %s\n", splitted[i]);
 		if (input == NULL)
-		{
 			break ;
-		}
 		free(input);
 	}
 }

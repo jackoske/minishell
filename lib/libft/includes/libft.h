@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/04 11:52:36 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/05 16:06:50 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int					ft_putendl_fd(char *str, int fd);
 int					ft_putnbr_fd(int n, int fd);
 char				**ft_split(const char *s, char c);
 char				*ft_itoa(int n);
+void				*ft_realloc(void *ptr, size_t size);
+
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);
