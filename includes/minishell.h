@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/05 19:11:12 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 12:34:41 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_command_ref
 }					t_command_ref;
 
 void				prompt_loop(t_command **command);
+void				libft_extra_tester(void);
 int					quotes_closed(char *line);
 
 #endif

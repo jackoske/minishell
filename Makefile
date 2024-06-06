@@ -6,14 +6,14 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/05 19:36:47 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/06 12:44:37 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g#-fsanitize=address
 
 LIBFT = ./lib/libft/
 
@@ -28,15 +28,18 @@ READLINE = -lreadline
 SRC_DIR = ./src/main.c
 SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
-
+SRC_TESTER_DIR = ./src/tester/
 
 SRC_PARS = parser.c prompt.c
 SRC_EXEC = execution.c
+SRC_TESTER = libft_extra_tests.c
 
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \
 	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
-	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC))
+	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) \
+	$(addprefix $(SRC_TESTER_DIR), $(SRC_TESTER))
+	
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
 

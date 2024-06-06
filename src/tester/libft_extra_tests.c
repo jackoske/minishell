@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:00:46 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/05 20:01:56 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 12:46:23 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void libft_extra_tester(void)
 {
 	printf("This is a test\n");
-		char **env = ft_split("PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", ':');
+	char **env = ft_split("PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", ':');
 	char **path = ft_split("PATH=dasdas=dsdassas=sedsa=as=dsad=sd=as", '=');
 	char **empty = NULL;
 	printf("\nTEST1\n");
@@ -28,19 +28,19 @@ void libft_extra_tester(void)
 	ft_splice_2d_array(&env, path, 20);
 
 	printf("\n%d\n", ft_2d_array_len(env));
-	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
-	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	env = ft_add_row_2d_array(&env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	env = ft_add_row_2d_array(&env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
 	ft_print_2d_array_fd(env, 1);
 	printf("\n%d\n", ft_2d_array_len(env));
 
 	printf("\nTEST4\n");
-	empty = ft_add_row_2d_array(empty, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty = ft_add_row_2d_array(&empty, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
 	ft_print_2d_array_fd(empty, 1);
 
 
 	printf("\nTEST5\n");
 	char **tmp = ft_duplicate_2d_array(empty);
-	ft_print_2d_array_fd(tmp, 1);
+	//ft_print_2d_array_fd(tmp, 1);
 
 
 	printf("\nTEST6\n");
