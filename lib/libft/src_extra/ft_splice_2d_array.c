@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 17:41:06 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 18:00:06 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * Note: The function frees the original 2d_arrray. if succesful
  * Note: NULL if i > dest_len or i < 0
  */
-char	**ft_splice_2d_array(char ***big, char **small, int n)
+char	**ft_splice_2d_array(char **big, char **small, int n)
 {
 	char	**temp;
 	int		big_i;
@@ -32,19 +32,18 @@ char	**ft_splice_2d_array(char ***big, char **small, int n)
 	big_i = -1;
 	small_i = -1;
 	total_i = -1;
-	if (!big || !*big || n < 0 || n >= ft_2d_array_len(*big))
+	if (!big || n < 0 || n >= ft_2d_array_len(big))
 		return (NULL);
-	temp = ft_calloc(ft_2d_array_len(*big) + ft_2d_array_len(small),
+	temp = ft_calloc(ft_2d_array_len(big) + ft_2d_array_len(small),
 			sizeof(char *));
-	while (temp && big[0][++big_i])
+	while (temp && big[++big_i])
 	{
 		if (big_i != n)
-			temp[++total_i] = ft_strdup(big[0][big_i]);
+			temp[++total_i] = ft_strdup(big[big_i]);
 		else
 			while (small && small[++small_i])
 				temp[++total_i] = ft_strdup(small[small_i]);
 	}
-	ft_free_2d_array(big);
-	*big = temp;
-	return (*big);
+	ft_free_2d_array(&big);
+	return (temp);
 }

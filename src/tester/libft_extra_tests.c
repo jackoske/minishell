@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:00:46 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 17:38:38 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 17:59:40 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void libft_extra_tester(void)
 	ft_print_2d_array_fd(path, 1);
 
 	printf("\nTEST3\n");
-	ft_splice_2d_array(&empty, env, 0);
-	ft_splice_2d_array(&env, path, 0);
-	ft_splice_2d_array(&env, path, 0);
+	empty = ft_splice_2d_array(empty, env, 0);
+	env = ft_splice_2d_array(env, path, 0);
+	env = ft_splice_2d_array(env, path, 0);
 
 	printf("\n%d\n", ft_2d_array_len(env));
 	
@@ -61,7 +61,7 @@ void libft_extra_tester(void)
 
 	printf("\nTEST10\n");
 	printf("\nhere before realloc size:%d\n", ft_2d_array_len(env));
-	ft_realloc_2d_array(&env, 20);
+	env = ft_realloc_2d_array(env, 20);
 	printf("\nhere:%d\n", ft_2d_array_len(env));
 	ft_print_2d_array_fd(env, 1);
 
