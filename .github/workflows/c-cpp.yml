@@ -1,0 +1,16 @@
+name: C/C++ fclean
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean project
+        run: make fclean  # Assuming your project uses 'make fclean'
