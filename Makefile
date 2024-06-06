@@ -20,10 +20,10 @@ LIBFT = ./lib/libft/
 GNL = get_next_line.c get_next_line_utils.c
 SRC_GNL = $(addprefix lib/gnl/, $(GNL))
 
-INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes
+INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes 
 OBJ_DIR = ./obj/
 
-READLINE = -lreadline
+READLINE = -lreadline 
 
 SRC_DIR = ./src/main.c
 SRC_PARS_DIR = ./src/parser/
@@ -52,7 +52,7 @@ $(OBJ_DIR)%.o: %.c
 
 $(NAME): $(OBJ)
 	@make -C $(LIBFT)
-	$(CC) $(CFLAGS) $(INC)  $(READLINE) $(OBJ) -o $(NAME) -L$(LIBFT) -lft
+	$(CC) $(CFLAGS) $(INC)  $(OBJ) -o $(NAME) -L$(LIBFT) -lft  $(READLINE)
 	@echo -e "$(GREEN)Minishell built Successfully$(NC)"
 
 debug: CFLAGS += -g -fsanitize=address

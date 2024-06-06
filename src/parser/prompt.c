@@ -67,13 +67,12 @@ int	calc_w_count(char *input)
 
 void	set_array(char **splitted, char *input)
 {
-	int		j;
 	int		k;
 	int		quote[2];
 	int		begin;
 	int		end;
 
-	quote[0] = ((j = 0), (quote[1] = 0), (begin = 0), (end = 0), (k = 0), 0);
+	quote[0] = ((quote[1] = 0), (begin = 0), (end = 0), (k = 0), 0);
 	while (input[end])
 	{
 		while (ft_strchr(" ", input[end]) && input[end] != '\0')
