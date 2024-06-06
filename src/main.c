@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 12:32:28 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 18:03:12 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	main(int argc, char **argv, char **envp)
 	init_envp(envp, &mini);
 	// prompt_loop(mini);
 	libft_extra_tester();
-	char *str = get_next_line(0);
-	printf("%s\n", str);
-	free(str);
+	// char *str = get_next_line(0);
+	// printf("%s\n", str);
+	// free(str);
 	free(mini);
 	return (EXIT_SUCCESS);
 }
