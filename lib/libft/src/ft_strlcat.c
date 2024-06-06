@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:09:17 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 14:40:54 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/20 12:59:58 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	char			*ptr;
-	unsigned int	i;
+	size_t	dst_len;
+	size_t	src_len;
+	size_t	total_len;
+	size_t	i;
 
-	if (size < ft_strlen(dst))
-		return (ft_strlen(src) + size);
-	ptr = dst + ft_strlen(dst);
-	i = ft_strlen(dst);
-	while (i < size - 1 && *src != '\0' && size >= 2)
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	total_len = src_len + dst_len;
+	if (size <= dst_len)
+		return (src_len + size);
+	i = 0;
+	while (src[i] && (dst_len + i) < (size - 1))
 	{
-		*ptr = *src;
-		ptr++;
-		src++;
+		dst[dst_len + i] = src[i];
 		i++;
 	}
-	if (size != 0)
-		*ptr = '\0';
-	return (ft_strlen(dst) + ft_strlen(src));
+	dst[dst_len + i] = '\0';
+	return (total_len);
 }

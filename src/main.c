@@ -6,30 +6,34 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/05 19:11:07 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/06 12:32:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_envp(char **envp, t_command **command)
+static void	init_envp(char **envp, t_mini **mini)
 {
-	(*command) = malloc(sizeof(t_command));
-	if (!command)
+	*mini = (t_mini *)malloc(sizeof(t_mini));
+	if (!mini)
 		exit(EXIT_FAILURE);
-	(*command)->envp = envp;
-	(*command)->token = NULL;
+	(*mini)->envp = envp;
+	(*mini)->token = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_command	*command;
+	t_mini	*mini;
 	(void)argc;
 	(void)argv;
-	command = NULL;
-	init_envp(envp, &command);
-	prompt_loop(&command);
-	ft_atoi("321");//testing import of library
-	get_next_line(0);//testing import of library
+	// (void)envp;
+	
+	init_envp(envp, &mini);
+	// prompt_loop(mini);
+	libft_extra_tester();
+	char *str = get_next_line(0);
+	printf("%s\n", str);
+	free(str);
+	free(mini);
 	return (EXIT_SUCCESS);
 }

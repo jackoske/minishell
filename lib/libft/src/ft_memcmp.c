@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:07:04 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 17:06:27 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/22 10:53:59 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	const char	*str1;
-	const char	*str2;
-	size_t		i;
+	const unsigned char	*p1;
+	const unsigned char	*p2;
 
-	str1 = (const char *)s1;
-	str2 = (const char *)s2;
-	i = 0;
-	while (i < n)
+	p1 = s1;
+	p2 = s2;
+	while (n-- > 0)
 	{
-		if (str1[i] != str2[i])
-			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-		i++;
+		if (*p1 != *p2)
+		{
+			return (*p1 - *p2);
+		}
+		p1++;
+		p2++;
 	}
 	return (0);
 }

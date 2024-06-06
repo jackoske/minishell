@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:00:44 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/15 17:16:19 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/17 17:30:08 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*str;
+	int		len;
 	int		i;
+	char	*result;
 
+	len = ft_strlen(s);
+	result = (char *)malloc((len + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
 	i = 0;
-	if (!s)
-		return (NULL);
-	str = (char *)malloc(ft_strlen(s) + 1);
-	if (!str)
-		return (NULL);
-	while (s[i] != '\0')
+	while (s[i])
 	{
-		str[i] = f(i, s[i]);
+		result[i] = f(i, s[i]);
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	result[i] = '\0';
+	return (result);
 }

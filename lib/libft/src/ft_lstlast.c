@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/13 09:01:49 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/16 23:30:31 by jskehan           #+#    #+#             */
+/*   Updated: 2023/11/21 10:34:15 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	t_list	*last;
-
 	if (!lst)
 		return (NULL);
-	while (lst)
+	while (lst->next != NULL)
 	{
-		if (!lst->next)
-			last = lst;
 		lst = lst->next;
 	}
-	return (last);
+	return (lst);
 }

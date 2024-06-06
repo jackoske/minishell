@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/13 09:00:44 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/21 11:03:04 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/21 13:13:51 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int	size;
+	int		i;
+	t_list	*ptr;
 
-	size = 0;
-	while (lst)
+	ptr = lst;
+	i = 0;
+	while (ptr)
 	{
-		lst = lst->next;
-		size++;
+		ptr = ptr->next;
+		i++;
 	}
-	return (size);
+	return (i);
 }

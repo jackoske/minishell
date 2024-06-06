@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/05 19:11:12 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/05 20:37:52 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ typedef struct s_token
 	t_types			type;
 }					t_token;
 
-typedef struct s_command
-{
-	char			**envp;
-	t_token			*token;
-}					t_command;
-
 typedef struct s_full_command
 {
 	char			*full_command;
@@ -61,13 +55,14 @@ typedef struct s_full_command
 	int				is_append;
 }					t_full_command;
 
-typedef struct s_command_ref
+typedef struct s_mini
 {
-	t_command		*command;
+	char			**envp;
+	t_token			*token;
 	t_full_command	*full_command;
-}					t_command_ref;
+}					t_mini;
 
-void				prompt_loop(t_command **command);
+void				prompt_loop(t_mini *mini);
 int					quotes_closed(char *line);
-
+void				libft_extra_tester(void);
 #endif

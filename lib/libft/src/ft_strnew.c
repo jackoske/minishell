@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:05:45 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/04/08 15:21:46 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/04/08 15:25:15 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
+/*
+Allocates (with malloc(3)) and returns a
+ “fresh” string ending with ’\0’,
+*/
+char	*ft_strnew(size_t size)
 {
-	unsigned char	*s;
-	unsigned char	*d;
-	size_t			i;
+	char	*str;
 
-	i = 0;
-	d = (unsigned char *)dest;
-	s = (unsigned char *)src;
-	while (i < n)
-	{
-		d[i] = s[i];
-		if (s[i] == (unsigned char)c)
-			return ((void *)&d[i + 1]);
-		i++;
-	}
-	return (NULL);
+	str = (char *)malloc(sizeof(char) * (size + 1));
+	if (!str)
+		return (NULL);
+	ft_bzero(str, size + 1);
+	return (str);
 }

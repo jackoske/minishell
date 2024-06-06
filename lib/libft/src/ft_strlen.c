@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:08:42 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:28 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 11:24:49 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/17 16:42:46 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int	count;
+	size_t	len;
 
-	count = 0;
-	if (!s)
-		return (count);
-	while (*s != '\0')
-	{
-		count++;
-		s++;
-	}
-	return (count);
+	len = 0;
+	while (s[len] != '\0')
+		len++;
+	return (len);
 }

@@ -5,24 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:47:51 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/15 12:19:05 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/17 16:43:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*d;
 	size_t	size;
+	char	*result;
+	char	*start;
 
-	if (!s1)
+	size = ft_strlen(s);
+	result = (char *)malloc((size + 1) * sizeof(char));
+	if (result == NULL)
 		return (NULL);
-	size = ft_strlen(s1);
-	d = (char *)malloc(size + 1);
-	if (!d)
-		return (NULL);
-	ft_strlcpy(d, s1, size + 1);
-	return (d);
+	start = result;
+	while (*s)
+		*result++ = *s++;
+	*result = '\0';
+	return (start);
 }
