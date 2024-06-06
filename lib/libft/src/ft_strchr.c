@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:09:32 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 15:15:20 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/22 17:27:47 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned char	c_unsigned;
+	unsigned char	ch;
 
-	c_unsigned = (unsigned char)c;
-	if (c_unsigned == '\0')
-		return ((char *)&s[ft_strlen(s)]);
+	ch = (unsigned char)c;
 	while (*s != '\0')
 	{
-		if (*s == c_unsigned)
+		if (*s == ch)
 			return ((char *)s);
 		s++;
 	}
+	if (ch == '\0')
+		return ((char *)s);
 	return (NULL);
 }

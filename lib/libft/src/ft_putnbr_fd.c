@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:03:16 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/16 21:41:46 by jskehan           #+#    #+#             */
+/*   Updated: 2024/06/06 12:20:55 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,22 @@
 
 int	ft_putnbr_fd(int n, int fd)
 {
-	int	count;
+	long	nbr;
+	int 	i;
 
-	count = 0;
-	if (n == -2147483648)
+	i = 0;
+	nbr = n;
+	if (nbr < 0)
 	{
-		ft_putchar_fd('-', fd);
-		ft_putchar_fd('2', fd);
-		return (ft_putnbr_fd(147483648, fd) + 1);
+		i += ft_putchar_fd('-', fd);
+		nbr = -nbr;
 	}
-	else if (n > 9 && n <= 2147483647)
+	if (nbr >= 10)
 	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
-	else if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		ft_putnbr_fd(-n, fd);
+		i += ft_putnbr_fd(nbr / 10, fd);
+		i += ft_putchar_fd((nbr % 10) + '0', fd);
 	}
 	else
-		count += ft_putchar_fd(n + '0', fd);
-	return (count);
+		i += ft_putchar_fd(nbr + '0', fd);
+	return (i);
 }

@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstget_at.c                                     :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/13 09:01:49 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/02/13 13:25:00 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/03/26 19:08:44 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstget_at(t_list *lst, int i)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_list	*target;
-	int		j;
+	size_t	i;
 
-	j = 0;
-	if (!lst)
-		return (NULL);
-	while (lst && j++ < i)
-		lst = lst->next;
-	target = lst;
-	return (target);
+	i = 0;
+	while (s1[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

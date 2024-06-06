@@ -5,27 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:05:39 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 12:52:29 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/22 17:44:00 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	unsigned char	*d;
 	unsigned char	*s;
-	size_t			i;
 
-	d = (unsigned char *)dest;
+	if (!dst && !src)
+		return (NULL);
+	d = (unsigned char *)dst;
 	s = (unsigned char *)src;
-	i = 0;
-	while (d && i < n)
-	{
-		if (d != NULL || s != NULL)
-			d[i] = s[i];
-		i++;
-	}
-	return ((void *)d);
+	while (n--)
+		*d++ = *s++;
+	return (dst);
 }

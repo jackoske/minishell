@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_new_2d_array.c                                  :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 14:07:30 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/29 14:11:05 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/06/05 19:30:04 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/06/05 19:30:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-/**
- * Function: ft_new_2d_array
- * -------------------------
- * Allocates memory for a new 2D array.
- *
- * @param len: The length of the array.
- *
- * @return: A pointer to the new 2D array.
- */
-char	**ft_new_2d_array(int len)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	char	**out;
+	char	*str;
+	int		i;
+	int		j;
 
-	out = malloc(sizeof(char *) * len);
-	if (!out)
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+	{
+		free(s1);
 		return (NULL);
-	return (out);
+	}
+	i = -1;
+	j = -1;
+	while (s1[++i])
+		str[i] = s1[i];
+	while (s2[++j])
+		str[i++] = s2[j];
+	str[i] = '\0';
+	free(s1);
+	return (str);
 }

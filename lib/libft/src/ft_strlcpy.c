@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:08:56 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/13 14:20:16 by Jskehan           #+#    #+#             */
+/*   Updated: 2023/11/22 17:36:33 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,17 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	unsigned int	i;
-	size_t			size_src;
+	size_t	i;
 
 	i = 0;
-	if (src == NULL)
-		return (0);
-	size_src = ft_strlen(src);
-	if ((int)size < 0)
-		size = size_src + 1;
-	if (size >= 2 && size_src != 0)
+	if (size > 0)
 	{
-		while (i < size - 1)
+		while (i < size - 1 && src[i] != '\0')
 		{
-			if (i < size_src)
-				dst[i] = src[i];
-			else if (i == size_src)
-				dst[i] = '\0';
+			dst[i] = src[i];
 			i++;
 		}
-	}
-	if (size != 0)
 		dst[i] = '\0';
-	return (size_src);
+	}
+	return (ft_strlen(src));
 }

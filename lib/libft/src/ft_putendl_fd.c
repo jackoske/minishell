@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 17:02:49 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/16 21:41:41 by jskehan           #+#    #+#             */
+/*   Updated: 2024/06/06 12:31:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 int	ft_putendl_fd(char *s, int fd)
 {
-	if (s != NULL)
+	int i;
+
+	i = 0;
+	if (fd < 0)
+		return (0);
+	while (s != NULL && *s != '\0')
 	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
-		return ((int)ft_strlen(s) + 1);
+		i += ft_putchar_fd(*s, fd);
+		s++;
 	}
-	return (0);
+	i += ft_putchar_fd('\n', fd);
+	return (i);
 }

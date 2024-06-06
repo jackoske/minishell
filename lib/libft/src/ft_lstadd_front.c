@@ -5,15 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/13 08:58:54 by aperez-b          #+#    #+#             */
-/*   Updated: 2024/05/29 18:08:14 by Jskehan          ###   ########.fr       */
+/*   Created: 2023/11/16 22:50:46 by jskehan           #+#    #+#             */
+/*   Updated: 2023/11/17 16:13:01 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *newnode)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	newnode->next = *lst;
-	*lst = newnode;
+	if (lst && new)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }
