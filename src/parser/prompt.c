@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 14:39:35 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:00:29 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char	*replace_var(char *var, char *value)
 	return (var);
 }
 
-// echo "hello      there" how are 'you 'doing? $USER |wc -l >outfile
+// echo "hello      there" how are  $USER |wc -l >outfile
 char	**find_env_var_and_replace(char *var, t_mini **mini,
 		char **tokenizedInput)
 {
@@ -280,6 +280,34 @@ char	**tokenize_input(char *input, t_mini **mini)
 	return (tempTokenArray);
 }
 
+char	**ft_remove_quotes(char **tokenizedInput)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*temp;
+
+	i = -1;
+	k = 0;
+	while (tokenizedInput[++i])
+	{
+		j = -1;
+		while (tokenizedInput[i][++j])
+		{
+			if (tokenizedInput[i][j] == '\"' || tokenizedInput[i][j] == '\'')
+			{
+				temp = ft_substr(tokenizedInput[i], 1, ft_strlen(tokenizedInput[i])
+						- 2);
+				free(tokenizedInput[i]);
+				tokenizedInput[i] = ft_strdup(temp);
+				free(temp);
+			}
+		}
+	}
+	return (tokenizedInput);
+}
+
+
 void	prompt_loop(t_mini *mini)
 {
 	char	*input;
@@ -296,7 +324,7 @@ void	prompt_loop(t_mini *mini)
 			free(input);
 			continue ;
 		}
-		tokenizedInput = tokenize_input(input, &mini);
+		tokenizedInput = ft_remove_quotes(tokenize_input(input, &mini));
 		i = -1;
 		while (tokenizedInput && tokenizedInput[++i])
 			printf("tokenizedInput very last step: %s\n", tokenizedInput[i]);
