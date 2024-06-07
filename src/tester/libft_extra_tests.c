@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:00:46 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 12:12:09 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:50:55 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ void libft_extra_tester(void)
 	empty2 = ft_splice_2d_array(empty2, env, 0);
 	ft_print_2d_array_fd(empty2, 1);
 	
+	printf("\nTEST12\n");
+	char **empty3 = NULL;
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	ft_print_2d_array_fd(empty3, 1);
+	
+	ft_free_2d_array(&empty3);
 	ft_free_2d_array(&empty2);
 	ft_free_2d_array(&env);
 	ft_free_2d_array(&path);

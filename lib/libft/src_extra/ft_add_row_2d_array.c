@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:06:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 17:35:06 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:49:39 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**ft_add_row_2d_array(char **array, char *row)
 	char	**new_array;
 
 	i = 0;
+	if (!row)
+		return (array);
 	if (!array)
 	{
 		new_array = ft_calloc(2, sizeof(char *));
@@ -37,7 +39,6 @@ char	**ft_add_row_2d_array(char **array, char *row)
 			return (NULL);
 		new_array[0] = ft_strdup(row);
 		new_array[1] = NULL;
-		printf("new_array: %s\n", new_array[0]);
 		return (new_array);
 	}
 	while (array[i])

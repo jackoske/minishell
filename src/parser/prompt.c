@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 15:00:29 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:06:50 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*read_command(void)
 	return (input);
 }
 
-int	ft_word_count(char *input)
+int	ft_word_count_quotes(char *input)
 {
 	int		i;
 	int		count;
@@ -123,13 +123,6 @@ char	*find_var(char *var, t_mini **mini)
 	return (value);
 }
 
-char	*replace_var(char *var, char *value)
-{
-	ft_realloc(var, ft_strlen(value) + 1);
-	var = ft_strdup(value);
-	return (var);
-}
-
 // echo "hello      there" how are  $USER |wc -l >outfile
 char	**find_env_var_and_replace(char *var, t_mini **mini,
 		char **tokenizedInput)
@@ -154,8 +147,7 @@ char	**find_env_var_and_replace(char *var, t_mini **mini,
 		if (ft_strchr(tokenizedInput[i], '$') == NULL)
 			expandedArray[i] = ft_strdup(tokenizedInput[i]);
 		else
-			expandedArray[i] = ft_strdup(replace_var(var,
-						find_var(tempTokenArray, mini)));
+			expandedArray[i] = find_var(tempTokenArray, mini);
 	}
 	return (expandedArray);
 }
@@ -183,11 +175,21 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	return (last_str);
 }
 
-int	is_special_symbol(char c)
+int	ft_is_special_symbol(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
-
+int is_only_special(char *str)
+{
+    int     i;
+    i = -1;
+    while (str[++i])
+    {
+        if (!ft_is_special_symbol(str[i]))
+            return (0);
+    }
+    return (1);
+}
 /*Function to separate a string into tokens based on special symbols*/
 char	**tokenize_special_symbols(const char *str)
 {
@@ -212,7 +214,7 @@ char	**tokenize_special_symbols(const char *str)
 			i++;
 			continue ;
 		}
-		if (is_special_symbol(str[i]))
+		if (ft_is_special_symbol(str[i]))
 		{
 			symbol_len = 1;
 			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
@@ -220,7 +222,7 @@ char	**tokenize_special_symbols(const char *str)
 				symbol_len = 2;
 			tokens[token_count] = malloc((symbol_len + 1) * sizeof(char));
 			ft_strlcpy(tokens[token_count], &str[i], symbol_len + 1);
-			tokens[token_count][symbol_len] = NULL;
+			tokens[token_count][symbol_len] = '\0';
 			token_count++;
 			i += symbol_len;
 		}
@@ -228,12 +230,12 @@ char	**tokenize_special_symbols(const char *str)
 		{
 			start = i;
 			while (i < len && !ft_is_space(str[i])
-				&& !is_special_symbol(str[i]))
+				&& !ft_is_special_symbol(str[i]))
 				i++;
 			word_len = i - start;
 			tokens[token_count] = malloc((word_len + 1) * sizeof(char));
 			ft_strlcpy(tokens[token_count], &str[start], word_len + 1);
-			tokens[token_count][word_len] = NULL;
+			tokens[token_count][word_len] = '\0';
 			token_count++;
 		}
 	}
@@ -253,30 +255,31 @@ char	**tokenize_input(char *input, t_mini **mini)
 
 	j = ((i = -1), (k = -1), (expandedArray = NULL), (tokenizedInput = NULL),
 			-1);
-	tokenizedInput = split_by_spaces(input, ft_word_count(ft_strtrim(input,
+	tokenizedInput = split_by_spaces(input, ft_word_count_quotes(ft_strtrim(input,
 					" ")));
-	expandedArray = ft_calloc(ft_word_count(ft_strtrim(input, " ")) + 1,
-			sizeof(char *));
 	expandedArray = expand_vars(tokenizedInput, mini);
-	specialSymbolArray = ft_calloc(100, sizeof(char *));
-	tempTokenArray = ft_calloc(100, sizeof(char *));
+	specialSymbolArray = NULL;
+	tempTokenArray = NULL;
 	while (expandedArray[++i])
 	{
-		if (ft_1st_char_in_set_i(expandedArray[i], "<>|") != -1)
+		if (ft_1st_char_in_set_i(expandedArray[i], "<>|") != -1 && !is_only_special(expandedArray[i]) )
 		{
-			specialSymbolArray = tokenize_special_symbols(expandedArray[i]);
+			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
+					tokenize_special_symbols(expandedArray[i]), ft_2d_array_len(specialSymbolArray));
+			ft_print_2d_array_fd(specialSymbolArray, 1);
 			j = -1;
 			while (specialSymbolArray[++j])
 			{
-				tempTokenArray[++k] = ft_strdup(specialSymbolArray[j]);
+				tempTokenArray = ft_add_row_2d_array(tempTokenArray,
+						specialSymbolArray[j]);
 				i++;
 			}
 			i -= 2;
 		}
 		else
-			tempTokenArray[++k] = ft_strdup(expandedArray[i]);
+			tempTokenArray = ft_add_row_2d_array(tempTokenArray, expandedArray[i]);
 	}
-	tempTokenArray[++k] = NULL;
+	tempTokenArray = ft_add_row_2d_array(tempTokenArray, NULL);
 	return (tempTokenArray);
 }
 

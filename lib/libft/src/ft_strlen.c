@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:24:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2023/11/17 16:42:46 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:18:54 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (s[len] != '\0')
+	while (s && *s++)
 		len++;
 	return (len);
 }

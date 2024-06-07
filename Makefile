@@ -6,14 +6,14 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/06 18:13:50 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/07 17:05:44 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror # -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror # -fsanitize=address -g
 
 LIBFT = ./lib/libft/
 

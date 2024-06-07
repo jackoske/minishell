@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/05 20:37:52 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:10:43 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_mini
 	char			**envp;
 	t_token			*token;
 	t_full_command	*full_command;
+	int				exit_status;
 }					t_mini;
 
 void				prompt_loop(t_mini *mini);
