@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:00:46 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 17:59:40 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 12:12:09 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void libft_extra_tester(void)
 	printf("\n%d\n", ft_count_char("hellodsdadaa dkkdskdsa sdda ", ' '));
 
 	printf("\nTEST7\n");
-	printf("\n%d\n", ft_2d_array_len(env));
+	char **tmp2 = ft_split("1:2:3:4:5:6", ':');
+	printf("\nshould be 6 \n");
+	printf("\n2darraylen: %d\n", ft_2d_array_len(tmp2));
 
 	printf("\nTEST8\n");
 	printf("\n%d\n", ft_1st_char_in_set_i("hellodsdadaa dkkdskdsa sdda ", "ael"));
@@ -66,6 +68,12 @@ void libft_extra_tester(void)
 	ft_print_2d_array_fd(env, 1);
 
 
+	printf("\nTEST11\n");
+	char **empty2 = NULL;
+	empty2 = ft_splice_2d_array(empty2, env, 0);
+	ft_print_2d_array_fd(empty2, 1);
+	
+	ft_free_2d_array(&empty2);
 	ft_free_2d_array(&env);
 	ft_free_2d_array(&path);
 	ft_free_2d_array(&empty);

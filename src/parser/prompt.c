@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 18:13:14 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 12:00:21 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_word_count(char *input)
 	return (count + 1);
 }
 
-void	populateTokenArray(char **tokenizedInput, char *input)
+char **populateTokenArray(char **tokenizedInput, char *input)
 {
 	int		k;
 	int		quote[2];
@@ -90,6 +90,8 @@ void	populateTokenArray(char **tokenizedInput, char *input)
 		else
 			tokenizedInput[k++] = ft_substr(input, begin, end - begin);
 	}
+	tokenizedInput[k] = NULL;
+	return (tokenizedInput);
 }
 
 char	**split_by_spaces(char *input, int w_count)
@@ -99,7 +101,7 @@ char	**split_by_spaces(char *input, int w_count)
 	tokenizedInput = malloc(sizeof(char *) * w_count + 1);
 	if (!tokenizedInput)
 		return (NULL);
-	populateTokenArray(tokenizedInput, input);
+	tokenizedInput = populateTokenArray(tokenizedInput, input);
 	return (tokenizedInput);
 }
 
@@ -167,7 +169,8 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	tempTokenArray = NULL;
 	last_str = NULL;
 	i = -1;
-	if (!ft_splice_2d_array(&tempTokenArray, tokenizedInput, 0))
+	tempTokenArray = ft_duplicate_2d_array(tokenizedInput);
+	if (!tempTokenArray)
 		return (NULL);
 	printf("tempTokenArray:\n");
 	ft_print_2d_array_fd(tempTokenArray, 1);
@@ -226,7 +229,7 @@ char	**tokenize_special_symbols(const char *str)
 				symbol_len = 2;
 			tokens[token_count] = malloc((symbol_len + 1) * sizeof(char));
 			ft_strlcpy(tokens[token_count], &str[i], symbol_len + 1);
-			tokens[token_count][symbol_len] = '\0';
+			tokens[token_count][symbol_len] = NULL;
 			token_count++;
 			i += symbol_len;
 		}
@@ -239,11 +242,10 @@ char	**tokenize_special_symbols(const char *str)
 			word_len = i - start;
 			tokens[token_count] = malloc((word_len + 1) * sizeof(char));
 			ft_strlcpy(tokens[token_count], &str[start], word_len + 1);
-			tokens[token_count][word_len] = '\0';
+			tokens[token_count][word_len] = NULL;
 			token_count++;
 		}
 	}
-	tokens[token_count] = NULL;
 	return (tokens);
 }
 
@@ -262,32 +264,32 @@ char	**tokenize_input(char *input, t_mini **mini)
 			-1);
 	tokenizedInput = split_by_spaces(input, ft_word_count(ft_strtrim(input,
 					" ")));
-	printf("tokenizedInput: %d\n", ft_2d_array_len(tokenizedInput));
-	ft_print_2d_array_fd(tokenizedInput, 1);
+	// printf("tokenizedInput: %d\n", ft_2d_array_len(tokenizedInput));
+	// ft_print_2d_array_fd(tokenizedInput, 1);
 	expandedArray = ft_calloc(ft_word_count(ft_strtrim(input, " ")) + 1,
 			sizeof(char *));
 	expandedArray = expand_vars(tokenizedInput, mini);
-	printf("expandedArray:\n");
+	// printf("expandedArray:\n");
 	// ft_print_2d_array_fd(expandedArray, 1);
 	specialSymbolArray = ft_calloc(100, sizeof(char *));
 	tempTokenArray = ft_calloc(100, sizeof(char *));
-	// while (expandedArray[++i])
-	// {
-	// 	if (ft_1st_char_in_set_i(expandedArray[i], "<>|"))
-	// 	{
-	// 		specialSymbolArray = tokenize_special_symbols(expandedArray[i]);
-	// 		j = -1;
-	// 		while (specialSymbolArray[++j])
-	// 		{
-	// 			tempTokenArray[++k] = ft_strdup(specialSymbolArray[j]);
-	// 			i++;
-	// 		}
-	// 		i -= 2;
-	// 		ft_free_2d_array(&specialSymbolArray);
-	// 	}
-	// 	else
-	// 		tempTokenArray[++k] = ft_strdup(expandedArray[i]);
-	// }
+	while (expandedArray[++i])
+	{
+		if (ft_1st_char_in_set_i(expandedArray[i], "<>|"))
+		{
+			specialSymbolArray = tokenize_special_symbols(expandedArray[i]);
+			j = -1;
+			while (specialSymbolArray[++j])
+			{
+				tempTokenArray[++k] = ft_strdup(specialSymbolArray[j]);
+				i++;
+			}
+			i -= 2;
+		}
+		else
+			tempTokenArray[++k] = ft_strdup(expandedArray[i]);
+	}
+	tempTokenArray[++k] = NULL;
 	return (tempTokenArray);
 }
 

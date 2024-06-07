@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 18:00:06 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 12:13:33 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,40 @@
  * Note: The function frees the original 2d_arrray. if succesful
  * Note: NULL if i > dest_len or i < 0
  */
-char	**ft_splice_2d_array(char **big, char **small, int n)
+char	**ft_splice_2d_array(char **dest, char **src, int n)
 {
 	char	**temp;
-	int		big_i;
-	int		small_i;
+	int		dest_i;
+	int		src_i;
 	int		total_i;
+	int		total_len;
 
-	big_i = -1;
-	small_i = -1;
-	total_i = -1;
-	if (!big || n < 0 || n >= ft_2d_array_len(big))
-		return (NULL);
-	temp = ft_calloc(ft_2d_array_len(big) + ft_2d_array_len(small),
-			sizeof(char *));
-	while (temp && big[++big_i])
+	if (!dest || !dest[0]) // If dest is empty
 	{
-		if (big_i != n)
-			temp[++total_i] = ft_strdup(big[big_i]);
-		else
-			while (small && small[++small_i])
-				temp[++total_i] = ft_strdup(small[small_i]);
+		// Return a copy of src
+		total_len = ft_2d_array_len(src);
+		temp = ft_calloc(total_len + 1, sizeof(char *));
+		if (!temp)
+			return (NULL);
+		for (src_i = 0; src_i < total_len; src_i++)
+			temp[src_i] = ft_strdup(src[src_i]);
+		return (temp);
 	}
-	ft_free_2d_array(&big);
+	total_len = ft_2d_array_len(dest) + ft_2d_array_len(src);
+	dest_i = -1;
+	src_i = -1;
+	total_i = -1;
+	if (n < 0 || n >= ft_2d_array_len(dest))
+		return (NULL);
+	temp = ft_calloc(total_len + 1, sizeof(char *));
+	while (temp && dest[++dest_i])
+	{
+		if (dest_i != n)
+			temp[++total_i] = ft_strdup(dest[dest_i]);
+		else
+			while (src && src[++src_i])
+				temp[++total_i] = ft_strdup(src[src_i]);
+	}
+	ft_free_2d_array(&dest);
 	return (temp);
 }
