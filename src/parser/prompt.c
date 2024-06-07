@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 12:00:21 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 13:18:54 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char **populateTokenArray(char **tokenizedInput, char *input)
 			tokenizedInput[k++] = "\0";
 		else
 			tokenizedInput[k++] = ft_substr(input, begin, end - begin);
-	}
+		}
 	tokenizedInput[k] = NULL;
 	return (tokenizedInput);
 }
@@ -98,7 +98,7 @@ char	**split_by_spaces(char *input, int w_count)
 {
 	char	**tokenizedInput;
 
-	tokenizedInput = malloc(sizeof(char *) * w_count + 1);
+	tokenizedInput = ft_calloc( w_count + 1, sizeof(char *));
 	if (!tokenizedInput)
 		return (NULL);
 	tokenizedInput = populateTokenArray(tokenizedInput, input);
@@ -172,8 +172,6 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	tempTokenArray = ft_duplicate_2d_array(tokenizedInput);
 	if (!tempTokenArray)
 		return (NULL);
-	printf("tempTokenArray:\n");
-	ft_print_2d_array_fd(tempTokenArray, 1);
 	while (tempTokenArray[++i])
 	{
 		if (ft_strchr(tempTokenArray[i], '$') != NULL)
@@ -182,8 +180,6 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	}
 	if (!last_str)
 		return (tokenizedInput);
-	printf("last_str:\n");
-	ft_print_2d_array_fd(last_str, 1);
 	return (last_str);
 }
 
@@ -191,11 +187,6 @@ int	is_special_symbol(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
-
-// int	ft_is_space(char c)
-// {
-// 	return (c == ' ' || (c >= '\t' && c <= '\r'));
-// }
 
 /*Function to separate a string into tokens based on special symbols*/
 char	**tokenize_special_symbols(const char *str)
@@ -264,18 +255,14 @@ char	**tokenize_input(char *input, t_mini **mini)
 			-1);
 	tokenizedInput = split_by_spaces(input, ft_word_count(ft_strtrim(input,
 					" ")));
-	// printf("tokenizedInput: %d\n", ft_2d_array_len(tokenizedInput));
-	// ft_print_2d_array_fd(tokenizedInput, 1);
 	expandedArray = ft_calloc(ft_word_count(ft_strtrim(input, " ")) + 1,
 			sizeof(char *));
 	expandedArray = expand_vars(tokenizedInput, mini);
-	// printf("expandedArray:\n");
-	// ft_print_2d_array_fd(expandedArray, 1);
 	specialSymbolArray = ft_calloc(100, sizeof(char *));
 	tempTokenArray = ft_calloc(100, sizeof(char *));
 	while (expandedArray[++i])
 	{
-		if (ft_1st_char_in_set_i(expandedArray[i], "<>|"))
+		if (ft_1st_char_in_set_i(expandedArray[i], "<>|") != -1)
 		{
 			specialSymbolArray = tokenize_special_symbols(expandedArray[i]);
 			j = -1;

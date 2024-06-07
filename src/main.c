@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 12:03:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 13:17:18 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	// (void)envp;
-	
+
 	init_envp(envp, &mini);
-	// prompt_loop(mini);
-	libft_extra_tester();
+	prompt_loop(mini);
+	// libft_extra_tester();
 	// char *str = get_next_line(0);
 	// printf("%s\n", str);
 	// free(str);
