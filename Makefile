@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/07 17:05:44 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/07 17:51:02 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ LIBFT = ./lib/libft/
 GNL = get_next_line.c #get_next_line_utils.c
 SRC_GNL = $(addprefix lib/gnl/, $(GNL))
 
-INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes 
+INC = -I./includes -I./lib/libft/includes -I./lib/gnl/includes
 OBJ_DIR = ./obj/
 
-READLINE = -lreadline 
+READLINE = -lreadline
 
 SRC_DIR = ./src/main.c
 SRC_TESTER_DIR = ./src/tester/
@@ -31,7 +31,7 @@ SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
 
 
-SRC_PARS = parser.c prompt.c
+SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c
 SRC_EXEC = execution.c
 SRC_TESTER = libft_extra_tests.c
 
@@ -58,7 +58,7 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(INC)  $(OBJ) -o $(NAME) -L$(LIBFT) -lft  $(READLINE)
 	@echo -e "$(GREEN)Minishell built Successfully$(NC)"
 
-debug: CFLAGS += -g 
+debug: CFLAGS += -g
 debug: re
 	@echo -e "$(GREEN)GDB Debugging Mode built Successfully$(NC)"
 

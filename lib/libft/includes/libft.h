@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/06 17:59:20 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:36:02 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ int					ft_count_char(const char *str, char c);
 int					ft_1st_char_in_set_i(const char *str, const char *set);
 int					ft_is_space(char c);
 int					ft_strchr_i(const char *s, int c);
+int					ft_is_only_special(char *str);
+int					ft_is_special_symbol(char c);
 
 #endif

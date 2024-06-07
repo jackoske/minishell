@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/07 16:10:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:50:25 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,15 @@ typedef struct s_mini
 void				prompt_loop(t_mini *mini);
 int					quotes_closed(char *line);
 void				libft_extra_tester(void);
+int					ft_word_count_quotes(char *input);
+char				*find_var(char *var, t_mini **mini);
+char				**find_env_var_and_replace(char *var,
+		t_mini **mini, char **tokenizedInput);
+char				**expand_vars(char **tokenizedInput, t_mini **mini);
+char				**ft_remove_quotes(char **tokenizedInput);
+char				**tokenize_special_symbols(const char *str);
+char				**tokenize_input(char *input, t_mini **mini);
+char				**split_by_spaces(char *input, int w_count);
+char				**populateTokenArray(char **tokenizedInput, char *input);
+
 #endif
