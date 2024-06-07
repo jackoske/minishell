@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 13:18:54 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:39:35 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static char	*read_command(void)
 	char	*input;
 
 	input = readline("");
-	if (input != NULL && check_command(input))
-	{
+	if (!check_command(input))
+		return (NULL);
+	if (input != NULL)
 		add_history(input);
-	}
 	return (input);
 }
 
