@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/07 17:44:31 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:18:16 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,69 @@ int	ft_word_count_quotes(char *input)
 	return (count + 1);
 }
 
-char	**ft_remove_quotes(char **tokenizedInput)
+int	ft_alloc_len(char const *s1)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	*temp;
+	int	count;
+	int	i;
+	int	d_quote;
+	int	s_quote;
+
+	i = 0;
+	count = 0;
+	d_quote = 0;
+	s_quote = 0;
+	while (s1 && s1[i])
+	{
+		s_quote = (s_quote + (!d_quote && s1[i] == '\'')) % 2;
+		d_quote = (d_quote + (!s_quote && s1[i] == '\"')) % 2;
+		if ((s1[i] == '\"' && !s_quote) || (s1[i] == '\'' && !d_quote))
+			count++;
+		i++;
+	}
+	if (s_quote || d_quote)
+		return (-1);
+	return (count);
+}
+
+static char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
+{
+	int		count;
+	char	*trimmed;
+	int 	i;
 
 	i = -1;
-	k = 0;
-	while (tokenizedInput[++i])
+	count = ft_alloc_len(s1);
+	if (!s1 || count == -1)
+		return (NULL);
+	trimmed = ft_calloc(ft_strlen(s1) - count + 1, sizeof(char));
+	if (!trimmed)
+		return (NULL);
+	while (*s1)
 	{
-		j = -1;
-		while (tokenizedInput[i][++j])
-		{
-			if (tokenizedInput[i][j] == '\"' || tokenizedInput[i][j] == '\'')
-			{
-				temp = ft_substr(tokenizedInput[i], 1, ft_strlen(tokenizedInput[i])
-						- 2);
-				free(tokenizedInput[i]);
-				tokenizedInput[i] = ft_strdup(temp);
-				free(temp);
-			}
-		}
+		s_quote = (s_quote + (!d_quote && *s1 == '\'')) % 2;
+		d_quote = (d_quote + (!s_quote && *s1 == '\"')) % 2;
+		if ((*s1 != '\"' || s_quote) && (*s1 != '\'' || d_quote) \
+			&& ++i >= 0)
+			trimmed[i] = *s1;
+		s1++;
 	}
-	return (tokenizedInput);
+	trimmed[++i] = '\0';
+	return (trimmed);
+}
+
+char	**ft_remove_quotes(char **tokenizedInput)
+{
+	char	**temp;
+	char	*aux;
+	int		i;
+
+	i = -1;
+	temp = ft_duplicate_2d_array(tokenizedInput);
+	while (temp && temp[++i])
+	{
+		aux = ft_trimm_quotes(temp[i], 0, 0);
+		free(temp[i]);
+		temp[i] = aux;
+	}
+	return (temp);
 }

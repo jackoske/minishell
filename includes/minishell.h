@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/07 17:50:25 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:55:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ char				**tokenize_special_symbols(const char *str);
 char				**tokenize_input(char *input, t_mini **mini);
 char				**split_by_spaces(char *input, int w_count);
 char				**populateTokenArray(char **tokenizedInput, char *input);
+int					ft_alloc_len(char const *s1);
 
 #endif

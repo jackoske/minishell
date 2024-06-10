@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/07 17:50:17 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:17:01 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**tokenize_special_symbols(const char *str)
 		{
 			symbol_len = 1;
 			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
-					+ 1] == '>'))
+					+ 1] == '>')/* || (str[i] == '|' && str[i + 1])*/)
 				symbol_len = 2;
 			tokens[token_count] = malloc((symbol_len + 1) * sizeof(char));
 			ft_strlcpy(tokens[token_count], &str[i], symbol_len + 1);
@@ -115,7 +115,7 @@ char	**tokenize_input(char *input, t_mini **mini)
 	int		j;
 	int		k;
 
-	j = ((i = -1), (k = -1), (expandedArray = NULL), (tokenizedInput = NULL),
+	j = ((i = -1), (expandedArray = NULL), (tokenizedInput = NULL),
 			-1);
 	tokenizedInput = split_by_spaces(input, ft_word_count_quotes(ft_strtrim(input,
 					" ")));
@@ -126,14 +126,14 @@ char	**tokenize_input(char *input, t_mini **mini)
 	{
 		if (ft_1st_char_in_set_i(expandedArray[i], "<>|") != -1 && !ft_is_only_special(expandedArray[i]) )
 		{
+			specialSymbolArray = NULL;
 			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
 					tokenize_special_symbols(expandedArray[i]), ft_2d_array_len(specialSymbolArray));
-			ft_print_2d_array_fd(specialSymbolArray, 1);
-			j = -1;
-			while (specialSymbolArray[++j])
+			k = -1;
+			while (specialSymbolArray[++k])
 			{
 				tempTokenArray = ft_add_row_2d_array(tempTokenArray,
-						specialSymbolArray[j]);
+						specialSymbolArray[k]);
 				i++;
 			}
 			i -= 2;
@@ -141,6 +141,7 @@ char	**tokenize_input(char *input, t_mini **mini)
 		else
 			tempTokenArray = ft_add_row_2d_array(tempTokenArray, expandedArray[i]);
 	}
+	ft_free_2d_array(&specialSymbolArray);
 	tempTokenArray = ft_add_row_2d_array(tempTokenArray, NULL);
 	return (tempTokenArray);
 }
