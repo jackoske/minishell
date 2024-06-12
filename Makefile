@@ -6,7 +6,7 @@
 #    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/07 17:51:02 by iverniho         ###   ########.fr        #
+#    Updated: 2024/06/12 14:45:11 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
 
 
-SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c
+SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c \
+	set_redir_utils.c
 SRC_EXEC = execution.c
 SRC_TESTER = libft_extra_tests.c
 

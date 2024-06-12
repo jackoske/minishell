@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/10 17:31:39 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:40:47 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ char				**tokenize_input(char *input, t_mini **mini);
 char				**split_by_spaces(char *input, int w_count);
 char				**populateTokenArray(char **tokenizedInput, char *input);
 int					ft_alloc_len(char const *s1);
+t_node				*set_redir(t_node *node, char *input, char **full_command, int *i);
+t_node				*init_node(void);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 16:51:24 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/11 12:54:00 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static void	init_envp(char **envp, t_mini **mini)
 	if (!mini)
 		exit(EXIT_FAILURE);
 	(*mini)->envp = envp;
-	(*mini)->token = NULL;
+	(*mini)->node = NULL;
+	(*mini)->current_dir = getcwd(NULL, 0);
+	(*mini)->exit_status = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
