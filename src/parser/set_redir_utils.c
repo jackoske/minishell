@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:44:29 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/13 12:46:53 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:19:49 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static int	check_access(char *path, int mode)
 			return (printf("no such file or directory\n"), 0);
 		else if (access(path, R_OK) == -1)
 			return (printf("permission denied\n"), 0);
-		return (1);
+		return (printf("permission granted\n"), 1);
 	}
 	else if (mode == 2)
 	{
-		if (access(path, W_OK) == -1)
+		if (access(path, W_OK) == -1 && access(path, F_OK) != -1)
 			return (printf("permission denied\n"), 0);
-		return (printf("permission gained\n"),1);
+		return (printf("permission granted\n"), 1);
 	}
 	return (1);
 }
@@ -67,7 +67,7 @@ static t_node	*get_redir_out(t_node *node, char *input, char **full_command, int
 		return (node);
 	}
 	// printf("node->fd_out: %d\n", node->fd_out);
-	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	// printf("after\nnode->fd_out: %d\n", node->fd_out);
 	return (node);
 }
@@ -88,7 +88,7 @@ static t_node	*get_append_out(t_node *node, char *input, char **full_command, in
 		return (node);
 	}
 	// printf("node->fd_out: %d\n", node->fd_out);
-	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_APPEND, 0666);
 	// printf("after\nnode->fd_out: %d\n", node->fd_out);
 	return (node);
 }
