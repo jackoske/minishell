@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/12 18:42:53 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:22:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ t_list	*create_nodes(char **input, t_mini *mini)
 		cur_command = ft_lstlast(commands);
 		if (i == 0 || (input[i][0] == '|' && input[i + 1] && input[i + 1][0]))
 		{
-			ft_lstadd_back(&commands, ft_lstnew(init_node()));
+			ft_lstadd_back(&commands, ft_lstnew(init_cmd()));
 			cur_command = ft_lstlast(commands);
 		}
 		cur_command->content = set_redir(cur_command->content, input[i], input, &i);
-		// printf("cur_command->content->fd_out: %d\n", ((t_node *)cur_command->content)->fd_out);
-		// printf("cur_command->content->fd_in: %d\n", ((t_node *)cur_command->content)->fd_in);
+		// printf("cur_command->content->fd_out: %d\n", ((t_cmd *)cur_command->content)->fd_out);
+		// printf("cur_command->content->fd_in: %d\n", ((t_cmd *)cur_command->content)->fd_in);
 	}
 	return (commands);
 }
