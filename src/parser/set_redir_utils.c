@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:44:29 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/13 19:19:49 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:22:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	check_access(char *path, int mode)
 	return (1);
 }
 
-static t_node	*get_redir_out(t_node *node, char *input, char **full_command, int **i)
+static t_cmd	*get_redir_out(t_cmd *node, char *input, char **full_command, int **i)
 {
 	if (node->fd_out > 2)
 		close(node->fd_out);
@@ -72,7 +72,7 @@ static t_node	*get_redir_out(t_node *node, char *input, char **full_command, int
 	return (node);
 }
 
-static t_node	*get_append_out(t_node *node, char *input, char **full_command, int **i)
+static t_cmd	*get_append_out(t_cmd *node, char *input, char **full_command, int **i)
 {
 	if (node->fd_out > 2)
 		close(node->fd_out);
@@ -93,7 +93,7 @@ static t_node	*get_append_out(t_node *node, char *input, char **full_command, in
 	return (node);
 }
 
-static t_node	*get_redir_heredoc(t_node *node, char *input, char **full_command, int **i)
+static t_cmd	*get_redir_heredoc(t_cmd *node, char *input, char **full_command, int **i)
 {
 	(void)input;
 	(void)full_command;
@@ -101,7 +101,7 @@ static t_node	*get_redir_heredoc(t_node *node, char *input, char **full_command,
 	return (node);
 }
 
-static t_node	*get_redir_in(t_node *node, char *input, char **full_command, int **i)
+static t_cmd	*get_redir_in(t_cmd *node, char *input, char **full_command, int **i)
 {
 	if (!input)
 	{
@@ -119,7 +119,7 @@ static t_node	*get_redir_in(t_node *node, char *input, char **full_command, int 
 	// printf("after\nnode->fd_in: %d\n", node->fd_in);
 	return (node);
 }
-t_node	*set_redir(t_node *node, char *input, char **full_command, int *i)
+t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 {
 	if (input[0])
 	{
