@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:11:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/14 16:46:54 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/06/18 12:39:26 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	is_builtin(t_cmd *cmd)
 
 	// if (!cmd->full_cmd)
 	// 	return (0);
-	// if ((cmd->full_cmd && ft_strchr(*cmd->full_cmd, '/')) || (cmd->full_path && \
+	// if ((cmd->full_cmd && ft_strchr(*cmd->full_cmd, '/')) || (cmd->full_path && 
 	// 	ft_strchr(cmd->full_path, '/')))
 	// 	return (0);
 	// l = ft_strlen(*cmd->full_cmd);
@@ -75,13 +75,13 @@ int	is_builtin(t_cmd *cmd)
 // 	// signal(SIGQUIT, SIG_DFL);
 // 	if (!is_builtin(cmd) && cmd->full_command)
 // 		execve(cmd->command_path, cmd->full_command, mini->envp);
-// 	else if (cmd->full_command && !ft_strncmp(*cmd->full_command, "pwd", l) \
+// 	else if (cmd->full_command && !ft_strncmp(*cmd->full_command, "pwd", l) 
 // 		&& l == 3)
 // 		mini->exit_status = mini_pwd();
-// 	else if (is_builtin(cmd) && cmd->full_command && \
+// 	else if (is_builtin(cmd) && cmd->full_command && 
 // 		!ft_strncmp(*cmd->full_command, "echo", l) && l == 4)
 // 		mini->exit_status = mini_echo(cmd);
-// 	else if (is_builtin(cmd) && cmd->full_command && \
+// 	else if (is_builtin(cmd) && cmd->full_command && 
 // 		!ft_strncmp(*cmd->full_command, "env", l) && l == 3)
 // 	{
 // 		ft_print_2d_array_fd(mini->envp, 1);
@@ -125,6 +125,8 @@ void	*child_process(t_mini *mini, t_list *command, int fd[2])
 	close(fd[0]);
 	// child_builtin(mini, cmd, l);
 	// ft_lstclear(&mini->cmds, free_content);
+	(void)l;
+	(void)cmd;
 	exit(mini->exit_status);
 }
 
