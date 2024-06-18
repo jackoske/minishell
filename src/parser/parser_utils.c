@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/18 14:47:16 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:35:17 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_word_count_quotes(char *input)
 	return (count + 1);
 }
 
-int	ft_alloc_len(char const *s1)
+int	count_unescaped_quotes(char const *s1)
 {
 	int	count;
 	int	i;
@@ -66,15 +66,15 @@ int	ft_alloc_len(char const *s1)
 
 static char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
 {
-	int		count;
+	int		unescaped_quotes;
 	char	*trimmed;
 	int 	i;
 
 	i = -1;
-	count = ft_alloc_len(s1);
-	if (!s1 || count == -1)
+	unescaped_quotes = count_unescaped_quotes(s1);
+	if (!s1 || unescaped_quotes == -1)
 		return (NULL);
-	trimmed = ft_calloc(ft_strlen(s1) - count + 1, sizeof(char));
+	trimmed = ft_calloc(ft_strlen(s1) - unescaped_quotes + 1, sizeof(char));
 	if (!trimmed)
 		return (NULL);
 	while (*s1)
@@ -114,11 +114,11 @@ char	**ft_remove_quotes(char **tokenizedInput)
 	return (temp);
 }
 
-t_node	*init_node(void)
+t_cmd	*init_cmd(void)
 {
-	t_node	*node;
+	t_cmd	*node;
 
-	node = malloc(sizeof(t_node));
+	node = malloc(sizeof(t_cmd));
 	if (!node)
 		return (NULL);
 	node->full_command = NULL;

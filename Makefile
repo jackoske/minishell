@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/12 14:45:11 by iverniho         ###   ########.fr        #
+#    Updated: 2024/06/14 16:10:22 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,18 +29,20 @@ SRC_DIR = ./src/main.c
 SRC_TESTER_DIR = ./src/tester/
 SRC_PARS_DIR = ./src/parser/
 SRC_EXEC_DIR = ./src/execution/
+SRC_BUILTINS_DIR = ./src/builtins/
 
 
 SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c \
 	set_redir_utils.c
-SRC_EXEC = execution.c
+SRC_EXEC = execution.c redirection.c here_doc.c error.c
 SRC_TESTER = libft_extra_tests.c
-
+SRC_BUILTINS = # cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \
 	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
 	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) \
-	$(addprefix $(SRC_TESTER_DIR), $(SRC_TESTER))
+	$(addprefix $(SRC_TESTER_DIR), $(SRC_TESTER)) \
+	$(addprefix $(SRC_BUILTINS_DIR), $(SRC_BUILTINS))
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
 

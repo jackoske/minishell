@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
@@ -112,10 +112,9 @@ char	**tokenize_input(char *input, t_mini **mini)
 	char	**tempTokenArray;
 	char	**specialSymbolArray;
 	int		i;
-	int		j;
 	int		k;
 
-	j = ((i = -1), (expandedArray = NULL), (tokenizedInput = NULL),
+	i = ((expandedArray = NULL), (tokenizedInput = NULL),
 			-1);
 	tokenizedInput = split_by_spaces(input, ft_word_count_quotes(ft_strtrim(input,
 					" ")));
