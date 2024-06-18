@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:44:29 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/13 19:19:49 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:12:48 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,17 @@ static t_node	*get_redir_out(t_node *node, char *input, char **full_command, int
 		node->fd_out = -1;
 		return (node);
 	}
+	// ft_print_2d_array_fd(full_command, 1);
+	// printf("full_command[(*(*i))]: %s\n", full_command[(*(*i))]);
 	++(*(*i));
+	// printf("full_command[(*(*i))]: %s\n", full_command[(*(*i))]);
+
+	if (!full_command[(*(*i))])
+	{
+		**i = -2;
+		node->fd_out = -1;
+		return (printf("%s\n", NEWLINE_ERR), node);
+	}
 	if (!check_access(full_command[(*(*i))], 2))
 	{
 		node->fd_out = -1;
@@ -68,6 +78,7 @@ static t_node	*get_redir_out(t_node *node, char *input, char **full_command, int
 	}
 	// printf("node->fd_out: %d\n", node->fd_out);
 	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+
 	// printf("after\nnode->fd_out: %d\n", node->fd_out);
 	return (node);
 }
@@ -82,13 +93,33 @@ static t_node	*get_append_out(t_node *node, char *input, char **full_command, in
 		return (node);
 	}
 	++(*(*i));
+	// if (ft_is_special_symbol(full_command[(*(*i))][0]))
+	if (ft_is_special_in_str(full_command[(*(*i))]))
+	{
+		printf("%s `%s'\n", SYNTAX_ERR, full_command[(*(*i))]);
+		**i = -2;
+		node->fd_out = -1;
+		return (node);
+	}
+	printf("full_command[(*(*i))]: %s\n", full_command[(*(*i))]);
+	if (!full_command[(*(*i))] /*|| ft_is_special_symbol(full_command[(*(*i))][0])*/)
+	{
+		**i = -2;
+		node->fd_out = -1;
+		return (printf("%s `newline'\n", SYNTAX_ERR), node);
+	}
 	if (!check_access(full_command[(*(*i))], 2))
 	{
 		node->fd_out = -1;
 		return (node);
 	}
 	// printf("node->fd_out: %d\n", node->fd_out);
+
 	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_APPEND, 0666);
+	// printf("end of get_append_out\n");
+	// if (full_command[])
+	// printf("full_command[(*(*i))]: %s\n", full_command[(*(*i))]);
+	// printf("full_command[++(*(*i))]: %s\n", full_command[++(*(*i))]);
 	// printf("after\nnode->fd_out: %d\n", node->fd_out);
 	return (node);
 }
@@ -109,6 +140,12 @@ static t_node	*get_redir_in(t_node *node, char *input, char **full_command, int 
 		return (node);
 	}
 	++(*(*i));
+	if (!full_command[(*(*i))])
+	{
+		**i = -2;
+		node->fd_in = -1;
+		return (printf("%s\n", NEWLINE_ERR), node);
+	}
 	if (!check_access(full_command[(*(*i))], 1))
 	{
 		node->fd_in = -1;
@@ -123,6 +160,7 @@ t_node	*set_redir(t_node *node, char *input, char **full_command, int *i)
 {
 	if (input[0])
 	{
+		// printf("input: %s\n", input);
 		if (input[0] == '>' && input[1] == '>')
 			node = get_append_out(node, input, full_command, &i);
 		else if (input[0] == '>')
@@ -134,5 +172,6 @@ t_node	*set_redir(t_node *node, char *input, char **full_command, int *i)
 		else if (input[0] != '|')
 			node->full_command = ft_add_row_2d_array(node->full_command, input);
 	}
+	// printf("end of set_redir\n");
 	return (node);
 }

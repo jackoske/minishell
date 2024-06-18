@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/07 17:36:02 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:05:29 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int					ft_putnbr_fd(int n, int fd);
 char				**ft_split(const char *s, char c);
 char				*ft_itoa(int n);
 void				*ft_realloc(void *ptr, size_t size);
+int					ft_is_special_in_str(char *str);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);

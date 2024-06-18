@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/12 18:42:53 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:28:26 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			cur_command = ft_lstlast(commands);
 		}
 		cur_command->content = set_redir(cur_command->content, input[i], input, &i);
+		if (i == -2)
+		{
+			ft_lstclear(&commands, free);
+			ft_free_2d_array(&input);
+			return (NULL);
+		}
 		// printf("cur_command->content->fd_out: %d\n", ((t_node *)cur_command->content)->fd_out);
 		// printf("cur_command->content->fd_in: %d\n", ((t_node *)cur_command->content)->fd_in);
 	}
@@ -79,10 +85,12 @@ void	prompt_loop(t_mini *mini)
 			continue ;
 		}
 		tokenizedInput = ft_remove_quotes(tokenize_input(input, &mini));
+		// printf("tokenizedInput\n");
+		// ft_print_2d_array_fd(tokenizedInput, 1);
 		mini->node = create_nodes(tokenizedInput, mini);
 		i = -1;
-		while (tokenizedInput && tokenizedInput[++i])
-			printf("tokenizedInput very last step: %s\n", tokenizedInput[i]);
+		// while (tokenizedInput && tokenizedInput[++i])
+		// 	printf("tokenizedInput very last step: %s\n", tokenizedInput[i]);
 		free(input);
 	}
 }

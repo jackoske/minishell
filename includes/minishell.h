@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/12 18:40:47 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:56:14 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 # include <unistd.h>
 
 # define PROMPT "minishell> "
+# define NEWLINE_ERR "minishell> syntax error near unexpected token `newline'"
+# define SYNTAX_ERR "minishell> syntax error near unexpected token "
+# define NO_FILE_ERR "minishell> No such file or directory: "
+# define CMD_NOT_FOUND "minishell> command not found: "
+# define PERM_ERR "minishell> permission denied: "
 
 typedef struct s_node
 {

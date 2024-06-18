@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/12 17:20:38 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:47:16 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,13 @@ char	**ft_remove_quotes(char **tokenizedInput)
 		free(temp[i]);
 		temp[i] = aux;
 	}
+	// i = -1;
+	// while (temp && temp[++i])
+	// {
+	// 	if (ft_is_special_in_str(temp[i]) && ft_is_special_in_str(temp[i++]))
+	// 		return (NULL);
+
+	// }
 	return (temp);
 }
 
