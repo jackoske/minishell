@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/18 17:34:39 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:32:55 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ t_cmd		*init_cmd(void);
 
 void		*mini_perror(char *str, char *str2, int fd);
 int			get_here_doc(t_mini *mini, char *warn);
+void		ft_error(int error, char *arg);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/18 17:35:17 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:41:23 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,39 @@ t_cmd	*init_cmd(void)
 	node->is_heredoc = 0;
 	node->is_append = 0;
 	return (node);
+}
+
+static char	*add_quotes(char *str)
+{
+	char	*temp;
+	int		i;
+	int		j;
+
+	i = -1;
+	j = -1;
+	temp = ft_calloc(ft_strlen(str) + 3, sizeof(char));
+	if (!temp)
+		return (NULL);
+	temp[++i] = '`';
+	while (str[++j])
+		temp[i + j + 1] = str[j];
+	temp[i + j + 1] = '\'';
+	return (temp);
+
+}
+
+void	ft_error(int error, char *arg)
+{
+	if (error == 1)
+		ft_putendl_fd(NEWLINE_ERR, 2);
+	else if (error == 2)
+		ft_putendl_fd(SYNTAX_ERR, 2);
+	else if (error == 3)
+		ft_putendl_fd(NO_FILE_ERR, 2);
+	else if (error == 4)
+		ft_putendl_fd(CMD_NOT_FOUND, 2);
+	else if (error == 5)
+		ft_putendl_fd(PERM_ERR, 2);
+	else if (error == 6)
+		ft_putendl_fd(ft_strjoin(SYNTAX_ERR, add_quotes(arg)), 2);
 }

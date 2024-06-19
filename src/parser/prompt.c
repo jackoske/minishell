@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/18 17:35:42 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:42:11 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 static void	print_prompt(void)
 {
-	printf("%s", PROMPT);
+	// printf("%s", PROMPT);
+	ft_putstr_fd(PROMPT, 1);
 	rl_on_new_line();
 }
 
 static int	check_command(char *input)
 {
 	if (!quotes_closed(input))
-		return (printf("Syntax error\n"), 0);
+		return (ft_error(2, NULL), 0);
+		// return (printf("Syntax error\n"), 0);
 	return (1);
 }
 
@@ -62,10 +64,25 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			ft_free_2d_array(&input);
 			return (NULL);
 		}
-		// printf("cur_command->content->fd_out: %d\n", ((t_node *)cur_command->content)->fd_out);
-		// printf("cur_command->content->fd_in: %d\n", ((t_node *)cur_command->content)->fd_in);
 	}
 	return (commands);
+}
+
+int	check_tokenized_input(char **tokenizedInput)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	while (tokenizedInput && tokenizedInput[++i])
+	{
+		if (j == 1 && ft_is_special_in_str(tokenizedInput[i]) == 1)
+			return (ft_error(6, tokenizedInput[i]), 0);
+			// return (printf("%s111\n", NEWLINE_ERR), 0);
+		j = ft_is_special_in_str(tokenizedInput[i]);
+	}
+	return (1);
 }
 
 void	prompt_loop(t_mini *mini)
@@ -85,12 +102,14 @@ void	prompt_loop(t_mini *mini)
 			continue ;
 		}
 		tokenizedInput = ft_remove_quotes(tokenize_input(input, &mini));
-		// printf("tokenizedInput\n");
-		// ft_print_2d_array_fd(tokenizedInput, 1);
+		if (!check_tokenized_input(tokenizedInput))
+		{
+			free(input);
+			ft_free_2d_array(&tokenizedInput);
+			continue ;
+		}
 		mini->node = create_nodes(tokenizedInput, mini);
 		i = -1;
-		// while (tokenizedInput && tokenizedInput[++i])
-		// 	printf("tokenizedInput very last step: %s\n", tokenizedInput[i]);
 		free(input);
 	}
 }
