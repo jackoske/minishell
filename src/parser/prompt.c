@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/19 15:42:11 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:35:23 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	prompt_loop(t_mini *mini)
 {
 	char	*input;
 	char	**tokenizedInput;
-	int		i;
 
 	tokenizedInput = NULL;
 	while (1)
@@ -109,7 +108,6 @@ void	prompt_loop(t_mini *mini)
 			continue ;
 		}
 		mini->node = create_nodes(tokenizedInput, mini);
-		i = -1;
 		free(input);
 	}
 }
