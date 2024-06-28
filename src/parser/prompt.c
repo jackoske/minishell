@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/19 15:42:11 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:28:16 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ void	prompt_loop(t_mini *mini)
 			ft_free_2d_array(&tokenizedInput);
 			continue ;
 		}
+		while (*tokenizedInput)
+			printf("%s\n", *tokenizedInput++);
 		mini->node = create_nodes(tokenizedInput, mini);
+
 		i = -1;
 		free(input);
 	}
