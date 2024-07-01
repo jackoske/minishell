@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/19 15:32:55 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:49:09 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char		**find_env_var_and_replace(char *var, t_mini **mini,
 				char **tokenizedInput);
 char		**expand_vars(char **tokenizedInput, t_mini **mini);
 char		**ft_remove_quotes(char **tokenizedInput);
-char		**tokenize_special_symbols(const char *str);
+char		**tokenize_special_symbols(const char *str, int i, int token_count);
 char		**tokenize_input(char *input, t_mini **mini);
 char		**split_by_spaces(char *input, int w_count);
 char		**populateTokenArray(char **tokenizedInput, char *input);
