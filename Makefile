@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/06/14 16:10:22 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/06/28 13:57:32 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC_BUILTINS_DIR = ./src/builtins/
 
 SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c \
 	set_redir_utils.c
-SRC_EXEC = execution.c redirection.c here_doc.c error.c
+SRC_EXEC = execution.c redirection.c here_doc.c error.c signal.c
 SRC_TESTER = libft_extra_tests.c
 SRC_BUILTINS = # cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC = $(SRC_DIR) \
