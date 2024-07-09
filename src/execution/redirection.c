@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/18 12:39:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/09 14:43:48 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 
 t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 {
-	char	*aux[2];
 	char	*nl;
 	char	*warn;
 	t_cmd	*cmd;
@@ -77,10 +76,9 @@ t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 	warn = "minishell: warning: here-document delimited by end-of-file";
 	nl = "minishell: syntax error near unexpected token `newline'";
 	(*i)++;
-	if (args[++(*i)])
+	if (args[*i])
 	{
-		aux[0] = args[*i];
-		cmd->fd_in = get_here_doc(mini, warn);
+		cmd->fd_in = get_here_doc(mini, args[*i], warn); // Pass the delimiter
 	}
 	if (!args[*i] || cmd->fd_in == -1)
 	{
@@ -91,6 +89,5 @@ t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 			mini->exit_status = 2;
 		}
 	}
-	(void)aux;
 	return (mini);
 }

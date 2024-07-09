@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/09 15:19:01 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/07/09 12:10:30 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/07/09 12:12:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-volatile sig_atomic_t	g_sigint_received = 0;
-
-static void	handle_signal(int signal)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	if (signal == SIGINT)
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		s1++;
+		s2++;
 	}
-	else if (signal == SIGQUIT)
-		write(STDOUT_FILENO, "\nQuit\n", 6);
-}
-
-void	setup_signal_handlers(void)
-{
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

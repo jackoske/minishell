@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/14 14:05:29 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:13:08 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int					ft_is_space(char c);
 int					ft_strchr_i(const char *s, int c);
 int					ft_is_only_special(char *str);
 int					ft_is_special_symbol(char c);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif

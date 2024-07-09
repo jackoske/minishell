@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/09 15:19:01 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/07/03 16:35:07 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_sigint_received = 0;
-
-static void	handle_signal(int signal)
+//not used but maybe used later!
+void free_mini(t_mini *mini)
 {
-	if (signal == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (signal == SIGQUIT)
-		write(STDOUT_FILENO, "\nQuit\n", 6);
-}
-
-void	setup_signal_handlers(void)
-{
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+    if (mini->current_dir != NULL)
+        free(mini->current_dir);
+    if (mini->envp != NULL)
+        ft_free_2d_array(&mini->envp);
+    if (mini->node != NULL)
+        ft_lstclear(&mini->node, free);
+    free(mini);
 }
