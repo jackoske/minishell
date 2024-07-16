@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/09 15:54:08 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:45:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,13 @@ void							*check_to_fork(t_mini *mini, t_list *command);
 void							print_nodes(t_list *node);
 void							test_exec(void);
 void							test_heredoc(void);
+void							debug_print_command_parts(t_cmd *cmd);
+void							debug_tokenized_input(char **tokenized_input);
+
+int								is_builtin(t_cmd *cmd);
+void							execute_builtin(t_mini *mini, t_cmd *cmd);
+
+int								mini_cd(char **args, t_mini *mini);
+void							mini_echo(t_cmd *cmd);
+void							mini_pwd(void);
 #endif
