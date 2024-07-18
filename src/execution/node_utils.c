@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:53:09 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/09 15:56:17 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:33:40 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	print_cmd(t_cmd *cmd)
 	printf("Is Heredoc: %d\n", cmd->is_heredoc);
 	printf("Is Append: %d\n", cmd->is_append);
 	printf("Is Outfile: %d\n", cmd->is_outfile);
-	printf("Exit Status: %d\n", cmd->exit_status);
+	
+	printf("Exit Status: %d\n", cmd->mini->exit_status);
 }
 
 void	print_nodes(t_list *node)

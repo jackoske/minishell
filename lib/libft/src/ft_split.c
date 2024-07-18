@@ -6,69 +6,70 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:14:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 17:16:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:55:43 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-static int	ft_count_words(const char *s, char c)
+
+static int	word_count(char const *s, char c)
 {
-	int	count;
-	int	i;
+	int		i;
+	int		count;
 
 	i = 0;
 	count = 0;
+	while (s[i] == c)
+		i++;
 	while (s[i] != '\0')
 	{
-		if (s[i] != c)
-		{
-			count++;
-			while (s[i] != c && s[i] != '\0')
-				i++;
-		}
-		else
+		count++;
+		while (s[i] != c && s[i] != '\0')
+			i++;
+		while (s[i] == c)
 			i++;
 	}
 	return (count);
 }
 
-static char	**ft_fill_array(char **aux, char const *s, char c)
+static int	letter_count(char const *s, char c, int index)
 {
-	size_t	i;
-	size_t	j;
+	int		count;
+
+	count = 0;
+	while (s[index] != c && s[index] != '\0')
+	{
+		count++;
+		index++;
+	}
+	return (count);
+}
+
+char		**ft_split(char const *s, char c)
+{
+	char	**tab;
+	int		i;
+	int		j;
 	int		k;
-	size_t	s_len;
 
 	i = 0;
 	k = 0;
-	s_len = ft_strlen(s);
-	while (s[i])
+	if (!s || !c || !(tab = malloc(sizeof(char *) * (word_count(s, c) + 1))))
+		return (NULL);
+	while (s[k] == c)
+		k++;
+	while (s[k] != '\0')
 	{
-		while (s[i] == c && s[i] != '\0')
-			i++;
-		j = i;
-		while (s[i] != c && s[i] != '\0')
-			i++;
-		if (j >= s_len)
-			aux[k++] = "\0";
-		else
-			aux[k++] = ft_substr(s, j, i - j);
+		j = 0;
+		if (!(tab[i] = malloc(sizeof(char) * letter_count(s, c, k) + 1)))
+			return (NULL);
+		while (s[k] != c && s[k] != '\0')
+			tab[i][j++] = s[k++];
+		tab[i][j] = '\0';
+		while (s[k] == c)
+			k++;
+		i++;
 	}
-	return (aux);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**aux;
-	int		nwords;
-
-	if (!s)
-		return (NULL);
-	nwords = ft_count_words(s, c);
-	aux = malloc((nwords + 1) * sizeof(char *));
-	if (aux == NULL)
-		return (NULL);
-	aux = ft_fill_array(aux, s, c);
-	aux[nwords] = NULL;
-	return (aux);
+	tab[i] = NULL;
+	return (tab);
 }

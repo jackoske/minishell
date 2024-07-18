@@ -6,27 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 10:41:39 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:07:01 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	mini_cd(char **args, t_mini *mini)
-{
-	if (args[1] == NULL || chdir(args[1]) != 0)
-	{
-		perror("minishell");
-		return (1);
-	}
-	mini->current_dir = getcwd(NULL, 0);
-	if (!mini->current_dir)
-	{
-		perror("minishell");
-		return (1);
-	}
-	return (0);
-}
 
 // Implementation of echo command with '-n' option
 void	mini_echo(t_cmd *cmd)
@@ -68,4 +52,16 @@ void	mini_pwd(void)
 	{
 		perror("getcwd");
 	}
+}
+// Handle the `exit` built-in command
+void	mini_exit(char **args, t_mini *mini)
+{
+	int	exit_status;
+
+	if (args[1])
+		exit_status = ft_atoi(args[1]);
+	else
+		exit_status = mini->exit_status;
+	// For example: free allocated memory, close file descriptors, etc.
+	exit(exit_status);
 }

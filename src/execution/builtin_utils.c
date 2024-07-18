@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 10:52:32 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:29:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,13 @@ void	execute_builtin(t_mini *mini, t_cmd *cmd)
 		mini_pwd();
 	else if (ft_strcmp(cmd->full_command[0], "cd") == 0)
 		mini->exit_status = mini_cd(cmd->full_command, mini);
+	else if (ft_strcmp(cmd->full_command[0], "exit") == 0)
+		mini_exit(cmd->full_command, mini);
+	// else if (ft_strcmp(cmd->full_command[0], "export") == 0)
+	// 	mini_export(cmd->full_command, mini);
+	// else if (ft_strcmp(cmd->full_command[0], "unset") == 0)
+	// 	mini_unset(cmd->full_command, mini);
+	// else if (ft_strcmp(cmd->full_command[0], "env") == 0)
+	// 	mini_env(mini);
 	mini->exit_status = 0;
 }
