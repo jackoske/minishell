@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 18:58:55 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:25:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	*child_process(t_mini *mini, t_list *command)
 void	exec_fork(t_mini *mini, t_list *command)
 {
 	pid_t	pid;
+	int		status;
 	t_cmd	*cmd;
 
 	pid = fork();
@@ -88,59 +89,57 @@ void	exec_fork(t_mini *mini, t_list *command)
 	}
 	else
 	{
-		waitpid(pid, &mini->exit_status, 0);
+		waitpid(pid, &status, 0);
 		cmd = (t_cmd *)command->content;
 		if (cmd->fd_in > 2)
 			close(cmd->fd_in);
 		if (cmd->fd_out > 2)
 			close(cmd->fd_out);
+		if (WIFEXITED(status))
+		{
+			mini->exit_status = WEXITSTATUS(status);
+		}
+		else if (WIFSIGNALED(status))
+		{
+			mini->exit_status = 128 + WTERMSIG(status);
+		}
 	}
 }
 
 void	*check_to_fork(t_mini *mini, t_list *command)
 {
 	t_cmd	*cmd;
-	DIR		*dir;
+	DIR		*dir = NULL;
 
 	cmd = (t_cmd *)command->content;
-	dir = NULL;
-	if (cmd->full_command && (cmd->full_command[0][0] == '/' || cmd->full_command[0][0] == '.'))
+
+	// Check if the command is a built-in
+	if (is_builtin(cmd))
 	{
-		// Directly check if the command can be executed
-		cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
-		if (cmd->command_path)
-		{
-			exec_fork(mini, command);
-		}
-		else
-		{
-			mini->exit_status = 127;
-		}
+		execute_builtin(mini, cmd);
+		return ("");
+	}
+
+	// Check if the command is a directory
+	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
+	{
+		closedir(dir);
+		mini->exit_status = 126; // Command is a directory
+		return ("");
+	}
+
+	// Resolve the command path
+	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
+
+	// Check if the command can be executed
+	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
+	{
+		exec_fork(mini, command);
 	}
 	else
 	{
-		if (cmd->full_command)
-			dir = opendir(cmd->full_command[0]);
-		if (cmd->fd_in == -1 || cmd->fd_out == -1)
-			return (NULL);
-		if (is_builtin(cmd) || (cmd->command_path && access(cmd->command_path, X_OK) == 0))
-		{
-			exec_fork(mini, command);
-		}
-		else if (!is_builtin(cmd) && ((cmd->command_path && !access(cmd->command_path, F_OK)) || dir))
-		{
-			mini->exit_status = 126;
-		}
-		else if (!is_builtin(cmd) && cmd->full_command)
-		{
-			cmd->command_path = resolve_command_path(cmd->full_command[0],&mini);
-			if (cmd->command_path)
-				exec_fork(mini, command);
-			else
-				mini->exit_status = 127;
-		}
-		if (dir)
-			closedir(dir);
+		mini->exit_status = 127; // Command not found or not executable
 	}
+
 	return ("");
 }

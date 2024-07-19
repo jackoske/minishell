@@ -6,13 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 18:29:33 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:40:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
-#include <string.h>
 
 char	*ft_getenv(const char *name, char **envp, int len)
 {
@@ -30,8 +28,6 @@ char	*ft_getenv(const char *name, char **envp, int len)
 	}
 	return (NULL);
 }
-
-#include <stdio.h> // Ensure this include is at the top of your file
 
 char	**ft_setenv(const char *name, const char *value, char **envp,
 		int overwrite)
@@ -56,7 +52,6 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 				printf("Overwriting existing value\n");
 				temp = ft_strjoin(name, "=");
 				new_envp = ft_strjoin_free(temp, (char *)value);
-					// Assuming ft_strjoin_free frees the first argument
 				free(envp[i]);
 				envp[i] = new_envp;
 			}
@@ -79,7 +74,7 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 	new_envp = ft_strjoin_free(temp, (char *)value);
 	new_envp_array[i] = new_envp;
 	new_envp_array[i + 1] = NULL;
-	free(envp); // Assuming you want to replace the old envp entirely
+	free(envp);
 	printf("New environment variable added: %s=%s\n", name, value);
 	return (new_envp_array);
 }

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 18:25:27 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:41:10 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	mini_cd(char **args, t_mini *mini)
 	}
 	mini->envp = ft_setenv("PWD", newpwd, mini->envp, 1);
 	mini->current_dir = newpwd;
+	printf("Current directory: %s\n", mini->current_dir);
 	free(newpwd);
 	return (0);
 }

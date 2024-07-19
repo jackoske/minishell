@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/18 18:58:34 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:16:41 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define WRITE_END 1
 
 extern volatile sig_atomic_t	g_sigint_received;
+
+extern volatile sig_atomic_t g_is_executing_command;
 
 # define MINISHELL_ASCII \
 	"\
