@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 14:21:05 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:59:16 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void handle_input(char *input, t_mini *mini)
     }
     ft_free_2d_array(&tokenized_input);
 }
-
-
 
 void prompt_loop(t_mini *mini)
 {

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 14:25:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:01:39 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 	}
 }
 
-void	*child_process(t_mini *mini, t_list *command)
+void	child_process(t_mini *mini, t_list *command)
 {
 	t_cmd	*cmd;
 
@@ -69,7 +69,8 @@ void	*child_process(t_mini *mini, t_list *command)
 	setup_child_signals();
 	child_redir(command);
 	execute_command(mini, cmd);
-	return (NULL); // Should never reach here
+	// This line is unreachable, consider removing it
+	// return (NULL);
 }
 
 void	exec_fork(t_mini *mini, t_list *command)
