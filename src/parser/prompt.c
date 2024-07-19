@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 15:59:16 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:16:26 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,64 +64,56 @@ int	check_tokenized_input(char **tokenized_input)
 	return (1);
 }
 
-void handle_input(char *input, t_mini *mini)
+void	handle_input(char *input, t_mini *mini)
 {
-    char **tokenized_input;
-    t_list *current;
+	char	**tokenized_input;
+	t_list	*current;
 
-    tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
-    if (!check_tokenized_input(tokenized_input))
-    {
-        free(input);
-        ft_free_2d_array(&tokenized_input);
-        return;
-    }
-    mini->node = create_nodes(tokenized_input, mini);
-    current = mini->node;
-    while (current)
-    {
-        g_is_executing_command = 1;
-        setup_child_signals(); // Ensure child signals are set before forking
-        check_to_fork(mini, current);
-        current = current->next;
-        g_is_executing_command = 0;
-    }
-    ft_free_2d_array(&tokenized_input);
+	tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
+	if (!check_tokenized_input(tokenized_input))
+	{
+		free(input);
+		ft_free_2d_array(&tokenized_input);
+		return ;
+	}
+	mini->node = create_nodes(tokenized_input, mini);
+	current = mini->node;
+	while (current)
+	{
+		check_to_fork(mini, current);
+		current = current->next;
+	}
+	ft_free_2d_array(&tokenized_input);
+	free(input);
 }
 
-void prompt_loop(t_mini *mini)
+void	prompt_loop(t_mini *mini)
 {
-    char *input;
+	char	*input;
 
-    rl_catch_signals = 0; // Let readline handle signals
-    setup_signal_handlers();
-
-    while (1)
-    {
-        if (g_sigint_received)
-        {
-            g_sigint_received = 0;
-            continue; // Ensure readline gets called again
-        }
-        
-        input = readline(PROMPT);
-        if (input == NULL)
-        {
-            printf("\n");
-            break;
-        }
-        if (input[0] != '\0')
-            add_history(input);
-        else
-        {
-            free(input);
-            continue;
-        }
-        
-        g_is_executing_command = 1; // Set the flag before executing command
-        handle_input(input, mini);
-        g_is_executing_command = 0; // Reset the flag after command execution
-
-        free(input);
-    }
+	setup_signal_handlers();
+	while (1)
+	{
+		if (g_sigint_received)
+		{
+			g_sigint_received = 0;
+			continue ; // Ensure readline gets called again
+		}
+		input = readline(PROMPT);
+		if (input == NULL)
+		{
+			printf("\n");
+			break ;
+		}
+		if (input[0] != '\0')
+			add_history(input);
+		else
+		{
+			free(input);
+			continue ;
+		}
+		g_is_executing_command = 1;
+		handle_input(input, mini);
+		g_is_executing_command = 0;
+	}
 }
