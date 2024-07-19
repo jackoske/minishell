@@ -6,24 +6,23 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 11:47:34 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:16:26 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	handle_command_node(char **input, t_list **commands,
-		t_list **cur_command, int *i)
+		t_list **cur_command, int *i, t_mini *mini)
 {
 	*cur_command = ft_lstlast(*commands);
 	if (*i == 0 || (input[*i][0] == '|' && input[*i + 1] && input[*i + 1][0]))
 	{
-		ft_lstadd_back(commands, ft_lstnew(init_cmd()));
+		ft_lstadd_back(commands, ft_lstnew(init_cmd(mini)));
 		*cur_command = ft_lstlast(*commands);
 	}
 	(*cur_command)->content = set_redir((*cur_command)->content, input[*i],
 			input, i);
-	// debug_print_command_parts((t_cmd *)(*cur_command)->content);
 }
 
 t_list	*create_nodes(char **input, t_mini *mini)
@@ -38,7 +37,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	(void)mini;
 	while (input && input[++i])
 	{
-		handle_command_node(input, &commands, &cur_command, &i);
+		handle_command_node(input, &commands, &cur_command, &i, mini);
 		if (i == -2)
 		{
 			ft_lstclear(&commands, free);
@@ -68,6 +67,7 @@ int	check_tokenized_input(char **tokenized_input)
 void	handle_input(char *input, t_mini *mini)
 {
 	char	**tokenized_input;
+	t_list	*current;
 
 	tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
 	if (!check_tokenized_input(tokenized_input))
@@ -77,7 +77,12 @@ void	handle_input(char *input, t_mini *mini)
 		return ;
 	}
 	mini->node = create_nodes(tokenized_input, mini);
-	print_nodes(mini->node);
+	current = mini->node;
+	while (current)
+	{
+		check_to_fork(mini, current);
+		current = current->next;
+	}
 	ft_free_2d_array(&tokenized_input);
 	free(input);
 }
@@ -89,6 +94,11 @@ void	prompt_loop(t_mini *mini)
 	setup_signal_handlers();
 	while (1)
 	{
+		if (g_sigint_received)
+		{
+			g_sigint_received = 0;
+			continue ; // Ensure readline gets called again
+		}
 		input = readline(PROMPT);
 		if (input == NULL)
 		{
@@ -102,6 +112,8 @@ void	prompt_loop(t_mini *mini)
 			free(input);
 			continue ;
 		}
+		g_is_executing_command = 1;
 		handle_input(input, mini);
+		g_is_executing_command = 0;
 	}
 }

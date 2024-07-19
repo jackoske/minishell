@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/19 15:41:23 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:22:58 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,22 +112,6 @@ char	**ft_remove_quotes(char **tokenizedInput)
 
 	// }
 	return (temp);
-}
-
-t_cmd	*init_cmd(void)
-{
-	t_cmd	*node;
-
-	node = malloc(sizeof(t_cmd));
-	if (!node)
-		return (NULL);
-	node->full_command = NULL;
-	node->command_path = NULL;
-	node->fd_in = 0;
-	node->fd_out = 1;
-	node->is_heredoc = 0;
-	node->is_append = 0;
-	return (node);
 }
 
 static char	*add_quotes(char *str)

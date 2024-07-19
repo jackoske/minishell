@@ -3,35 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 14:44:29 by iverniho          #+#    #+#             */
-/*   Updated: 2024/06/28 13:18:12 by iverniho         ###   ########.fr       */
+/*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/07/16 15:18:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-for '<'
-no such file or directory
-F_OK == -1
-or
-permission denied
-R_OK == -1
-
-for '>'
-permission denied
-W_OK == -1
-
-for '>>'
-permission denied
-W_OK == -1
+Error handling for file access:
+- '<' : no such file or directory (F_OK == -1) or permission denied (R_OK == -1)
+- '>' : permission denied (W_OK == -1)
+- '>>': permission denied (W_OK == -1)
 */
 
 static int	check_access(char *path, int mode)
 {
-	if (mode == 1)
+	if (mode == 1) // Read mode
 	{
 		if (access(path, F_OK) == -1)
 			return (ft_error(3, NULL), 0);
@@ -39,7 +29,7 @@ static int	check_access(char *path, int mode)
 			return (ft_error(5, NULL), 0);
 		return (1);
 	}
-	else if (mode == 2)
+	else if (mode == 2) // Write mode
 	{
 		if (access(path, W_OK) == -1 && access(path, F_OK) != -1)
 			return (ft_error(5, NULL), 0);
@@ -48,96 +38,77 @@ static int	check_access(char *path, int mode)
 	return (1);
 }
 
-static t_cmd	*get_redir_out(t_cmd *node, char **full_command, int **i)
+static int	get_fd(int oldfd, int mode, char *path)
 {
-	if (node->fd_out > 2)
-		close(node->fd_out);
-	++(*(*i));
-	if (!full_command[(*(*i))])
+	if (oldfd > 2)
+		close(oldfd);
+	if (!path)
+		return (-1);
+	if (!check_access(path, mode))
+		return (-1);
+	if (mode == 1)
+		return (open(path, O_RDONLY));
+	else if (mode == 2)
+		return (open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666));
+	else if (mode == 3)
+		return (open(path, O_WRONLY | O_CREAT | O_APPEND, 0666));
+	return (-1);
+}
+
+static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
+		int mode)
+{
+	if (mode == 2 || mode == 3)
 	{
-		**i = -2;
-		node->fd_out = -1;
-		return (ft_error(1, NULL), node);
+		if (node->fd_out > 2)
+			close(node->fd_out);
+		node->fd_out = get_fd(node->fd_out, mode, full_command[++(**i)]);
+		if (node->fd_out == -1)
+			**i = -2;
 	}
-	if (!check_access(full_command[(*(*i))], 2))
+	else if (mode == 1)
 	{
-		node->fd_out = -1;
-		return (node);
+		if (node->fd_in > 2)
+			close(node->fd_in);
+		node->fd_in = get_fd(node->fd_in, mode, full_command[++(**i)]);
+		if (node->fd_in == -1)
+			**i = -2;
 	}
-	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	return (node);
 }
 
-static t_cmd	*get_append_out(t_cmd *node, char **full_command, int **i)
+static t_cmd	*get_redir_heredoc(t_cmd *node,
+		char **full_command, int **i)
 {
-	if (node->fd_out > 2)
-		close(node->fd_out);
-	++(*(*i));
-	// if (ft_is_special_symbol(full_command[(*(*i))][0]))
-	if (ft_is_special_in_str(full_command[(*(*i))]))
-	{
-		ft_error(2, full_command[(*(*i))]);
-		**i = -2;
-		node->fd_out = -1;
-		return (node);
-	}
-	if (!full_command[(*(*i))] /*|| ft_is_special_symbol(full_command[(*(*i))][0])*/)
-	{
-		**i = -2;
-		node->fd_out = -1;
-		return (ft_error(1, NULL), node);
-	}
-	if (!check_access(full_command[(*(*i))], 2))
-	{
-		node->fd_out = -1;
-		return (node);
-	}
-	node->fd_out = open(full_command[(*(*i))], O_WRONLY | O_CREAT | O_APPEND, 0666);
-	return (node);
-}
-
-static t_cmd	*get_redir_heredoc(t_cmd *node, char *input, char **full_command, int **i)
-{
-	(void)input;
-	(void)full_command;
-	(void)i;
-	return (node);
-}
-
-static t_cmd	*get_redir_in(t_cmd *node, char *input, char **full_command, int **i)
-{
-	if (!input)
-	{
-		node->fd_out = -1;
-		return (node);
-	}
-	++(*(*i));
-	if (!full_command[(*(*i))])
+	if (!full_command[++(**i)])
 	{
 		**i = -2;
 		node->fd_in = -1;
-		return (ft_error(1, NULL), node);
-	}
-	if (!check_access(full_command[(*(*i))], 1))
-	{
-		node->fd_in = -1;
+		ft_error(1, NULL);
 		return (node);
 	}
-	node->fd_in = open(full_command[(*(*i))], O_RDONLY);
+	node->fd_in = get_here_doc(node->mini, full_command[(*(*i))],
+			"minishell: warning: here-document delimited by end-of-file");
+	if (node->fd_in == -1)
+	{
+		**i = -2;
+		node->fd_in = -1;
+	}
 	return (node);
 }
+
 t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 {
 	if (input[0])
 	{
 		if (input[0] == '>' && input[1] == '>')
-			node = get_append_out(node, full_command, &i);
+			node = handle_redirection(node, full_command, &i, 3); // Append
 		else if (input[0] == '>')
-			node = get_redir_out(node, full_command, &i);
+			node = handle_redirection(node, full_command, &i, 2); // Truncate
 		else if (input[0] == '<' && input[1] == '<')
-			node = get_redir_heredoc(node, input, full_command, &i);
+			node = get_redir_heredoc(node, full_command, &i); // Heredoc
 		else if (input[0] == '<')
-			node = get_redir_in(node, input, full_command, &i);
+			node = handle_redirection(node, full_command, &i, 1); // Input
 		else if (input[0] != '|')
 			node->full_command = ft_add_row_2d_array(node->full_command, input);
 	}
