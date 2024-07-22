@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 13:40:38 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:40:25 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 	char	**new_envp_array;
 	char	*temp;
 
-	printf("ft_setenv called with name=%s, value=%s, overwrite=%d\n", name,
-		value, overwrite);
+	// printf("ft_setenv called with name=%s, value=%s, overwrite=%d\n", name,
+		// value, overwrite);
 	i = 0;
 	while (envp && envp[i])
 	{
-		printf("Checking envp[%d]: %s\n", i, envp[i]);
+		// printf("Checking envp[%d]: %s\n", i, envp[i]);
 		if (!strncmp(envp[i], name, strlen(name))
 			&& envp[i][strlen(name)] == '=')
 		{
-			printf("Match found at envp[%d]\n", i);
+			// printf("Match found at envp[%d]\n", i);
 			if (overwrite)
 			{
-				printf("Overwriting existing value\n");
+				// printf("Overwriting existing value\n");
 				temp = ft_strjoin(name, "=");
 				new_envp = ft_strjoin_free(temp, (char *)value);
 				free(envp[i]);

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 19:01:24 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:24:35 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*resolve_command_path(char *command, t_mini **mini)
 		}
 		if (access(cmd_path, X_OK) == 0)
 		{
-			printf("Command path found: %s\n", cmd_path); // Debug print
+			// printf("Command path found: %s\n", cmd_path); // Debug print
 			ft_free_2d_array(&paths);
 			return (cmd_path);
 		}
@@ -57,6 +57,6 @@ char	*resolve_command_path(char *command, t_mini **mini)
 		i++;
 	}
 	ft_free_2d_array(&paths);
-	printf("Command path not found for: %s\n", command); // Debug print
+	// printf("Command path not found for: %s\n", command); // Debug print
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 13:44:25 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:25:03 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 
 void	execute_command(t_cmd *cmd)
 {
-	printf("Executing command: %s\n", cmd->full_command[0]);
+	// printf("Executing command: %s\n", cmd->full_command[0]);
 	for (int i = 0; cmd->full_command[i] != NULL; i++)
 	{
 		printf("Arg[%d]: %s\n", i, cmd->full_command[i]);

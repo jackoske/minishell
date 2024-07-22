@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 13:41:10 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:40:12 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	go_to_path(int option, t_mini *mini)
 		env_path = get_env_path(mini->envp, "HOME=", 5);
 		if (!env_path)
 		{
-			ft_putendl_fd("minishell: cd: HOME not set", 2);
+			// ft_putendl_fd("minishell: cd: HOME not set", 2);
 			return (1);
 		}
 	}
@@ -89,7 +89,7 @@ static int	go_to_path(int option, t_mini *mini)
 		env_path = get_env_path(mini->envp, "OLDPWD=", 7);
 		if (!env_path)
 		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
+			// ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 			return (1);
 		}
 		if (update_oldpwd(mini) != 0)
@@ -129,7 +129,7 @@ int	mini_cd(char **args, t_mini *mini)
 	}
 	mini->envp = ft_setenv("PWD", newpwd, mini->envp, 1);
 	mini->current_dir = newpwd;
-	printf("Current directory: %s\n", mini->current_dir);
+	// printf("Current directory: %s\n", mini->current_dir);
 	free(newpwd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 15:29:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:38:25 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ int	is_builtin(t_cmd *cmd)
 	const char	*builtins[] = {"echo", "pwd", "cd", "export", "unset", "env",
 			"exit"};
 	size_t		num_builtins;
+	size_t		i;
 
+	i = 0;
 	if (!cmd->full_command[0])
 		return (0);
 	num_builtins = sizeof(builtins) / sizeof(builtins[0]);
-	for (size_t i = 0; i < num_builtins; i++)
+	while (i < num_builtins)
 	{
 		if (ft_strcmp(cmd->full_command[0], builtins[i]) == 0)
 			return (1);
+		i++;
 	}
 	return (0);
 }
