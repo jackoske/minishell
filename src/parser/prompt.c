@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 17:00:55 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 18:58:39 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	handle_command_node(char **input, t_list **commands,
 	}
 	(*cur_command)->content = set_redir((*cur_command)->content, input[*i],
 			input, i);
+	if(*i == -2)
+	{
+		printf("Freeing input in error case.\n");
+		return ;
+	}
 }
 
 t_list	*create_nodes(char **input, t_mini *mini)
@@ -87,8 +92,12 @@ void	handle_input(char *input, t_mini *mini)
 	current = mini->node;
 	if (current)
 		check_to_fork(mini, current, NULL);
+	else
+	{
+		printf("No commands to execute.\n");
+		mini->exit_status = 1;
+	}
 	printf("Freeing tokenized_input in normal case.\n");
-	ft_print_2d_array_fd(tokenized_input, 1);
 	ft_free_2d_array(&tokenized_input); 
 	printf("Freeing input in normal case.\n");
 	free(input);

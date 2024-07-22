@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 16:27:55 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 18:50:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static int	check_access(char *path, int mode)
 
 static int	get_fd(int oldfd, int mode, char *path)
 {
+	int	new_fd;
+
+	new_fd = -1;
 	if (oldfd > 2)
 		close(oldfd);
 	if (!path)
@@ -47,15 +50,18 @@ static int	get_fd(int oldfd, int mode, char *path)
 	if (!check_access(path, mode))
 		return (-1);
 	if (mode == 1)
-		return (open(path, O_RDONLY));
+		new_fd = open(path, O_RDONLY);
 	else if (mode == 2)
-		return (open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666));
+		new_fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	else if (mode == 3)
-		return (open(path, O_WRONLY | O_CREAT | O_APPEND, 0666));
-	return (-1);
+		new_fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0666);
+	if (new_fd == -1)
+		ft_error(7, path); // Generic error for failed file open
+	return (new_fd);
 }
 
-static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i, int mode)
+static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
+		int mode)
 {
 	if (mode == 2 || mode == 3)
 	{
@@ -85,7 +91,8 @@ static t_cmd	*get_redir_heredoc(t_cmd *node, char **full_command, int **i)
 		ft_error(1, NULL);
 		return (node);
 	}
-	node->fd_in = get_here_doc(node->mini, full_command[(*(*i))], "minishell: warning: here-document delimited by end-of-file");
+	node->fd_in = get_here_doc(node->mini, full_command[(*(*i))],
+			"minishell: warning: here-document delimited by end-of-file");
 	if (node->fd_in == -1)
 	{
 		**i = -2;

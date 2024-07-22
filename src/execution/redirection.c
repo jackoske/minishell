@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 16:27:34 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 19:06:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,27 +90,27 @@ t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 	return (mini);
 }
 
-void	execute_command(t_cmd *cmd)
-{
-	// printf("Executing command: %s\n", cmd->full_command[0]);
-	for (int i = 0; cmd->full_command[i] != NULL; i++)
-	{
-		printf("Arg[%d]: %s\n", i, cmd->full_command[i]);
-	}
-	if (cmd->fd_in != -1)
-	{
-		printf("Redirecting input from fd: %d\n", cmd->fd_in);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		close(cmd->fd_in);
-	}
-	if (cmd->fd_out != -1)
-	{
-		printf("Redirecting output to fd: %d\n", cmd->fd_out);
-		dup2(cmd->fd_out, STDOUT_FILENO);
-		close(cmd->fd_out);
-	}
-	execvp(cmd->full_command[0], cmd->full_command);
-	// If execvp fails
-	perror("execvp");
-	exit(EXIT_FAILURE);
-}
+// void	execute_command(t_cmd *cmd)
+// {
+// 	// printf("Executing command: %s\n", cmd->full_command[0]);
+// 	for (int i = 0; cmd->full_command[i] != NULL; i++)
+// 	{
+// 		printf("Arg[%d]: %s\n", i, cmd->full_command[i]);
+// 	}
+// 	if (cmd->fd_in != -1)
+// 	{
+// 		printf("Redirecting input from fd: %d\n", cmd->fd_in);
+// 		dup2(cmd->fd_in, STDIN_FILENO);
+// 		close(cmd->fd_in);
+// 	}
+// 	if (cmd->fd_out != -1)
+// 	{
+// 		printf("Redirecting output to fd: %d\n", cmd->fd_out);
+// 		dup2(cmd->fd_out, STDOUT_FILENO);
+// 		close(cmd->fd_out);
+// 	}
+// 	execvp(cmd->full_command[0], cmd->full_command);
+// 	// If execvp fails
+// 	perror("execvp");
+// 	exit(EXIT_FAILURE);
+// }
