@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 16:16:26 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:20:58 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
+	print_nodes(commands);
 	return (commands);
 }
 
@@ -70,10 +71,11 @@ void	handle_input(char *input, t_mini *mini)
 	t_list	*current;
 
 	tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
-	if (!check_tokenized_input(tokenized_input))
+	if (!tokenized_input || !tokenized_input[0] || !check_tokenized_input(tokenized_input))
 	{
 		free(input);
-		ft_free_2d_array(&tokenized_input);
+		if(tokenized_input)
+			ft_free_2d_array(&tokenized_input);
 		return ;
 	}
 	mini->node = create_nodes(tokenized_input, mini);

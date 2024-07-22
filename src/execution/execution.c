@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 16:01:39 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:25:48 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 	}
 	else
 	{
-		printf("Resolving path for command: %s\n", cmd->full_command[0]);
+		// printf("Resolving path for command: %s\n", cmd->full_command[0]);
 		command_path = resolve_command_path(cmd->full_command[0], &mini);
 		if (command_path)
 		{
-			printf("Executing command at path: %s\n", command_path);
+			// printf("Executing command at path: %s\n", command_path);
 			execve(command_path, cmd->full_command, mini->envp);
 			perror("execve");
 			free(command_path);
