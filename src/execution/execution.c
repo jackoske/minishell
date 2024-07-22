@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:25:48 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:30:51 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,11 @@ void	*check_to_fork(t_mini *mini, t_list *command)
 
 	cmd = (t_cmd *)command->content;
 
-	// Check if the command is a built-in
 	if (is_builtin(cmd))
 	{
 		execute_builtin(mini, cmd);
 		return ("");
 	}
-
-	// Check if the command is a directory
 	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
 	{
 		closedir(dir);
@@ -129,18 +126,11 @@ void	*check_to_fork(t_mini *mini, t_list *command)
 		return ("");
 	}
 
-	// Resolve the command path
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
-
-	// Check if the command can be executed
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
-	{
 		exec_fork(mini, command);
-	}
 	else
-	{
 		mini->exit_status = 127; // Command not found or not executable
-	}
 
 	return ("");
 }
