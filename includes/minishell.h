@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/19 16:14:47 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:33:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char							**expand_vars(char **tokenizedInput,
 char							**ft_remove_quotes(char **tokenizedInput);
 
 /* Command Handling */
-void							*check_to_fork(t_mini *mini, t_list *command);
+void							*check_to_fork(t_mini *mini, t_list *command, int *prev_pipe_fd);
 t_cmd							*set_redir(t_cmd *node, char *input,
 									char **full_command, int *i);
 char							*resolve_command_path(char *command,

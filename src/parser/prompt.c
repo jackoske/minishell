@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:35:14 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:00:55 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,26 @@ void	handle_input(char *input, t_mini *mini)
 	t_list	*current;
 
 	tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
-	if (!tokenized_input || !tokenized_input[0] || !check_tokenized_input(tokenized_input))
+	if (!tokenized_input || !tokenized_input[0]
+		|| !check_tokenized_input(tokenized_input))
 	{
+		printf("Freeing input in error case.\n");
 		free(input);
-		if(tokenized_input)
+		if (tokenized_input)
+		{
+			printf("Freeing tokenized_input in error case.\n");
 			ft_free_2d_array(&tokenized_input);
+		}
 		return ;
 	}
 	mini->node = create_nodes(tokenized_input, mini);
 	current = mini->node;
-	while (current)
-	{
-		check_to_fork(mini, current);
-		current = current->next;
-	}
-	ft_free_2d_array(&tokenized_input);
+	if (current)
+		check_to_fork(mini, current, NULL);
+	printf("Freeing tokenized_input in normal case.\n");
+	ft_print_2d_array_fd(tokenized_input, 1);
+	ft_free_2d_array(&tokenized_input); 
+	printf("Freeing input in normal case.\n");
 	free(input);
 }
 
@@ -99,7 +104,7 @@ void	prompt_loop(t_mini *mini)
 		if (g_sigint_received)
 		{
 			g_sigint_received = 0;
-			continue ; // Ensure readline gets called again
+			continue ;
 		}
 		input = readline(PROMPT);
 		if (input == NULL)

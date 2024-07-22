@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 15:18:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:27:55 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static int	get_fd(int oldfd, int mode, char *path)
 	return (-1);
 }
 
-static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
-		int mode)
+static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i, int mode)
 {
 	if (mode == 2 || mode == 3)
 	{
@@ -77,8 +76,7 @@ static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
 	return (node);
 }
 
-static t_cmd	*get_redir_heredoc(t_cmd *node,
-		char **full_command, int **i)
+static t_cmd	*get_redir_heredoc(t_cmd *node, char **full_command, int **i)
 {
 	if (!full_command[++(**i)])
 	{
@@ -87,8 +85,7 @@ static t_cmd	*get_redir_heredoc(t_cmd *node,
 		ft_error(1, NULL);
 		return (node);
 	}
-	node->fd_in = get_here_doc(node->mini, full_command[(*(*i))],
-			"minishell: warning: here-document delimited by end-of-file");
+	node->fd_in = get_here_doc(node->mini, full_command[(*(*i))], "minishell: warning: here-document delimited by end-of-file");
 	if (node->fd_in == -1)
 	{
 		**i = -2;
@@ -102,11 +99,20 @@ t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 	if (input[0])
 	{
 		if (input[0] == '>' && input[1] == '>')
+		{
+			node->is_append = 1;
 			node = handle_redirection(node, full_command, &i, 3); // Append
+		}
 		else if (input[0] == '>')
+		{
+			node->is_outfile = 1;
 			node = handle_redirection(node, full_command, &i, 2); // Truncate
+		}
 		else if (input[0] == '<' && input[1] == '<')
+		{
+			node->is_heredoc = 1;
 			node = get_redir_heredoc(node, full_command, &i); // Heredoc
+		}
 		else if (input[0] == '<')
 			node = handle_redirection(node, full_command, &i, 1); // Input
 		else if (input[0] != '|')

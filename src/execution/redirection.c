@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:25:03 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:27:34 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 		mini_perror("NDIR", path, 127);
 	else if (!cmd->is_outfile && access(path, R_OK) == -1)
 		mini_perror("NPERM", path, 126);
-	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
-			F_OK) == 0)
+	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path, F_OK) == 0)
 		mini_perror("NPERM", path, 126);
 	if (cmd->is_outfile && cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:19:41 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 14:38:23 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:24:15 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void test_echo(t_mini *mini)
 
     t_list node = {.content = &cmd, .next = NULL};
 
-    check_to_fork(mini, &node);
+    check_to_fork(mini, &node, NULL);
     printf("Exit status for echo: %d\n", mini->exit_status);
 }
 
@@ -47,7 +47,7 @@ void test_pwd(t_mini *mini)
 
     t_list node = {.content = &cmd, .next = NULL};
 
-    check_to_fork(mini, &node);
+    check_to_fork(mini, &node, NULL);
     printf("Exit status for pwd: %d\n", mini->exit_status);
 }
 
@@ -80,7 +80,7 @@ void test_exec()
     // Test the function
     test_echo(&mini);
     test_pwd(&mini);
-    check_to_fork(&mini, &node);
+    check_to_fork(&mini, &node, NULL);
     printf("Exit status: %d\n", mini.exit_status);
 }
 

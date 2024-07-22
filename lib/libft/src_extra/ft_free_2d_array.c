@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:45:32 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:38:22 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:37:42 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ void	ft_free_2d_array(char ***array)
 {
 	int	i;
 
-	if (array == NULL || *array == NULL)
-	{
+	if (!array || !*array)
 		return ;
-	}
 	i = 0;
 	while ((*array)[i])
 	{
 		free((*array)[i]);
+		(*array)[i] = NULL;
 		i++;
 	}
 	free(*array);
