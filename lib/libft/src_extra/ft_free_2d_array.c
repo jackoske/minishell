@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:45:32 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 16:53:16 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:38:22 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Frees a 2D array and sets the pointer to NULL.
  *
  * @param array: A pointer to a 2D array.
- * This function iterates over the first dimension of the array 
+ * This function iterates over the first dimension of the array
 	and frees each sub-array.
  * After all sub-arrays have been freed, it frees the array itself.
  * it sets the pointer to the array to NULL to prevent dangling pointer issues.
@@ -29,15 +29,16 @@ void	ft_free_2d_array(char ***array)
 {
 	int	i;
 
+	if (array == NULL || *array == NULL)
+	{
+		return ;
+	}
 	i = 0;
-	while (array && *array && (*array)[i])
+	while ((*array)[i])
 	{
 		free((*array)[i]);
 		i++;
 	}
-	if (array && (*array))
-	{
-		free(*array);
-		*array = NULL;
-	}
+	free(*array);
+	*array = NULL;
 }
