@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:32:40 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:55:02 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_builtin(t_cmd *cmd)
 	size_t		i;
 
 	i = 0;
-	if (!cmd || !cmd->full_command[0])
+	if (!cmd || !cmd->full_command || !cmd->full_command[0])
 		return (0);
 	num_builtins = sizeof(builtins) / sizeof(builtins[0]);
 	while (i < num_builtins)

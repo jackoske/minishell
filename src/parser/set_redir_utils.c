@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/16 15:18:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/24 13:32:59 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static t_cmd	*get_redir_heredoc(t_cmd *node,
 		**i = -2;
 		node->fd_in = -1;
 	}
+	node->is_heredoc = 1;
 	return (node);
 }
 

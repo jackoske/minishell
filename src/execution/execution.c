@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:30:51 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/24 13:35:17 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,16 @@ void	*check_to_fork(t_mini *mini, t_list *command)
 		mini->exit_status = 126; // Command is a directory
 		return ("");
 	}
+	if (!cmd->full_command && cmd->is_heredoc == 1)
+	{
+		mini->exit_status = 127; // Command not found
+		return ("");
+	}
 
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_fork(mini, command);
 	else
 		mini->exit_status = 127; // Command not found or not executable
-
 	return ("");
 }
