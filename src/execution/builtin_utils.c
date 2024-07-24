@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 15:55:02 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:29:11 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	is_builtin(t_cmd *cmd)
 {
 	const char	*builtins[] = {"echo", "pwd", "cd", "export", "unset", "env",
-			"exit"};
+			"exit", "$?"};
 	size_t		num_builtins;
 	size_t		i;
 
@@ -33,6 +33,12 @@ int	is_builtin(t_cmd *cmd)
 	return (0);
 }
 
+void	show_last_command_status(t_mini *mini)
+{
+	ft_putnbr_fd(mini->exit_status, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
 // Execute built-in commands
 void	execute_builtin(t_mini *mini, t_cmd *cmd)
 {
@@ -44,6 +50,8 @@ void	execute_builtin(t_mini *mini, t_cmd *cmd)
 		mini->exit_status = mini_cd(cmd->full_command, mini);
 	else if (ft_strcmp(cmd->full_command[0], "exit") == 0)
 		mini_exit(cmd->full_command, mini);
+	else if (ft_strcmp(cmd->full_command[0], "$?") == 0)
+		show_last_command_status(mini);
 	// else if (ft_strcmp(cmd->full_command[0], "export") == 0)
 	// 	mini_export(cmd->full_command, mini);
 	// else if (ft_strcmp(cmd->full_command[0], "unset") == 0)

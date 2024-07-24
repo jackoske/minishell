@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/16 15:47:40 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:36:11 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	i = -1;
 	while (tempTokenArray[++i])
 	{
-		if (ft_strchr(tempTokenArray[i], '$') != NULL)
+		if (ft_strchr(tempTokenArray[i], '$') != NULL && \
+			(tempTokenArray[i][1] != '?' && ft_strlen(tempTokenArray[i]) == 2))
 		{
 			char **replaced = find_env_var_and_replace(tempTokenArray[i], mini, tokenizedInput);
 			if (replaced)
