@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/07/25 16:02:24 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/07/25 16:31:19 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,11 +40,11 @@ SRC_BUILTIN = builtin_cd.c builtin_functions.c builtin_utils.c
 SRC_ENV = envp_functions.c path_resolution.c
 SRC_EXEC = execution.c
 SRC_INIT = initilisation.c
-SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c set_redir_utils.c
-SRC_REDIRECT = here_doc.c redirection.c
+SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c
+SRC_REDIRECT = here_doc.c redirection.c set_redir_utils.c
 SRC_SIGNAL = signal.c
 SRC_TESTER = libft_extra_tests.c execution_tests.c node_tester.c
-SRC_UTILS = error.c node_utils.c utils.c
+SRC_UTILS = error.c node_utils.c utils.c prompt.c
 
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:42 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:29:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,3 @@ void	free_mini(t_mini *mini)
 		ft_lstclear(&mini->node, free);
 	free(mini);
 }
-
-	
