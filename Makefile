@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/07/18 18:08:18 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/07/25 16:02:24 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,25 +26,37 @@ OBJ_DIR = ./obj/
 READLINE = -lreadline
 
 SRC_DIR = ./src/main.c
-SRC_TESTER_DIR = ./src/tester/
+SRC_BUILTIN_DIR = ./src/builtin/
+SRC_ENV_DIR = ./src/env/
+SRC_EXEC_DIR = ./src/exec/
+SRC_INIT_DIR = ./src/init/
 SRC_PARS_DIR = ./src/parser/
-SRC_EXEC_DIR = ./src/execution/
-SRC_BUILTINS_DIR = ./src/builtins/
+SRC_REDIRECT_DIR = ./src/redirect/
+SRC_SIGNAL_DIR = ./src/signal/
+SRC_TESTER_DIR = ./src/tester/
+SRC_UTILS_DIR = ./src/utils/
 
-
-SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c \
-	set_redir_utils.c
-SRC_EXEC = execution.c redirection.c here_doc.c error.c signal.c node_utils.c \
-	builtin_cd.c builtin_functions.c builtin_utils.c path_resolution.c envp_functions.c
-
+SRC_BUILTIN = builtin_cd.c builtin_functions.c builtin_utils.c
+SRC_ENV = envp_functions.c path_resolution.c
+SRC_EXEC = execution.c
+SRC_INIT = initilisation.c
+SRC_PARS = parser.c prompt.c parser_utils.c expand_vars.c tokenization.c set_redir_utils.c
+SRC_REDIRECT = here_doc.c redirection.c
+SRC_SIGNAL = signal.c
 SRC_TESTER = libft_extra_tests.c execution_tests.c node_tester.c
-SRC_BUILTINS = # cd.c echo.c env.c exit.c export.c pwd.c unset.c
+SRC_UTILS = error.c node_utils.c utils.c
+
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \
-	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
+	$(addprefix $(SRC_BUILTIN_DIR), $(SRC_BUILTIN)) \
+	$(addprefix $(SRC_ENV_DIR), $(SRC_ENV)) \
 	$(addprefix $(SRC_EXEC_DIR), $(SRC_EXEC)) \
+	$(addprefix $(SRC_INIT_DIR), $(SRC_INIT)) \
+	$(addprefix $(SRC_PARS_DIR), $(SRC_PARS)) \
+	$(addprefix $(SRC_REDIRECT_DIR), $(SRC_REDIRECT)) \
 	$(addprefix $(SRC_TESTER_DIR), $(SRC_TESTER)) \
-	$(addprefix $(SRC_BUILTINS_DIR), $(SRC_BUILTINS))
+	$(addprefix $(SRC_SIGNAL_DIR), $(SRC_SIGNAL)) \
+	$(addprefix $(SRC_UTILS_DIR), $(SRC_UTILS))
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC))
 

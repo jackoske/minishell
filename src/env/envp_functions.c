@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/19 16:40:25 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/25 15:26:40 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,30 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 	free(envp);
 	printf("New environment variable added: %s=%s\n", name, value);
 	return (new_envp_array);
+}
+
+char	**copy_env(char **envp)
+{
+	int		i;
+	char	**new_envp;
+
+	for (i = 0; envp[i]; i++)
+		;
+	new_envp = malloc((i + 1) * sizeof(char *));
+	if (!new_envp)
+		return (NULL);
+	for (i = 0; envp[i]; i++)
+	{
+		new_envp[i] = strdup(envp[i]);
+		if (!new_envp[i])
+		{
+			// Free previously allocated memory in case of failure
+			while (i--)
+				free(new_envp[i]);
+			free(new_envp);
+			return (NULL);
+		}
+	}
+	new_envp[i] = NULL;
+	return (new_envp);
 }

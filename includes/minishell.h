@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/19 16:14:47 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:03:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include "../lib/gnl/get_next_line.h"
 # include "../lib/libft/includes/libft.h"
 # include <dirent.h>
+# include <errno.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <errno.h>
-# include <limits.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -38,7 +38,7 @@
 # define WRITE_END 1
 
 extern volatile sig_atomic_t	g_sigint_received;
-extern volatile sig_atomic_t g_is_executing_command;
+extern volatile sig_atomic_t	g_is_executing_command;
 
 # define MINISHELL_ASCII \
 	"\
@@ -94,6 +94,7 @@ t_cmd							*init_cmd(t_mini *mini);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
+void							initialize_envp(t_mini **mini, char **envp);
 
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
@@ -140,7 +141,7 @@ int								get_here_doc(t_mini *mini, const char *limit,
 void							libft_extra_tester(void);
 void							print_nodes(t_list *node);
 void							test_exec(void);
-void							test_heredoc(void);
+void							test_heredoc(void);	
 void							debug_print_command_parts(t_cmd *cmd);
 void							debug_tokenized_input(char **tokenized_input);
 
@@ -148,4 +149,5 @@ char							*ft_getenv(const char *name, char **envp,
 									int len);
 char							**ft_setenv(const char *name, const char *value,
 									char **envp, int overwrite);
+char							**copy_env(char **envp);
 #endif // MINISHELL_H
