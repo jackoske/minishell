@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:35:14 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:29:21 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
-	print_nodes(commands);
+	// print_nodes(commands);
 	return (commands);
 }
 
