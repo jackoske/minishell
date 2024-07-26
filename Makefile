@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/07/25 16:31:19 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/07/26 17:28:13 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRC_INIT_DIR = ./src/init/
 SRC_PARS_DIR = ./src/parser/
 SRC_REDIRECT_DIR = ./src/redirect/
 SRC_SIGNAL_DIR = ./src/signal/
-SRC_TESTER_DIR = ./src/tester/
+SRC_TESTER_DIR = ./src/tests/
 SRC_UTILS_DIR = ./src/utils/
 
 SRC_BUILTIN = builtin_cd.c builtin_functions.c builtin_utils.c
