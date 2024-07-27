@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 17:54:27 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:17:17 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ void	mini_env(t_mini *mini)
 	i = -1;
 	while (mini->envp[++i])
 	{
-		// printf("test1\n");
 		ft_putstr_fd(mini->envp[i], STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		// printf("test2\n");
 	}
 }
+//checks if there is anything after '='
 int	check_after_equal(char *str)
 {
 	int	i;
@@ -63,7 +62,6 @@ int	check_after_equal(char *str)
 		{
 			if (str[i + 1] == '\0')
 			{
-
 				return (0);
 			}
 		}
@@ -77,26 +75,26 @@ int	is_already_exist(char *key, t_mini *mini)
 	int	i;
 	char	**temp;
 	char	*temp_key;
+	char	*key_to_compare;
 
-	i = 0;
-	// printf("key: %s\n", key);
-	while (mini->envp[i])
+	i = -1;
+	key_to_compare = key;
+	if (ft_strchr(key_to_compare, '='))
+	{
+		temp = ft_split(key_to_compare, '=');
+		key_to_compare = ft_strdup(temp[0]);
+		ft_free_2d_array(&temp);
+	}
+	while (mini->envp[++i])
 	{
 		temp = ft_split(mini->envp[i], '=');
-		// printf("is already temp[0]: %s\n", temp[0]);
 		if (!temp[0])
 			return (1);
-		// printf("after check temp[0]: %s\n\n" , temp[0]);
 		temp_key = ft_strdup(temp[0]);
-		if (ft_strcmp(temp_key, key) == 0)
-		{
-			free(temp_key);
-			ft_free_2d_array(&temp);
-			return (1);
-		}
+		if (ft_strcmp(temp_key, key_to_compare) == 0)
+			return (free(temp_key), ft_free_2d_array(&temp), 1);
 		free(temp_key);
 		ft_free_2d_array(&temp);
-		i++;
 	}
 	return (0);
 }
@@ -119,7 +117,7 @@ void	replace_value(char *key, char *value, t_mini *mini)
 		{
 			new_env = ft_strjoin(key, ft_strjoin("=", value));
 			free(mini->envp[i]);
-			mini->envp[i] = new_env;
+			mini->envp[i] = ft_strdup(new_env);
 			free(temp_key);
 			ft_free_2d_array(&temp);
 			return ;
@@ -129,6 +127,45 @@ void	replace_value(char *key, char *value, t_mini *mini)
 		i++;
 	}
 }
+
+int	is_special_char_in_env(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i])) || str[i] == '_' || str[i] == '=')
+			i++;
+		else if (str[i] == '=')
+			return (0);
+		else
+		{
+			ft_putstr_fd("minishell> export: `", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+
+	}
+	return (0);
+}
+//does actions if there is only key, without any value
+int	add_env_if_only_key(char *str, t_mini *mini, int len)
+{
+	char	*value;
+	if (is_already_exist(str, mini))
+		return (1);
+	if (is_special_char_in_env(str))
+		return (1);
+	value =	ft_strdup(str);
+	value[ft_strlen(str)] = '=';
+	value[ft_strlen(str) + 1] = '\0';
+	mini->envp[len] = ft_strdup(value);
+	mini->envp[len + 1] = NULL;
+	return (1);
+}
+
 
 void	mini_export(char **args, t_mini *mini)
 {
@@ -143,38 +180,25 @@ void	mini_export(char **args, t_mini *mini)
 		return ;
 	if ((ft_strchr(*(args + 1), '=') == NULL) || (!check_after_equal(*(args + 1))))
 	{
-		if (is_already_exist(*(args + 1), mini))
-		{
-			printf("int is exist: %d\n", is_already_exist(*(args + 1), mini));
+		if (add_env_if_only_key(*(args + 1), mini, len))
 			return ;
-		}
-		mini->envp[len] = *(args+1);
-		mini->envp[len + 1] = NULL;
-		// printf("if no '=' or nothing after '='\n");
-		return ;
 	}
+	value = NULL;
 	temp = ft_split(*(args + 1), '=');
 	key = ft_strdup(temp[0]);
 	value = ft_strdup(temp[1]);
 	if (is_already_exist(key, mini))
-	{
-		// printf("key already exist\n");
-		replace_value(key, value, mini);
-		return ;
-	}
+		return (replace_value(key, value, mini));
 	ft_free_2d_array(&temp);
 	new_env = ft_strjoin(key, ft_strjoin("=", value));
-	mini->envp[len] = new_env;
+	mini->envp = ft_realloc_2d_array(mini->envp, len + 1);
+	mini->envp[len] = ft_strdup(new_env);
 	mini->envp[len + 1] = NULL;
 }
 
 // Execute built-in commands
 void	execute_builtin(t_mini *mini, t_cmd *cmd)
 {
-	// printf("cmd->full_command[0]: %s\n", cmd->full_command[0]);
-
-	// ft_print_2d_array_fd(cmd->full_command, STDOUT_FILENO);
-
 	if (ft_strcmp(cmd->full_command[0], "echo") == 0)
 		mini_echo(cmd);
 	else if (ft_strcmp(cmd->full_command[0], "pwd") == 0)
@@ -187,8 +211,6 @@ void	execute_builtin(t_mini *mini, t_cmd *cmd)
 		show_last_command_status(mini);
 	else if (ft_strcmp(cmd->full_command[0], "export") == 0)
 		mini_export(cmd->full_command, mini);
-	// else if (ft_strcmp(cmd->full_command[0], "unset") == 0)
-	// 	mini_unset(cmd->full_command, mini);
 	else if (ft_strcmp(cmd->full_command[0], "env") == 0)
 		mini_env(mini);
 	mini->exit_status = 0;
