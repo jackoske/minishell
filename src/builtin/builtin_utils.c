@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 15:07:38 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:19:11 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	execute_builtin(t_mini *mini, t_cmd *cmd)
 		mini_exit(cmd->full_command, mini);
 	else if (ft_strcmp(cmd->full_command[0], "$?") == 0)
 		show_last_command_status(mini);
-	// else if (ft_strcmp(cmd->full_command[0], "export") == 0)
-	// 	mini_export(cmd->full_command, mini);
+	else if (ft_strcmp(cmd->full_command[0], "export") == 0)
+		mini_export(cmd->full_command, mini);
 	// else if (ft_strcmp(cmd->full_command[0], "unset") == 0)
 	// 	mini_unset(cmd->full_command, mini);
-	// else if (ft_strcmp(cmd->full_command[0], "env") == 0)
-	// 	mini_env(mini);
+	else if (ft_strcmp(cmd->full_command[0], "env") == 0)
+		mini_env(mini);
 	mini->exit_status = 0;
 }

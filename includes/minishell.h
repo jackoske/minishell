@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:16:24 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int								mini_cd(char **args, t_mini *mini);
 void							mini_echo(t_cmd *cmd);
 void							mini_pwd(void);
 void							mini_exit(char **args, t_mini *mini);
+void							mini_export(char **args, t_mini *mini);
+void							mini_env(t_mini *mini);
+
 
 /* Execution and Testing */
 void							prompt_loop(t_mini *mini);
@@ -141,7 +144,7 @@ int								get_here_doc(t_mini *mini, const char *limit,
 void							libft_extra_tester(void);
 void							print_nodes(t_list *node);
 void							test_exec(void);
-void							test_heredoc(void);	
+void							test_heredoc(void);
 void							debug_print_command_parts(t_cmd *cmd);
 void							debug_tokenized_input(char **tokenized_input);
 
