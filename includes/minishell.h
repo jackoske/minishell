@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/27 17:16:24 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/07/28 16:25:18 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,11 @@ char							*resolve_command_path(char *command,
 									t_mini **mini);
 int								is_builtin(t_cmd *cmd);
 void							execute_builtin(t_mini *mini, t_cmd *cmd);
+int								check_after_equal(char *str);
+int								add_env_key(char *str, t_mini *mini, int len);
+int								is_special_char_in_env(char *str);
+void							replace_value(char *key, char *value, t_mini *mini);
+int								is_already_exist(char *key, t_mini *mini);
 
 /* Built-in Commands */
 int								mini_cd(char **args, t_mini *mini);
@@ -135,7 +140,7 @@ void							mini_pwd(void);
 void							mini_exit(char **args, t_mini *mini);
 void							mini_export(char **args, t_mini *mini);
 void							mini_env(t_mini *mini);
-
+void							mini_unset(char **args, t_mini *mini);
 
 /* Execution and Testing */
 void							prompt_loop(t_mini *mini);
