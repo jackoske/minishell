@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 12:46:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 14:44:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,14 @@ static void	close_pipes_in_parent(int num_cmds, int pipes[][2])
 	}
 }
 
-static void	close_pipes_in_child(int num_cmds, int pipes[][2])
+static void	close_pipes_in_child(int num_cmds, int pipes[][2], int i)
 {
-	for (int i = 0; i < num_cmds - 1; i++)
+	for (int j = 0; j < num_cmds - 1; j++)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
+		if (j != i - 1)
+			close(pipes[j][0]);
+		if (j != i)
+			close(pipes[j][1]);
 	}
 }
 
@@ -134,43 +136,34 @@ void	exec_pipes(t_mini *mini, t_list *commands)
 {
 	int		num_cmds;
 	int		pipes[128][2]; // Define a maximum number of pipes
-	t_list	*cmd_node;
 	pid_t	pid;
-	int		i;
+	int		i;					
 	t_cmd	*cmd;
 
 	num_cmds = ft_lstsize(commands);
-	cmd_node = commands;
 	i = 0;
 	create_pipes(num_cmds, pipes);
-	while (cmd_node)
+	while (i < num_cmds)
 	{
-		cmd = (t_cmd *)cmd_node->content;
-		printf("Executing command: %s\n", cmd->full_command[0]); // Debug print
+		cmd = (t_cmd *)commands->content;
 		if ((pid = fork()) == 0)
 		{
 			setup_pipe_redirection(i, num_cmds, pipes);
-			close_pipes_in_child(num_cmds, pipes);
+			close_pipes_in_child(num_cmds, pipes, i);
 			child_process(mini, cmd);
-			exit(0); // Ensure child process exits after executing the command
 		}
 		else if (pid < 0)
 		{
 			perror("fork");
 			exit(EXIT_FAILURE);
 		}
-		// Close the write end of the previous pipe in the parent
-		if (i > 0)
-		{
-			close(pipes[i - 1][0]);
-			close(pipes[i - 1][1]);
-		}
-		cmd_node = cmd_node->next;
+		commands = commands->next;
 		i++;
 	}
 	close_pipes_in_parent(num_cmds, pipes);
 	wait_for_children(num_cmds, mini);
 }
+
 
 void	*check_to_fork(t_mini *mini, t_list *commands)
 {
