@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/28 12:11:29 by iverniho         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+	/* ************************************************************************** */
+	/*                                                                            */
+	/*                                                        :::      ::::::::   */
+	/*   prompt.c                                           :+:      :+:    :+:   */
+	/*                                                    +:+ +:+         +:+     */
+	/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+	/*                                                +#+#+#+#+#+   +#+           */
+	/*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
+	/*   Updated: 2024/07/28 12:11:29 by iverniho         ###   ########.fr       */
+	/*                                                                            */
+	/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -31,10 +31,10 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	t_list	*cur_command;
 	int		i;
 
+	
 	commands = NULL;
 	cur_command = NULL;
 	i = -1;
-	(void)mini;
 	while (input && input[++i])
 	{
 		handle_command_node(input, &commands, &cur_command, &i, mini);
@@ -45,7 +45,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
-	// print_nodes(commands);
+	print_nodes(commands);
 	return (commands);
 }
 

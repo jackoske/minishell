@@ -6,30 +6,26 @@
 /*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 15:08:07 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 12:46:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	*child_redir(t_list *command)
+static void	child_redir(t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)command->content;
 	if (cmd->fd_in != STDIN_FILENO)
 	{
 		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
-			return (mini_perror("DUPERR", NULL, 1));
+			perror("dup2");
 		close(cmd->fd_in);
 	}
 	if (cmd->fd_out != STDOUT_FILENO)
 	{
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
-			return (mini_perror("DUPERR", NULL, 1));
+			perror("dup2");
 		close(cmd->fd_out);
 	}
-	return ("");
 }
 
 static void	execute_command(t_mini *mini, t_cmd *cmd)
@@ -43,11 +39,9 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 	}
 	else
 	{
-		// printf("Resolving path for command: %s\n", cmd->full_command[0]);
 		command_path = resolve_command_path(cmd->full_command[0], &mini);
 		if (command_path)
 		{
-			// printf("Executing command at path: %s\n", command_path);
 			execve(command_path, cmd->full_command, mini->envp);
 			perror("execve");
 			free(command_path);
@@ -61,41 +55,70 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 	}
 }
 
-void	child_process(t_mini *mini, t_list *command)
+static void	child_process(t_mini *mini, t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)command->content;
 	setup_child_signals();
-	child_redir(command);
+	child_redir(cmd);
 	execute_command(mini, cmd);
-	// This line is unreachable, consider removing it
-	// return (NULL);
 }
 
-void	exec_fork(t_mini *mini, t_list *command)
+static void	create_pipes(int num_cmds, int pipes[][2])
 {
-	pid_t	pid;
-	int		status;
-	t_cmd	*cmd;
+	for (int i = 0; i < num_cmds - 1; i++)
+	{
+		if (pipe(pipes[i]) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
 
-	pid = fork();
-	if (pid < 0)
+static void	close_pipes_in_parent(int num_cmds, int pipes[][2])
+{
+	for (int i = 0; i < num_cmds - 1; i++)
 	{
-		mini_perror("FORKERR", NULL, 1);
+		close(pipes[i][0]);
+		close(pipes[i][1]);
 	}
-	else if (pid == 0)
+}
+
+static void	close_pipes_in_child(int num_cmds, int pipes[][2])
+{
+	for (int i = 0; i < num_cmds - 1; i++)
 	{
-		child_process(mini, command);
+		close(pipes[i][0]);
+		close(pipes[i][1]);
 	}
-	else
+}
+
+static void	setup_pipe_redirection(int i, int num_cmds, int pipes[][2])
+{
+	if (i > 0)
 	{
-		waitpid(pid, &status, 0);
-		cmd = (t_cmd *)command->content;
-		if (cmd->fd_in > 2)
-			close(cmd->fd_in);
-		if (cmd->fd_out > 2)
-			close(cmd->fd_out);
+		if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (i < num_cmds - 1)
+	{
+		if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+static void	wait_for_children(int num_cmds, t_mini *mini)
+{
+	int	status;
+
+	for (int k = 0; k < num_cmds; k++)
+	{
+		wait(&status);
 		if (WIFEXITED(status))
 		{
 			mini->exit_status = WEXITSTATUS(status);
@@ -107,34 +130,75 @@ void	exec_fork(t_mini *mini, t_list *command)
 	}
 }
 
-void	*check_to_fork(t_mini *mini, t_list *command)
+void	exec_pipes(t_mini *mini, t_list *commands)
+{
+	int		num_cmds;
+	int		pipes[128][2]; // Define a maximum number of pipes
+	t_list	*cmd_node;
+	pid_t	pid;
+	int		i;
+	t_cmd	*cmd;
+
+	num_cmds = ft_lstsize(commands);
+	cmd_node = commands;
+	i = 0;
+	create_pipes(num_cmds, pipes);
+	while (cmd_node)
+	{
+		cmd = (t_cmd *)cmd_node->content;
+		printf("Executing command: %s\n", cmd->full_command[0]); // Debug print
+		if ((pid = fork()) == 0)
+		{
+			setup_pipe_redirection(i, num_cmds, pipes);
+			close_pipes_in_child(num_cmds, pipes);
+			child_process(mini, cmd);
+			exit(0); // Ensure child process exits after executing the command
+		}
+		else if (pid < 0)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		// Close the write end of the previous pipe in the parent
+		if (i > 0)
+		{
+			close(pipes[i - 1][0]);
+			close(pipes[i - 1][1]);
+		}
+		cmd_node = cmd_node->next;
+		i++;
+	}
+	close_pipes_in_parent(num_cmds, pipes);
+	wait_for_children(num_cmds, mini);
+}
+
+void	*check_to_fork(t_mini *mini, t_list *commands)
 {
 	t_cmd	*cmd;
-	DIR		*dir = NULL;
+	DIR		*dir;
 
-	cmd = (t_cmd *)command->content;
-
+	dir = NULL;
+	cmd = (t_cmd *)commands->content;
 	if (is_builtin(cmd))
 	{
 		execute_builtin(mini, cmd);
-		return ("");
+		return (NULL);
 	}
 	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
 	{
 		closedir(dir);
 		mini->exit_status = 126; // Command is a directory
-		return ("");
+		return (NULL);
 	}
 	if (!cmd->full_command && cmd->is_heredoc == 1)
 	{
 		mini->exit_status = 127; // Command not found
-		return ("");
+		return (NULL);
 	}
-
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
-		exec_fork(mini, command);
+		exec_pipes(mini, commands);
 	else
 		mini->exit_status = 127; // Command not found or not executable
-	return ("");
+	return (NULL);
 }
