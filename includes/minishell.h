@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 15:58:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@
 # define READ_END 0
 # define WRITE_END 1
 
-extern volatile sig_atomic_t	g_sigint_received;
-extern volatile sig_atomic_t	g_is_executing_command;
-
 # define MINISHELL_ASCII \
 	"\
  ______   ____  ____   ____   ___  __ __    ___  _      _\n\
@@ -63,25 +60,34 @@ extern volatile sig_atomic_t	g_is_executing_command;
 /*                                                                            */
 /* ************************************************************************** */
 
+typedef struct s_signals
+{
+	volatile sig_atomic_t	sigint_received;
+	volatile sig_atomic_t	is_executing_command;
+}							t_signals;
+
 typedef struct s_mini
 {
-	char						**envp;
-	t_list						*node;
-	char						*current_dir;
-	int							exit_status;
-}								t_mini;
+	char					**envp;
+	t_list					*node;
+	char					*current_dir;
+	int						exit_status;
+	t_signals				signals;
+}							t_mini;
+
+extern t_mini				*g_mini;
 
 typedef struct s_cmd
 {
-	char						**full_command;
-	char						*command_path;
-	int							fd_in;
-	int							fd_out;
-	int							is_heredoc;
-	int							is_append;
-	int							is_outfile;
-	t_mini						*mini;
-}								t_cmd;
+	char					**full_command;
+	char					*command_path;
+	int						fd_in;
+	int						fd_out;
+	int						is_heredoc;
+	int						is_append;
+	int						is_outfile;
+	t_mini					*mini;
+}							t_cmd;
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -90,64 +96,63 @@ typedef struct s_cmd
 /* ************************************************************************** */
 
 /* Initialization and Setup */
-t_cmd							*init_cmd(t_mini *mini);
-void							setup_signal_handlers(void);
-void							setup_child_signals(void);
-void							handle_sigint(int sig);
-void							initialize_envp(t_mini **mini, char **envp);
+t_cmd						*init_cmd(t_mini *mini);
+void						init_mini(t_mini *mini);
+void						setup_signal_handlers(void);
+void						setup_child_signals(void);
+void						handle_sigint(int sig);
+void						initialize_envp(t_mini **mini, char **envp);
+void						free_mini(t_mini *mini);
 
 /* Error Handling */
-void							*mini_perror(char *str, char *str2, int fd);
-void							ft_error(int error, char *arg);
+void						*mini_perror(char *str, char *str2, int fd);
+void						ft_error(int error, char *arg);
 
 /* Input Handling and Parsing */
-char							**tokenize_input(char *input, t_mini **mini);
-char							**tokenize_special_symbols(const char *str,
-									int i, int token_count);
-char							**split_by_spaces(char *input, int w_count);
-char							**populateTokenArray(char **tokenizedInput,
-									char *input);
-int								ft_word_count_quotes(char *input);
-int								quotes_closed(char *line);
-int								ft_alloc_len(char const *s1);
+char						**tokenize_input(char *input, t_mini **mini);
+char						**tokenize_special_symbols(const char *str, int i,
+								int token_count);
+char						**split_by_spaces(char *input, int w_count);
+char						**populateTokenArray(char **tokenizedInput,
+								char *input);
+int							ft_word_count_quotes(char *input);
+int							quotes_closed(char *line);
+int							ft_alloc_len(char const *s1);
 
 /* Variable Expansion and Environment Handling */
-char							*find_var(char *var, t_mini **mini);
-char							**find_env_var_and_replace(char *var,
-									t_mini **mini, char **tokenizedInput);
-char							**expand_vars(char **tokenizedInput,
-									t_mini **mini);
-char							**ft_remove_quotes(char **tokenizedInput);
+char						*find_var(char *var, t_mini **mini);
+char						**find_env_var_and_replace(char *var, t_mini **mini,
+								char **tokenizedInput);
+char						**expand_vars(char **tokenizedInput, t_mini **mini);
+char						**ft_remove_quotes(char **tokenizedInput);
 
 /* Command Handling */
-void							*check_to_fork(t_mini *mini, t_list *command);
-t_cmd							*set_redir(t_cmd *node, char *input,
-									char **full_command, int *i);
-char							*resolve_command_path(char *command,
-									t_mini **mini);
-int								is_builtin(t_cmd *cmd);
-void							execute_builtin(t_mini *mini, t_cmd *cmd);
+void						*check_to_fork(t_mini *mini, t_list *command);
+t_cmd						*set_redir(t_cmd *node, char *input,
+								char **full_command, int *i);
+char						*resolve_command_path(char *command, t_mini **mini);
+int							is_builtin(t_cmd *cmd);
+void						execute_builtin(t_mini *mini, t_cmd *cmd);
 
 /* Built-in Commands */
-int								mini_cd(char **args, t_mini *mini);
-void							mini_echo(t_cmd *cmd);
-void							mini_pwd(void);
-void							mini_exit(char **args, t_mini *mini);
+int							mini_cd(char **args, t_mini *mini);
+void						mini_echo(t_cmd *cmd);
+void						mini_pwd(void);
+void						mini_exit(char **args, t_mini *mini);
 
 /* Execution and Testing */
-void							prompt_loop(t_mini *mini);
-int								get_here_doc(t_mini *mini, const char *limit,
-									const char *warn);
-void							libft_extra_tester(void);
-void							print_nodes(t_list *node);
-void							test_exec(void);
-void							test_heredoc(void);	
-void							debug_print_command_parts(t_cmd *cmd);
-void							debug_tokenized_input(char **tokenized_input);
+void						prompt_loop(t_mini *mini);
+int							get_here_doc(t_mini *mini, const char *limit,
+								const char *warn);
+void						libft_extra_tester(void);
+void						print_nodes(t_list *node);
+void						test_exec(void);
+void						test_heredoc(void);
+void						debug_print_command_parts(t_cmd *cmd);
+void						debug_tokenized_input(char **tokenized_input);
 
-char							*ft_getenv(const char *name, char **envp,
-									int len);
-char							**ft_setenv(const char *name, const char *value,
-									char **envp, int overwrite);
-char							**copy_env(char **envp);
+char						*ft_getenv(const char *name, char **envp, int len);
+char						**ft_setenv(const char *name, const char *value,
+								char **envp, int overwrite);
+char						**copy_env(char **envp);
 #endif // MINISHELL_H

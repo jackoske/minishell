@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:35:14 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 15:48:16 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	commands = NULL;
 	cur_command = NULL;
 	i = -1;
-	(void)mini;
 	while (input && input[++i])
 	{
 		handle_command_node(input, &commands, &cur_command, &i, mini);
@@ -96,9 +95,9 @@ void	prompt_loop(t_mini *mini)
 	setup_signal_handlers();
 	while (1)
 	{
-		if (g_sigint_received)
+		if (mini->signals.sigint_received)
 		{
-			g_sigint_received = 0;
+			mini->signals.sigint_received = 0;
 			continue ; // Ensure readline gets called again
 		}
 		input = readline(PROMPT);
@@ -114,8 +113,8 @@ void	prompt_loop(t_mini *mini)
 			free(input);
 			continue ;
 		}
-		g_is_executing_command = 1;
+		mini->signals.is_executing_command = 1;
 		handle_input(input, mini);
-		g_is_executing_command = 0;
+		mini->signals.is_executing_command = 0;
 	}
 }
