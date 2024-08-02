@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 16:18:20 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:16:17 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,20 @@ extern volatile sig_atomic_t	g_is_executing_command;
 
 typedef struct s_signals
 {
-	volatile sig_atomic_t	sigint_received;
-	volatile sig_atomic_t	is_executing_command;
-}							t_signals;
+	volatile sig_atomic_t		sigint_received;
+	volatile sig_atomic_t		is_executing_command;
+}								t_signals;
 
 typedef struct s_mini
 {
-	char					**envp;
-	t_list					*node;
-	char					*current_dir;
-	int						exit_status;
-	t_signals				signals;
-}							t_mini;
+	char						**envp;
+	t_list						*node;
+	char						*current_dir;
+	int							exit_status;
+	t_signals					signals;
+}								t_mini;
 
-extern t_mini				*g_mini;
+extern t_mini					*g_mini;
 
 typedef struct s_cmd
 {
@@ -102,6 +102,7 @@ typedef struct s_cmd
 t_cmd							*init_cmd(t_mini *mini);
 void							init_mini(t_mini *mini);
 void							free_mini(t_mini *mini);
+void							free_cmd(void *cmd_ptr);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
@@ -141,7 +142,8 @@ void							execute_builtin(t_mini *mini, t_cmd *cmd);
 int								check_after_equal(char *str);
 int								add_env_key(char *str, t_mini *mini, int len);
 int								is_special_char_in_env(char *str);
-void							replace_value(char *key, char *value, t_mini *mini);
+void							replace_value(char *key, char *value,
+									t_mini *mini);
 int								is_already_exist(char *key, t_mini *mini);
 
 /* Built-in Commands */
