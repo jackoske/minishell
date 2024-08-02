@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:23 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:17:12 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_mini	*g_mini = NULL;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -19,6 +21,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	initialize_envp(&mini, envp);
+	init_mini(mini);
+	g_mini = mini;
 	setup_signal_handlers();
 	//--------------TESTING----------------
 	// test_exec();

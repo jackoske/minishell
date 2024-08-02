@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initilisation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:18:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:26 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:17:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,12 @@ t_cmd	*init_cmd(t_mini *mini)
 	node->is_append = 0;
 	node->mini = mini;
 	return (node);
+}
+void	init_mini(t_mini *mini)
+{
+	mini->node = NULL;
+	mini->current_dir = NULL;
+	mini->exit_status = 0;
+	mini->signals.sigint_received = 0;
+	mini->signals.is_executing_command = 0;
 }

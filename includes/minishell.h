@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/28 16:25:18 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:18:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,22 @@ extern volatile sig_atomic_t	g_is_executing_command;
 /*                                                                            */
 /* ************************************************************************** */
 
+typedef struct s_signals
+{
+	volatile sig_atomic_t	sigint_received;
+	volatile sig_atomic_t	is_executing_command;
+}							t_signals;
+
 typedef struct s_mini
 {
-	char						**envp;
-	t_list						*node;
-	char						*current_dir;
-	int							exit_status;
-}								t_mini;
+	char					**envp;
+	t_list					*node;
+	char					*current_dir;
+	int						exit_status;
+	t_signals				signals;
+}							t_mini;
+
+extern t_mini				*g_mini;
 
 typedef struct s_cmd
 {
@@ -91,6 +100,8 @@ typedef struct s_cmd
 
 /* Initialization and Setup */
 t_cmd							*init_cmd(t_mini *mini);
+void							init_mini(t_mini *mini);
+void							free_mini(t_mini *mini);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
