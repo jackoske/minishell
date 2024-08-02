@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/25 15:17:20 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:56:38 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ Error handling for file access:
 - '>' : permission denied (W_OK == -1)
 - '>>': permission denied (W_OK == -1)
 */
-
 static int	check_access(char *path, int mode)
 {
 	if (mode == 1) // Read mode
 	{
 		if (access(path, F_OK) == -1)
-			return (ft_error(3, NULL), 0);
+			return (ft_error1(3, NULL, 127, NULL), 0);
 		else if (access(path, R_OK) == -1)
 			return (ft_error(5, NULL), 0);
 		return (1);

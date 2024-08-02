@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 18:07:01 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:33:05 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,18 @@ void	mini_echo(t_cmd *cmd)
 	}
 	while (cmd->full_command[i])
 	{
-		ft_putstr_fd(cmd->full_command[i], 1);
-		if (cmd->full_command[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
+		if (ft_strcmp(cmd->full_command[i], "$?") == 0)
+		{
+			show_last_command_status(cmd->mini, cmd->full_command);
+			return ;
+		}
+		else
+		{
+			ft_putstr_fd(cmd->full_command[i], 1);
+			if (cmd->full_command[i + 1])
+				ft_putstr_fd(" ", 1);
+			i++;
+		}
 	}
 	if (newline)
 		ft_putstr_fd("\n", 1);

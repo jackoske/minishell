@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 17:16:17 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:52 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define NEWLINE_ERR "minishell> syntax error near unexpected token `newline'"
 # define SYNTAX_ERR "minishell> syntax error near unexpected token "
 # define NO_FILE_ERR "minishell> No such file or directory: "
-# define CMD_NOT_FOUND "minishell> command not found: "
+# define CMD_NOT_FOUND ": command not found"
 # define PERM_ERR "minishell> permission denied: "
 
 # define READ_END 0
@@ -65,20 +65,20 @@ extern volatile sig_atomic_t	g_is_executing_command;
 
 typedef struct s_signals
 {
-	volatile sig_atomic_t		sigint_received;
-	volatile sig_atomic_t		is_executing_command;
-}								t_signals;
+	volatile sig_atomic_t	sigint_received;
+	volatile sig_atomic_t	is_executing_command;
+}							t_signals;
 
 typedef struct s_mini
 {
-	char						**envp;
-	t_list						*node;
-	char						*current_dir;
-	int							exit_status;
-	t_signals					signals;
-}								t_mini;
+	char					**envp;
+	t_list					*node;
+	char					*current_dir;
+	int						exit_status;
+	t_signals				signals;
+}							t_mini;
 
-extern t_mini					*g_mini;
+extern t_mini				*g_mini;
 
 typedef struct s_cmd
 {
@@ -102,7 +102,6 @@ typedef struct s_cmd
 t_cmd							*init_cmd(t_mini *mini);
 void							init_mini(t_mini *mini);
 void							free_mini(t_mini *mini);
-void							free_cmd(void *cmd_ptr);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
@@ -142,9 +141,10 @@ void							execute_builtin(t_mini *mini, t_cmd *cmd);
 int								check_after_equal(char *str);
 int								add_env_key(char *str, t_mini *mini, int len);
 int								is_special_char_in_env(char *str);
-void							replace_value(char *key, char *value,
-									t_mini *mini);
+void							replace_value(char *key, char *value, t_mini *mini);
 int								is_already_exist(char *key, t_mini *mini);
+void							show_last_command_status(t_mini *mini, char **str);
+
 
 /* Built-in Commands */
 int								mini_cd(char **args, t_mini *mini);
@@ -171,4 +171,8 @@ char							*ft_getenv(const char *name, char **envp,
 char							**ft_setenv(const char *name, const char *value,
 									char **envp, int overwrite);
 char							**copy_env(char **envp);
+
+///temporary
+void	ft_error1(int error, char *arg, int exit_code, char *message);
+
 #endif // MINISHELL_H
