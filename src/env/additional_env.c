@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:12:47 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/28 16:18:10 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:37:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ void	copy_envp(t_mini *mini, char ***new_envp_array, char *new_env)
 	mini->envp = *new_envp_array;
 }
 
+void	export_with_no_args(t_mini *mini)
+{
+	int	i;
+
+	i = -1;
+	while (mini->envp[++i])
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(mini->envp[i], STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
+}
+
 void	mini_export(char **args, t_mini *mini)
 {
 	char	*key;
@@ -75,7 +88,7 @@ void	mini_export(char **args, t_mini *mini)
 	char	**new_envp_array;
 
 	if (ft_2d_array_len(args) < 2)
-		return ;
+		return (export_with_no_args(mini));
 	if ((!ft_strchr(*(args + 1), '=')) || (!check_after_equal(*(args + 1))))
 		if (add_env_key(*(args + 1), mini, ft_2d_array_len(mini->envp) + 1))
 			return ;
