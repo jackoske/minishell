@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 17:55:32 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:53:15 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,4 +170,16 @@ void	ft_error1(int error, char *arg, int exit_code, char *message)
 		ft_putendl_fd(PERM_ERR, 2);
 	else if (error == 6)
 		ft_putendl_fd(ft_strjoin(SYNTAX_ERR, add_quotes(arg)), 2);
+	else if (error == 7)
+	{
+		ft_putstr_fd("minishell> exit: ", STDERR_FILENO);
+		ft_putendl_fd(NUM_REQ, 2);
+		g_mini->exit_status = exit_code;
+	}
+	else if (error == 8)
+	{
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putendl_fd(message, 2);
+		g_mini->exit_status = exit_code;
+	}
 }

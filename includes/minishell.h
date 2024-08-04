@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:52 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:40:31 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define NO_FILE_ERR "minishell> No such file or directory: "
 # define CMD_NOT_FOUND ": command not found"
 # define PERM_ERR "minishell> permission denied: "
+# define NUM_REQ "numeric argument required"
 
 # define READ_END 0
 # define WRITE_END 1
@@ -144,6 +145,8 @@ int								is_special_char_in_env(char *str);
 void							replace_value(char *key, char *value, t_mini *mini);
 int								is_already_exist(char *key, t_mini *mini);
 void							show_last_command_status(t_mini *mini, char **str);
+int								is_special_char_export(char c);
+int								is_all_num(char *str);
 
 
 /* Built-in Commands */

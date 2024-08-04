@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 17:57:27 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:29:27 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ int	is_builtin(t_cmd *cmd)
 
 void	show_last_command_status(t_mini *mini, char **str)
 {
-
+	(void)mini;
 	if (ft_2d_array_len(str) == 1)
 	{
-		ft_putstr_fd(ft_itoa(mini->exit_status), STDERR_FILENO);
-		ft_putstr_fd(":  command not found\n", STDERR_FILENO);
+		ft_putstr_fd(ft_itoa(g_mini->exit_status), STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		return ;
 	}
-	ft_putnbr_fd(mini->exit_status, STDOUT_FILENO);
+	ft_putnbr_fd(g_mini->exit_status, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	g_mini->exit_status = 127;
 }
 
 // Execute built-in commands
@@ -61,10 +60,10 @@ void	execute_builtin(t_mini *mini, t_cmd *cmd)
 	else if (ft_strcmp(cmd->full_command[0], "$?") == 0)
 		show_last_command_status(mini, cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "export") == 0)
-		mini_export(cmd->full_command, mini);
+		return (mini_export(cmd->full_command, mini));
 	else if (ft_strcmp(cmd->full_command[0], "unset") == 0)
 		mini_unset(cmd->full_command, mini);
 	else if (ft_strcmp(cmd->full_command[0], "env") == 0)
 		mini_env(mini);
-	mini->exit_status = 0;
+	g_mini->exit_status = 0;
 }

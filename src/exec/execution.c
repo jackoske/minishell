@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 17:55:02 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:49:59 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 		command_path = resolve_command_path(cmd->full_command[0], &mini);
 		if (command_path)
 		{
-			printf("command_path: %s\n", command_path);
 			execve(command_path, cmd->full_command, mini->envp);
 			perror("execve");
 			free(command_path);
