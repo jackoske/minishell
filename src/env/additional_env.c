@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:12:47 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 15:37:51 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:00:26 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ void	mini_export(char **args, t_mini *mini)
 
 	if (ft_2d_array_len(args) < 2)
 		return (export_with_no_args(mini));
+	if (is_special_char_in_env(*(args + 1)))
+	{
+		g_mini->exit_status = 1;
+		return ;
+	}
+	if (ft_strlen(args[1]) == 1 && args[1][0] == '=')
+		return (ft_error1(9, args[1], 1, NOT_VALID_ID));
 	if ((!ft_strchr(*(args + 1), '=')) || (!check_after_equal(*(args + 1))))
 		if (add_env_key(*(args + 1), mini, ft_2d_array_len(mini->envp) + 1))
 			return ;

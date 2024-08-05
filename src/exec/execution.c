@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 14:44:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 11:49:49 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	exec_pipes(t_mini *mini, t_list *commands)
 	int		num_cmds;
 	int		pipes[128][2]; // Define a maximum number of pipes
 	pid_t	pid;
-	int		i;					
+	int		i;
 	t_cmd	*cmd;
 
 	num_cmds = ft_lstsize(commands);
@@ -184,14 +184,11 @@ void	*check_to_fork(t_mini *mini, t_list *commands)
 		return (NULL);
 	}
 	if (!cmd->full_command && cmd->is_heredoc == 1)
-	{
-		mini->exit_status = 127; // Command not found
-		return (NULL);
-	}
+		return (mini->exit_status = 127, NULL);// Command not found
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_pipes(mini, commands);
 	else
-		mini->exit_status = 127; // Command not found or not executable
+		ft_error1(4, cmd->full_command[0], 127, cmd->full_command[0]);
 	return (NULL);
 }

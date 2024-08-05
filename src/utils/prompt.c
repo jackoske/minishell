@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 17:16:02 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:10:53 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	commands = NULL;
 	cur_command = NULL;
 	i = -1;
+	(void)mini;
 	while (input && input[++i])
 	{
 		handle_command_node(input, &commands, &cur_command, &i, mini);
 		if (i == -2)
 		{
-			ft_lstclear(&commands, free_cmd);
+			ft_lstclear(&commands, free);
 			ft_free_2d_array(&input);
 			return (NULL);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/22 14:24:35 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/04 16:04:59 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*resolve_command_path(char *command, t_mini **mini)
 	{
 		if (access(command, X_OK) == 0)
 			return (strdup(command));
-		return (NULL);
+		return (g_mini->exit_status = 126, NULL);
 	}
 	path_env = find_var("PATH", mini);
 	if (!path_env)
@@ -57,6 +57,7 @@ char	*resolve_command_path(char *command, t_mini **mini)
 		i++;
 	}
 	ft_free_2d_array(&paths);
+	g_mini->exit_status = 127;
 	// printf("Command path not found for: %s\n", command); // Debug print
 	return (NULL);
 }

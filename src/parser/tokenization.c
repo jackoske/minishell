@@ -63,6 +63,8 @@ static void	define_symbol_len(int *len, char index1, char index2)
 void allocate_and_copy_token(char **tokens, int token_count, const char *str, int i, int c)
 {
 	tokens[token_count] = malloc((c + 1) * sizeof(char));
+	if (!tokens[token_count])
+		return ;
 	ft_strlcpy(tokens[token_count], &str[i], c + 1);
 	tokens[token_count][c] = '\0';
 }
