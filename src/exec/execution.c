@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/04 17:49:59 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:49:49 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,10 +184,7 @@ void	*check_to_fork(t_mini *mini, t_list *commands)
 		return (NULL);
 	}
 	if (!cmd->full_command && cmd->is_heredoc == 1)
-	{
-		mini->exit_status = 127; // Command not found
-		return (NULL);
-	}
+		return (mini->exit_status = 127, NULL);// Command not found
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_pipes(mini, commands);

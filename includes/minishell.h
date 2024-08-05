@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/04 17:40:31 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:54:54 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define CMD_NOT_FOUND ": command not found"
 # define PERM_ERR "minishell> permission denied: "
 # define NUM_REQ "numeric argument required"
+# define NOT_VALID_ID " not a valid identifier"
 
 # define READ_END 0
 # define WRITE_END 1
@@ -177,5 +178,6 @@ char							**copy_env(char **envp);
 
 ///temporary
 void	ft_error1(int error, char *arg, int exit_code, char *message);
+int		check_special_in_key(char *str);
 
 #endif // MINISHELL_H

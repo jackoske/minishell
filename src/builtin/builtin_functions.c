@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/04 17:54:48 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:46:14 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	mini_exit(char **args, t_mini *mini)
 		exit_status = ft_atoi(args[1]);
 	else
 		exit_status = g_mini->exit_status;
-	printf("test2\n");
 	// For example: free allocated memory, close file descriptors, etc.
 	exit(exit_status);
 }

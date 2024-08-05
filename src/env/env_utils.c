@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/04 15:54:36 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:48:02 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,52 @@ void	mini_unset(char **args, t_mini *mini)
 }
 
 //checks if there is anything after '='
+// int	check_after_equal(char *str)
+// {
+// 	int	i;
+// 	// int	marker;
+
+// 	// marker = 0;
+// 	i = 0;
+// 	while (str[i++] != '\0')
+// 	{
+// 		if (is_special_char_export(str[i]) && marker == 0)
+// 			return (g_mini->exit_status = 1, 0);
+// 		if (str[i] == '=')
+// 		{
+// 			// marker = 1;
+// 			if (str[i + 1] == '\0')
+// 				return (0);
+// 		}
+// 	}
+// 	return (1);
+// }
+
+int	check_special_in_key(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (is_special_char_export(str[i]))
+			return (g_mini->exit_status = 1, 1);
+		if (str[i] == '=')
+			return (0);
+	}
+	return (0);
+}
+
 int	check_after_equal(char *str)
 {
 	int	i;
-	int	marker;
 
-	marker = 0;
 	i = 0;
+	
 	while (str[i++] != '\0')
 	{
-		if (is_special_char_export(str[i]) && marker == 0)
-			return (g_mini->exit_status = 1, 0);
 		if (str[i] == '=')
 		{
-			marker = 1;
 			if (str[i + 1] == '\0')
 				return (0);
 		}
@@ -96,8 +128,8 @@ int	is_special_char_in_env(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if ((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i])) \
-			|| str[i] == '_' || str[i] == '=') )
+		if (((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i])) \
+			|| str[i] == '_' || str[i] == '=')) && (!is_special_char_export(str[i])) )
 			i++;
 		else if (str[i] == '=')
 			return (0);
