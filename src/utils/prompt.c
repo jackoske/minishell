@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 18:52:07 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:21:22 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int is_string_quoted(char *str)
 int	handle_command_node(char **input, t_list **commands,
 		t_list **cur_command, int *i, t_mini *mini)
 {
-	printf("input: %s\n", input[*i]);
+	// printf("input: %s\n", input[*i]);
 	*cur_command = ft_lstlast(*commands);
 	if (*i == 0 || (input[*i][0] == '|' && input[*i + 1] && input[*i + 1][0]))
 	{
@@ -71,7 +71,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
-	print_nodes(commands);
+	// print_nodes(commands);
 	// printf("test1\n");
 	return (commands);
 }

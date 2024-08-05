@@ -130,19 +130,14 @@ char	**tokenize_input(char *input, t_mini **mini)
 	expandedArray = expand_vars(tokenizedInput, mini);
 	while (expandedArray[++i[0]])
 	{
-		// printf("expandedArray: %s\n", expandedArray[i[0]]);
-		// printf("is_quoted: %d\n", is_string_quoted(expandedArray[i[0]]));
-		// printf("is_quoted: %d\n", is_string_quoted(expandedArray[i[1]]));
-		if (!is_string_quoted(expandedArray[i[0]]))
-			tempTokenArray = ft_add_row_2d_array(tempTokenArray, expandedArray[i[0]]);
-		else if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1 && !ft_is_only_special(expandedArray[i[0]]) )
+		// if (!is_string_quoted(expandedArray[i[0]]))
+		// 	tempTokenArray = ft_add_row_2d_array(tempTokenArray, expandedArray[i[0]]);
+		// else
+		if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1 && !ft_is_only_special(expandedArray[i[0]]) )
 		{
-			// if
 			specialSymbolArray = NULL;
 			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
 					tokenize_special_symbols(expandedArray[i[0]], 0, -1), ft_2d_array_len(specialSymbolArray));
-			// printf("test\n");
-			// printf("specialSymbolArray: %s\n", specialSymbolArray[0]);
 			i[1] = -1;
 			while (specialSymbolArray[++i[1]])
 				add_special_row(&tempTokenArray, specialSymbolArray[i[1]], &i[0]);
@@ -151,7 +146,5 @@ char	**tokenize_input(char *input, t_mini **mini)
 		else
 			tempTokenArray = ft_add_row_2d_array(tempTokenArray, expandedArray[i[0]]);
 	}
-	// printf("tempTokenArray: %s\n", tempTokenArray[0]);
-	// printf("tempTokenArray: %s\n", tempTokenArray[1]);
 	return (ft_free_2d_array(&specialSymbolArray),ft_add_row_2d_array(tempTokenArray, NULL));
 }
