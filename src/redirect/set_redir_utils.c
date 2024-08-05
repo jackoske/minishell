@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 11:55:43 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:01:56 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,18 @@ static int	check_access(char *path, int mode)
 	if (mode == 1) // Read mode
 	{
 		if (access(path, F_OK) == -1)
-			return (ft_error1(3, NULL, 127, NULL), 0);
+		{
+			printf("test\n");
+			ft_error1(3, NULL, 0, NULL);
+			// exit(0);
+			return (0);
+		}
 		else if (access(path, R_OK) == -1)
 			return (ft_error1(5, NULL, 1, NULL), 0);
+		// {
+		// 	(ft_error1(5, NULL, 1, NULL));
+		// 	exit(0);
+		// }
 			// return (ft_error(5, NULL), 0);
 		return (1);
 	}
@@ -41,6 +50,7 @@ static int	check_access(char *path, int mode)
 
 static int	get_fd(int oldfd, int mode, char *path)
 {
+	printf("inside get_fd\n");
 	if (oldfd > 2)
 		close(oldfd);
 	if (!path)
@@ -59,16 +69,28 @@ static int	get_fd(int oldfd, int mode, char *path)
 static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
 		int mode)
 {
+	printf("handle_redirection\n");
+	printf("node->fd_out: %d\n", node->fd_out);
 	if (mode == 2 || mode == 3)
 	{
 		if (node->fd_out > 2)
 			close(node->fd_out);
 		node->fd_out = get_fd(node->fd_out, mode, full_command[++(**i)]);
-		if (node->fd_out == -1)
+		if (!full_command[*(*i)] || node->fd_out == -1)
+		{
 			**i = -2;
+			if (node->fd_out != -1)
+			{
+				g_mini->exit_status = 2;
+				// ft_error1(2, NULL, 0, NULL);
+			}
+			else
+				g_mini->exit_status = 1;
+		}
 	}
 	else if (mode == 1)
 	{
+
 		if (node->fd_in > 2)
 			close(node->fd_in);
 		node->fd_in = get_fd(node->fd_in, mode, full_command[++(**i)]);
@@ -114,5 +136,6 @@ t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 		else if (input[0] != '|')
 			node->full_command = ft_add_row_2d_array(node->full_command, input);
 	}
+	
 	return (node);
 }

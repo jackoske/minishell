@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/04 16:04:59 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:26:42 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*resolve_command_path(char *command, t_mini **mini)
 		i++;
 	}
 	ft_free_2d_array(&paths);
-	g_mini->exit_status = 127;
+	// g_mini->exit_status = 127;
 	// printf("Command path not found for: %s\n", command); // Debug print
 	return (NULL);
 }

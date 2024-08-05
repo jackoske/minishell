@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 17:10:53 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:52:56 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
+	print_nodes(commands);
 	return (commands);
 }
 
@@ -113,5 +114,6 @@ void	prompt_loop(t_mini *mini)
 		mini->signals.is_executing_command = 1;
 		handle_input(input, mini);
 		mini->signals.is_executing_command = 0;
+		// printf("exit code: %d\n", mini->exit_status);
 	}
 }
