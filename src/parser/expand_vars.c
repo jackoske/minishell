@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/02 17:28:22 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:57:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*find_var(char *var, t_mini **mini)
+char	*find_var(char *var)
 {
 	int		i;
 	char	*value;
@@ -21,12 +21,12 @@ char	*find_var(char *var, t_mini **mini)
 	i = 0;
 	value = NULL;
 	var_len = ft_strlen(var);
-	while ((*mini)->envp[i])
+	while ((g_mini->envp[i]))
 	{
-		if (ft_strncmp((*mini)->envp[i], var, var_len) == 0 &&
-			(*mini)->envp[i][var_len] == '=')
+		if (ft_strncmp(g_mini->envp[i], var, var_len) == 0
+			&& g_mini->envp[i][var_len] == '=')
 		{
-			value = ft_strdup((*mini)->envp[i] + var_len + 1);
+			value = ft_strdup(g_mini->envp[i] + var_len + 1);
 			break ;
 		}
 		i++;
@@ -35,13 +35,13 @@ char	*find_var(char *var, t_mini **mini)
 }
 
 // echo "hello      there" how are  $USER |wc -l >outfile
-char	**find_env_var_and_replace(char *var, t_mini **mini,
-		char **tokenizedInput)
+char	**find_env_var_and_replace(char *var, char **tokenizedInput)
 {
 	char	*tempTokenArray;
 	int		i;
 	int		j;
 	char	**expandedArray;
+	char	*var_value;
 
 	tempTokenArray = ft_calloc(ft_strlen(var) + 1, sizeof(char));
 	if (!tempTokenArray)
@@ -65,7 +65,7 @@ char	**find_env_var_and_replace(char *var, t_mini **mini,
 			expandedArray[i] = ft_strdup(tokenizedInput[i]);
 		else
 		{
-			char *var_value = find_var(tempTokenArray, mini);
+			var_value = find_var(tempTokenArray);
 			if (var_value)
 				expandedArray[i] = var_value;
 			else
@@ -76,11 +76,12 @@ char	**find_env_var_and_replace(char *var, t_mini **mini,
 	return (expandedArray);
 }
 
-char	**expand_vars(char **tokenizedInput, t_mini **mini)
+char	**expand_vars(char **tokenizedInput)
 {
 	char	**tempTokenArray;
 	char	**last_str;
 	int		i;
+	char	**replaced;
 
 	tempTokenArray = ft_duplicate_2d_array(tokenizedInput);
 	if (!tempTokenArray)
@@ -89,10 +90,12 @@ char	**expand_vars(char **tokenizedInput, t_mini **mini)
 	i = -1;
 	while (tempTokenArray[++i])
 	{
-		if (ft_strchr(tempTokenArray[i], '$') != NULL && \
-			(tempTokenArray[i][1] != '?' && ft_strlen(tempTokenArray[i]) == 2))
+		if (ft_strchr(tempTokenArray[i], '$') != NULL
+			&& (tempTokenArray[i][1] != '?'
+				&& ft_strlen(tempTokenArray[i]) == 2))
 		{
-			char **replaced = find_env_var_and_replace(tempTokenArray[i], mini, tokenizedInput);
+			replaced = find_env_var_and_replace(tempTokenArray[i],
+					tokenizedInput);
 			if (replaced)
 			{
 				ft_free_2d_array(&last_str);

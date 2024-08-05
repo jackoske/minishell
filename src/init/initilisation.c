@@ -6,27 +6,21 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:18:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 16:17:28 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 18:05:59 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void	initialize_envp(t_mini **mini, char **envp)
+void	initialize_envp(char **envp)
 {
 	char	cwd[PATH_MAX];
 	char	*shlvl_str;
 	int		shlvl;
 
-	*mini = malloc(sizeof(t_mini));
-	if (!*mini)
-	{
-		perror("Failed to allocate t_mini structure");
-		exit(EXIT_FAILURE);
-	}
-	(*mini)->envp = copy_env(envp);
-	if (!(*mini)->envp)
+	g_mini->envp = copy_env(envp);
+	if (!g_mini->envp)
 	{
 		// Handle memory allocation failure
 		perror("Failed to initialize environment variables");
@@ -35,17 +29,17 @@ void	initialize_envp(t_mini **mini, char **envp)
 	// Set any additional required environment variables
 	if (getcwd(cwd, sizeof(cwd)))
 	{
-		(*mini)->envp = ft_setenv("PWD", cwd, (*mini)->envp, 1);
-		if (!(*mini)->envp)
+		g_mini->envp = ft_setenv("PWD", cwd, g_mini->envp, 1);
+		if (!g_mini->envp)
 		{
 			perror("Failed to set PWD environment variable");
 			exit(EXIT_FAILURE);
 		}
 	}
-	(*mini)->envp = ft_setenv("SHELL", "jackoshell", (*mini)->envp, 1);
+	g_mini->envp = ft_setenv("SHELL", "jackoshell", g_mini->envp, 1);
 
 	// Handle SHLVL
-	shlvl_str = ft_getenv("SHLVL", (*mini)->envp, strlen("SHLVL"));
+	shlvl_str = ft_getenv("SHLVL", g_mini->envp, strlen("SHLVL"));
 	if (shlvl_str)
 	{
 		shlvl = atoi(shlvl_str) + 1;
@@ -56,10 +50,11 @@ void	initialize_envp(t_mini **mini, char **envp)
 	}
 	char shlvl_value[12];
 	snprintf(shlvl_value, sizeof(shlvl_value), "%d", shlvl);
-	(*mini)->envp = ft_setenv("SHLVL", shlvl_value, (*mini)->envp, 1);
+	g_mini->envp = ft_setenv("SHLVL", shlvl_value, g_mini->envp, 1);
 }
 
-t_cmd	*init_cmd(t_mini *mini)
+
+t_cmd	*init_cmd(void)
 {
 	t_cmd	*node;
 
@@ -72,9 +67,10 @@ t_cmd	*init_cmd(t_mini *mini)
 	node->fd_out = 1;
 	node->is_heredoc = 0;
 	node->is_append = 0;
-	node->mini = mini;
+	node->mini = g_mini;
 	return (node);
 }
+
 void	init_mini(t_mini *mini)
 {
 	mini->node = NULL;

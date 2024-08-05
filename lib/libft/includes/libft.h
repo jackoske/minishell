@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/07/09 12:13:08 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 18:53:05 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int					ft_print_2d_array_fd(char **array, int fd);
 void				ft_free_2d_array(char ***array);
 void				ft_copy_2d_array_i(char ***dest, char **src, int index);
 char				**ft_duplicate_2d_array(char **array);
-char				**ft_add_row_2d_array(char **array, char *row);
+char				**ft_add_row_2d_array(char **array, char *row, int free_row);
 char				**ft_add_row_2d_array_i(char ***out, char *row, int i);
 char				**ft_splice_2d_array(char **dest, char **src, int i);
 char				**ft_realloc_2d_array(char **array, int new_size);

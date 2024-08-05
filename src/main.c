@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 17:59:05 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:10:54 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,16 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	initialize_envp(&mini, envp);
-	init_mini(mini);
+	mini = malloc(sizeof(t_mini));
+	if (!mini)
+	{
+		perror("Failed to allocate t_mini structure");
+		exit(EXIT_FAILURE);
+	}
+
 	g_mini = mini;
+	initialize_envp(envp);
+	init_mini(mini);
 
 	setup_signal_handlers();
 	//--------------TESTING----------------
@@ -31,13 +38,10 @@ int	main(int argc, char **argv, char **envp)
 	// libft_extra_tester();
 	//--------------!TESTING----------------
 	// printf("%s\n", MINISHELL_ASCII);
-	prompt_loop(mini);
+	prompt_loop();
 	// char *str = get_next_line(0);
 	// printf("%s\n", str);
 	// free(str);
-	for (int i = 0; mini->envp[i]; i++)
-		free(mini->envp[i]);
-	free(mini->envp);
-	free(mini);
+	free_mini(&g_mini);
 	return (EXIT_SUCCESS);
 }

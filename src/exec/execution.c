@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 16:12:13 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:31:51 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ static void	child_redir(t_cmd *cmd)
 	}
 }
 
-static void	execute_command(t_mini *mini, t_cmd *cmd)
+static void	execute_command(t_cmd *cmd)
 {
 	char	*command_path;
 
 	if (is_builtin(cmd))
 	{
-		execute_builtin(mini, cmd);
-		exit(mini->exit_status);
+		execute_builtin(cmd);
+		exit(g_mini->exit_status);
 	}
 	else
 	{
-		command_path = resolve_command_path(cmd->full_command[0], &mini);
+		command_path = resolve_command_path(cmd->full_command[0]);
 		if (command_path)
 		{
-			execve(command_path, cmd->full_command, mini->envp);
+			execve(command_path, cmd->full_command, g_mini->envp);
 			perror("execve");
 			free(command_path);
 			exit(EXIT_FAILURE);
@@ -62,11 +62,11 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 	}
 }
 
-static void	child_process(t_mini *mini, t_cmd *cmd)
+static void	child_process(t_cmd *cmd)
 {
 	setup_child_signals();
 	child_redir(cmd);
-	execute_command(mini, cmd);
+	execute_command(cmd);
 }
 
 static void	create_pipes(int num_cmds, int pipes[][2])
@@ -121,11 +121,10 @@ static void	setup_pipe_redirection(int i, int num_cmds, int pipes[][2])
 	}
 }
 
-static void	wait_for_children(int num_cmds, t_mini *mini)
+static void	wait_for_children(int num_cmds)
 {
 	int	status;
 
-	(void)mini;
 	for (int k = 0; k < num_cmds; k++)
 	{
 		wait(&status);
@@ -144,7 +143,7 @@ static void	wait_for_children(int num_cmds, t_mini *mini)
 	}
 }
 
-void	exec_pipes(t_mini *mini, t_list *commands)
+void	exec_pipes(t_list *commands)
 {
 	int		num_cmds;
 	int		pipes[128][2]; // Define a maximum number of pipes
@@ -162,7 +161,7 @@ void	exec_pipes(t_mini *mini, t_list *commands)
 		{
 			setup_pipe_redirection(i, num_cmds, pipes);
 			close_pipes_in_child(num_cmds, pipes, i);
-			child_process(mini, cmd);
+			child_process(cmd);
 		}
 		else if (pid < 0)
 		{
@@ -173,11 +172,11 @@ void	exec_pipes(t_mini *mini, t_list *commands)
 		i++;
 	}
 	close_pipes_in_parent(num_cmds, pipes);
-	wait_for_children(num_cmds, mini);
+	wait_for_children(num_cmds);
 }
 
 
-void	*check_to_fork(t_mini *mini, t_list *commands)
+void	*check_to_fork(t_list *commands)
 {
 	t_cmd	*cmd;
 	DIR		*dir;
@@ -186,7 +185,7 @@ void	*check_to_fork(t_mini *mini, t_list *commands)
 	cmd = (t_cmd *)commands->content;
 	if (is_builtin(cmd))
 	{
-		execute_builtin(mini, cmd);
+		execute_builtin(cmd);
 		return (NULL);
 	}
 	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
@@ -197,9 +196,9 @@ void	*check_to_fork(t_mini *mini, t_list *commands)
 	}
 	if (!cmd->full_command && cmd->is_heredoc == 1)
 		return (g_mini->exit_status = 127, NULL);// Command not found
-	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
+	cmd->command_path = resolve_command_path(cmd->full_command[0]);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
-		exec_pipes(mini, commands);
+		exec_pipes(commands);
 	else
 		ft_error1(4, cmd->full_command[0], 127, cmd->full_command[0]);
 	return (NULL);

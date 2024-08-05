@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 12:54:54 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:02:31 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,22 @@ typedef struct s_cmd
 /* ************************************************************************** */
 
 /* Initialization and Setup */
-t_cmd							*init_cmd(t_mini *mini);
+t_cmd							*init_cmd(void);
 void							init_mini(t_mini *mini);
-void							free_mini(t_mini *mini);
+void							free_mini(t_mini **mini);
+void							init_envp(char **envp);
+void							free_cmd(void *cmd_ptr);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
-void							initialize_envp(t_mini **mini, char **envp);
+void							initialize_envp(char **envp);
 
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
 void							ft_error(int error, char *arg);
 
 /* Input Handling and Parsing */
-char							**tokenize_input(char *input, t_mini **mini);
+char							**tokenize_input(char *input);
 char							**tokenize_special_symbols(const char *str,
 									int i, int token_count);
 char							**split_by_spaces(char *input, int w_count);
@@ -125,43 +127,41 @@ int								quotes_closed(char *line);
 int								ft_alloc_len(char const *s1);
 
 /* Variable Expansion and Environment Handling */
-char							*find_var(char *var, t_mini **mini);
+char							*find_var(char *var);
 char							**find_env_var_and_replace(char *var,
-									t_mini **mini, char **tokenizedInput);
-char							**expand_vars(char **tokenizedInput,
-									t_mini **mini);
+									 char **tokenizedInput);
+char							**expand_vars(char **tokenizedInput);
 char							**ft_remove_quotes(char **tokenizedInput);
 
 /* Command Handling */
-void							*check_to_fork(t_mini *mini, t_list *command);
+void							*check_to_fork(t_list *command);
 t_cmd							*set_redir(t_cmd *node, char *input,
 									char **full_command, int *i);
-char							*resolve_command_path(char *command,
-									t_mini **mini);
+char							*resolve_command_path(char *command);
 int								is_builtin(t_cmd *cmd);
-void							execute_builtin(t_mini *mini, t_cmd *cmd);
+void							execute_builtin(t_cmd *cmd);
 int								check_after_equal(char *str);
-int								add_env_key(char *str, t_mini *mini, int len);
+int								add_env_key(char *str, int len);
 int								is_special_char_in_env(char *str);
-void							replace_value(char *key, char *value, t_mini *mini);
-int								is_already_exist(char *key, t_mini *mini);
-void							show_last_command_status(t_mini *mini, char **str);
+void							replace_value(char *key, char *value);
+int								is_already_exist(char *key);
+void							show_last_command_status(char **str);
 int								is_special_char_export(char c);
 int								is_all_num(char *str);
 
 
 /* Built-in Commands */
-int								mini_cd(char **args, t_mini *mini);
+int								mini_cd(char **args);
 void							mini_echo(t_cmd *cmd);
 void							mini_pwd(void);
-void							mini_exit(char **args, t_mini *mini);
-void							mini_export(char **args, t_mini *mini);
-void							mini_env(t_mini *mini);
-void							mini_unset(char **args, t_mini *mini);
+void							mini_exit(char **args);
+void							mini_export(char **args);
+void							mini_env(void);
+void							mini_unset(char **args);
 
 /* Execution and Testing */
-void							prompt_loop(t_mini *mini);
-int								get_here_doc(t_mini *mini, const char *limit,
+void							prompt_loop(void);
+int								get_here_doc(const char *limit,
 									const char *warn);
 void							libft_extra_tester(void);
 void							print_nodes(t_list *node);
