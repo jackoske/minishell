@@ -50,11 +50,11 @@ void	show_last_command_status(t_mini *mini, char **str)
 void	execute_builtin(t_mini *mini, t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->full_command[0], "echo") == 0)
-		mini_echo(cmd);
+		return (mini_echo(cmd));
 	else if (ft_strcmp(cmd->full_command[0], "pwd") == 0)
 		mini_pwd();
 	else if (ft_strcmp(cmd->full_command[0], "cd") == 0)
-		mini->exit_status = mini_cd(cmd->full_command, mini);
+		g_mini->exit_status = mini_cd(cmd->full_command, mini);
 	else if (ft_strcmp(cmd->full_command[0], "exit") == 0)
 		mini_exit(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "$?") == 0)

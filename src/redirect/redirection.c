@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 11:55:26 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 16:25:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 	if (!path)
 		return (-1);
 	if (access(path, F_OK) == -1 && !cmd->is_outfile)
-		mini_perror("NDIR", path, 127);
+		ft_error1(127, path, 1, "NDIR");
 	else if (!cmd->is_outfile && access(path, R_OK) == -1)
-		mini_perror("NPERM", path, 126);
+		ft_error1(126, path, 1, "NPERM");
 	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
 			F_OK) == 0)
-		mini_perror("NPERM", path, 126);
+		ft_error1(126, path, 1, "NPERM");
 	if (cmd->is_outfile && cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (cmd->is_outfile && !cmd->is_append)
@@ -58,11 +58,10 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 		*i = -1;
 		if ((cmd->is_outfile ? cmd->fd_out : cmd->fd_in) != -1)
 		{
-			ft_putendl_fd(nl, 2);
-			mini->exit_status = 2;
+			g_mini->exit_status = 2;
 		}
 		else
-			mini->exit_status = 1;
+			g_mini->exit_status = 1;
 	}
 	return (mini);
 }

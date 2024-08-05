@@ -23,17 +23,18 @@ static int	check_access(char *path, int mode)
 	if (mode == 1) // Read mode
 	{
 		if (access(path, F_OK) == -1)
-			return (ft_error1(3, NULL, 127, NULL), 0);
+		{
+			ft_error1(3, NULL, 0, NULL);
+			return (0);
+		}
 		else if (access(path, R_OK) == -1)
 			return (ft_error1(5, NULL, 1, NULL), 0);
-			// return (ft_error(5, NULL), 0);
 		return (1);
 	}
 	else if (mode == 2) // Write mode
 	{
 		if (access(path, W_OK) == -1 && access(path, F_OK) != -1)
 			return (ft_error1(5, NULL, 1, NULL), 0);
-			// return (ft_error(5, NULL), 0);
 		return (1);
 	}
 	return (1);
@@ -64,8 +65,14 @@ static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
 		if (node->fd_out > 2)
 			close(node->fd_out);
 		node->fd_out = get_fd(node->fd_out, mode, full_command[++(**i)]);
-		if (node->fd_out == -1)
+		if (!full_command[*(*i)] || node->fd_out == -1)
+		{
 			**i = -2;
+			if (node->fd_out != -1)
+				g_mini->exit_status = 2;
+			else
+				g_mini->exit_status = 1;
+		}
 	}
 	else if (mode == 1)
 	{
@@ -113,6 +120,12 @@ t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 			node = handle_redirection(node, full_command, &i, 1); // Input
 		else if (input[0] != '|')
 			node->full_command = ft_add_row_2d_array(node->full_command, input, 0);
+	}
+	if (node->fd_in == -1 || node->fd_out == -1)
+	{
+		ft_free_2d_array(&node->full_command);
+		free(node);
+		return (NULL);
 	}
 	return (node);
 }
