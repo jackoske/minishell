@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 19:02:31 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:25:35 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,29 @@ extern volatile sig_atomic_t	g_is_executing_command;
 /* Struct Definitions                                                         */
 /*                                                                            */
 /* ************************************************************************** */
+typedef struct s_error_info
+{
+	int							error_code;
+	const char					*message;
+	const char					*additional_info;
+}								t_error_info;
 
 typedef struct s_signals
 {
-	volatile sig_atomic_t	sigint_received;
-	volatile sig_atomic_t	is_executing_command;
-}							t_signals;
+	volatile sig_atomic_t		sigint_received;
+	volatile sig_atomic_t		is_executing_command;
+}								t_signals;
 
 typedef struct s_mini
 {
-	char					**envp;
-	t_list					*node;
-	char					*current_dir;
-	int						exit_status;
-	t_signals				signals;
-}							t_mini;
+	char						**envp;
+	t_list						*node;
+	char						*current_dir;
+	int							exit_status;
+	t_signals					signals;
+}								t_mini;
 
-extern t_mini				*g_mini;
+extern t_mini					*g_mini;
 
 typedef struct s_cmd
 {
@@ -113,8 +119,9 @@ void							initialize_envp(char **envp);
 
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
-void							ft_error(int error, char *arg);
-
+void							ft_error(int error_code, char *arg);
+void							ft_error_with_exit(int error_code, char *arg,
+									int exit_code, char *message);
 /* Input Handling and Parsing */
 char							**tokenize_input(char *input);
 char							**tokenize_special_symbols(const char *str,
@@ -129,7 +136,7 @@ int								ft_alloc_len(char const *s1);
 /* Variable Expansion and Environment Handling */
 char							*find_var(char *var);
 char							**find_env_var_and_replace(char *var,
-									 char **tokenizedInput);
+									char **tokenizedInput);
 char							**expand_vars(char **tokenizedInput);
 char							**ft_remove_quotes(char **tokenizedInput);
 
@@ -148,7 +155,6 @@ int								is_already_exist(char *key);
 void							show_last_command_status(char **str);
 int								is_special_char_export(char c);
 int								is_all_num(char *str);
-
 
 /* Built-in Commands */
 int								mini_cd(char **args);
@@ -176,8 +182,8 @@ char							**ft_setenv(const char *name, const char *value,
 									char **envp, int overwrite);
 char							**copy_env(char **envp);
 
-///temporary
-void	ft_error1(int error, char *arg, int exit_code, char *message);
-int		check_special_in_key(char *str);
+/// temporary
+
+int								check_special_in_key(char *str);
 
 #endif // MINISHELL_H

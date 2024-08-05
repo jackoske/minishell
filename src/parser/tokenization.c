@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 19:25:46 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:53:58 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Populate Token Array Function
 char	**populateTokenArray(char **tokenizedInput, char *input)
 {
 	int	k;
@@ -19,7 +20,7 @@ char	**populateTokenArray(char **tokenizedInput, char *input)
 	int	begin;
 	int	end;
 
-	quote[0] = ((quote[1] = 0), (begin = 0), (end = 0), (k = 0), 0);
+	quote[0] = quote[1] = begin = end = k = 0;
 	while (input[end])
 	{
 		while (ft_strchr(" ", input[end]) && input[end] != '\0')
@@ -41,6 +42,7 @@ char	**populateTokenArray(char **tokenizedInput, char *input)
 	return (tokenizedInput);
 }
 
+// Split by Spaces Function
 char	**split_by_spaces(char *input, int w_count)
 {
 	char	**tokenizedInput;
@@ -52,14 +54,15 @@ char	**split_by_spaces(char *input, int w_count)
 	return (tokenizedInput);
 }
 
+// Define Symbol Length Function
 static void	define_symbol_len(int *len, char index1, char index2)
 {
 	*len = 1;
-	if ((index1 == '<' && index2 == '<') || (index1 == '>' && index2 == '>')
-		/*|| (index1 == '|' && index2)*/)
+	if ((index1 == '<' && index2 == '<') || (index1 == '>' && index2 == '>'))
 		*len = 2;
 }
 
+// Allocate and Copy Token Function
 void	allocate_and_copy_token(char **tokens, int token_count, const char *str,
 		int i, int c)
 {
@@ -70,7 +73,7 @@ void	allocate_and_copy_token(char **tokens, int token_count, const char *str,
 	tokens[token_count][c] = '\0';
 }
 
-/*Function to separate a string into tokens based on special symbols*/
+// Tokenize Special Symbols Function
 char	**tokenize_special_symbols(const char *str, int i, int token_count)
 {
 	char	**tokens;
@@ -78,8 +81,10 @@ char	**tokenize_special_symbols(const char *str, int i, int token_count)
 	int		len;
 	int		start;
 
-	if (!(tokens = (len = ft_strlen(str), ft_calloc(100, sizeof(char *)))))
+	tokens = ft_calloc(100, sizeof(char *));
+	if (!tokens)
 		return (NULL);
+	len = ft_strlen(str);
 	while (i < len && ++token_count <= 1000)
 	{
 		if (ft_is_special_symbol(str[i]))
@@ -101,6 +106,7 @@ char	**tokenize_special_symbols(const char *str, int i, int token_count)
 	return (tokens);
 }
 
+// Initialize Tokenize Input Variables Function
 int	init_tokenize_input_vars(char ***tempTokenArray, char ***specialSymbolArray,
 		char ***expandedArray, char ***tokenizedInput)
 {
@@ -111,6 +117,7 @@ int	init_tokenize_input_vars(char ***tempTokenArray, char ***specialSymbolArray,
 	return (-1);
 }
 
+// Add Special Row Function
 void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
 		int *i)
 {
@@ -119,8 +126,7 @@ void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
 	*i += 1;
 }
 
-
-/*splits by spaces, taking quotted elements into consideration*/
+// Tokenize Input Function
 char	**tokenize_input(char *input)
 {
 	char	**tokenizedInput;
@@ -130,12 +136,12 @@ char	**tokenize_input(char *input)
 	char	*trimmedInput;
 	int		i[2];
 
-	tempTokenArray = NULL;
-	specialSymbolArray = NULL;
+	init_tokenize_input_vars(&tempTokenArray, &specialSymbolArray,
+		&expandedArray, &tokenizedInput);
 	trimmedInput = ft_strtrim(input, " ");
 	tokenizedInput = split_by_spaces(trimmedInput,
 			ft_word_count_quotes(trimmedInput));
-	free(trimmedInput); // Free the trimmed input after use
+	free(trimmedInput);
 	if (!tokenizedInput)
 		return (NULL);
 	expandedArray = expand_vars(tokenizedInput);
@@ -153,10 +159,18 @@ char	**tokenize_input(char *input)
 			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
 					tokenize_special_symbols(expandedArray[i[0]], 0, -1),
 					ft_2d_array_len(specialSymbolArray));
+			if (!specialSymbolArray)
+			{
+				ft_free_2d_array(&expandedArray);
+				ft_free_2d_array(&tempTokenArray);
+				return (NULL);
+			}
 			i[1] = -1;
 			while (specialSymbolArray[++i[1]])
+			{
 				add_special_row(&tempTokenArray, specialSymbolArray[i[1]],
 					&i[0]);
+			}
 			i[0] -= 2;
 		}
 		else
@@ -168,5 +182,5 @@ char	**tokenize_input(char *input)
 	ft_free_2d_array(&specialSymbolArray);
 	ft_free_2d_array(&expandedArray);
 	ft_free_2d_array(&tokenizedInput);
-	return (ft_add_row_2d_array(tempTokenArray, NULL,1));
+	return (ft_add_row_2d_array(tempTokenArray, NULL, 1));
 }

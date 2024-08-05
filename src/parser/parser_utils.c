@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 16:32:33 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:17:43 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,80 +112,4 @@ char	**ft_remove_quotes(char **tokenizedInput)
 
 	// }
 	return (temp);
-}
-
-static char	*add_quotes(char *str)
-{
-	char	*temp;
-	int		i;
-	int		j;
-
-	i = -1;
-	j = -1;
-	temp = ft_calloc(ft_strlen(str) + 3, sizeof(char));
-	if (!temp)
-		return (NULL);
-	temp[++i] = '`';
-	while (str[++j])
-		temp[i + j + 1] = str[j];
-	temp[i + j + 1] = '\'';
-	return (temp);
-
-}
-
-void	ft_error(int error, char *arg)
-{
-	if (error == 1)
-		ft_putendl_fd(NEWLINE_ERR, 2);
-	else if (error == 2)
-		ft_putendl_fd(SYNTAX_ERR, 2);
-	else if (error == 3)
-		ft_putendl_fd(NO_FILE_ERR, 2);
-	else if (error == 4)
-		ft_putendl_fd(CMD_NOT_FOUND, 2);
-	else if (error == 5)
-		ft_putendl_fd(PERM_ERR, 2);
-	else if (error == 6)
-		ft_putendl_fd(ft_strjoin(SYNTAX_ERR, add_quotes(arg)), 2);
-}
-
-void	ft_error1(int error, char *arg, int exit_code, char *message)
-{
-	if (error == 1)
-		ft_putendl_fd(NEWLINE_ERR, 2);
-	else if (error == 2)
-		ft_putendl_fd(SYNTAX_ERR, 2);
-	else if (error == 3)
-	{
-		ft_putendl_fd(NO_FILE_ERR, 2);
-		g_mini->exit_status = exit_code;
-	}
-	else if (error == 4)
-	{
-		ft_putstr_fd(message, 2);
-		ft_putendl_fd(CMD_NOT_FOUND, 2);
-		g_mini->exit_status = exit_code;
-	}
-	else if (error == 5)
-		ft_putendl_fd(PERM_ERR, 2);
-	else if (error == 6)
-		ft_putendl_fd(ft_strjoin(SYNTAX_ERR, add_quotes(arg)), 2);
-	else if (error == 7)
-	{
-		ft_putstr_fd("minishell> exit: ", STDERR_FILENO);
-		ft_putendl_fd(NUM_REQ, 2);
-		g_mini->exit_status = exit_code;
-	}
-	else if (error == 8)
-	{
-		ft_putstr_fd("minishell> exit: ", STDERR_FILENO);
-		ft_putendl_fd(message, 2);
-		g_mini->exit_status = exit_code;
-	}
-	else if (error == 9)
-	{
-		ft_putstr_fd("minishell> export: ", STDERR_FILENO);
-		ft_putendl_fd(ft_strjoin(add_quotes(arg), message), 2);
-		g_mini->exit_status = exit_code;
-	}
 }

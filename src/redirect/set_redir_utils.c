@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 18:54:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ static int	check_access(char *path, int mode)
 	{
 		if (access(path, F_OK) == -1)
 		{
-			ft_error1(3, NULL, 0, NULL);
+			ft_error_with_exit(3, NULL, 0, NULL);
 			return (0);
 		}
 		else if (access(path, R_OK) == -1)
-			return (ft_error1(5, NULL, 1, NULL), 0);
+			return (ft_error_with_exit(5, NULL, 1, NULL), 0);
 		return (1);
 	}
 	else if (mode == 2) // Write mode
 	{
 		if (access(path, W_OK) == -1 && access(path, F_OK) != -1)
-			return (ft_error1(5, NULL, 1, NULL), 0);
+			return (ft_error_with_exit(5, NULL, 1, NULL), 0);
 		return (1);
 	}
 	return (1);

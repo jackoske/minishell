@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:19:34 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 17:59:00 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	get_here_doc(const char *limit, const char *warn)
 	if (pipe(fd) == -1)
 	{
 		// mini_perror("PIPERR", NULL, 1);
-		ft_error1(4, NULL, 1, "pipe");
+		ft_error_with_exit(4, NULL, 1, "pipe");
 		return (-1);
 	}
 	str = read_string_until_limit(limit, warn);

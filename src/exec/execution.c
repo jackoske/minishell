@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 17:31:51 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	execute_command(t_cmd *cmd)
 		else
 		{
 			// mini_perror(CMD_NOT_FOUND, cmd->full_command[0], 127);
-			ft_error1(4, cmd->full_command[0], 127, cmd->full_command[0]);
+			ft_error_with_exit(4, cmd->full_command[0], 127, cmd->full_command[0]);
 			exit(127);
 		}
 	}
@@ -200,6 +200,6 @@ void	*check_to_fork(t_list *commands)
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_pipes(commands);
 	else
-		ft_error1(4, cmd->full_command[0], 127, cmd->full_command[0]);
+		ft_error_with_exit(4, cmd->full_command[0], 127, cmd->full_command[0]);
 	return (NULL);
 }

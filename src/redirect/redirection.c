@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 17:59:33 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 	if (!path)
 		return (-1);
 	if (access(path, F_OK) == -1 && !cmd->is_outfile)
-		ft_error1(127, path, 1, "NDIR");
+		return (ft_error_with_exit(127, path, 1, "NDIR"), -1);
 	else if (!cmd->is_outfile && access(path, R_OK) == -1)
-		ft_error1(126, path, 1, "NPERM");
+		return (ft_error_with_exit(126, path, 1, "NPERM"), -1);
 	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
 			F_OK) == 0)
-		ft_error1(126, path, 1, "NPERM");
+		return (ft_error_with_exit(126, path, 1, "NPERM"), -1);
 	if (cmd->is_outfile && cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (cmd->is_outfile && !cmd->is_append)
@@ -57,9 +57,7 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 	{
 		*i = -1;
 		if ((cmd->is_outfile ? cmd->fd_out : cmd->fd_in) != -1)
-		{
 			g_mini->exit_status = 2;
-		}
 		else
 			g_mini->exit_status = 1;
 	}
