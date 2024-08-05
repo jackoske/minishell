@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 15:44:10 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:12:13 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	child_redir(t_cmd *cmd)
 	}
 	if (cmd->fd_out == -1)
 	{
-		printf("fdout = -1\n");
+		// printf("fdout = -1\n");
 		if (close(STDOUT_FILENO) == -1)
 			perror("close");
 	}

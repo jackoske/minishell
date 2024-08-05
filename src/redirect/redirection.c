@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 14:39:42 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:25:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 		*i = -1;
 		if ((cmd->is_outfile ? cmd->fd_out : cmd->fd_in) != -1)
 		{
-			ft_putendl_fd(nl, 2);
 			g_mini->exit_status = 2;
 		}
 		else

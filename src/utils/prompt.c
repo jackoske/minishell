@@ -6,13 +6,13 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 15:52:56 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:32:15 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_command_node(char **input, t_list **commands,
+int	handle_command_node(char **input, t_list **commands,
 		t_list **cur_command, int *i, t_mini *mini)
 {
 	*cur_command = ft_lstlast(*commands);
@@ -23,6 +23,9 @@ void	handle_command_node(char **input, t_list **commands,
 	}
 	(*cur_command)->content = set_redir((*cur_command)->content, input[*i],
 			input, i);
+	if (!(*cur_command)->content)
+		return (ft_lstclear(commands, free), -1);
+	return (1);
 }
 
 t_list	*create_nodes(char **input, t_mini *mini)
@@ -37,7 +40,8 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	(void)mini;
 	while (input && input[++i])
 	{
-		handle_command_node(input, &commands, &cur_command, &i, mini);
+		if (handle_command_node(input, &commands, &cur_command, &i, mini) == -1)
+			return (g_mini->exit_status = 1, NULL);
 		if (i == -2)
 		{
 			ft_lstclear(&commands, free);
@@ -45,7 +49,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (NULL);
 		}
 	}
-	print_nodes(commands);
+	// print_nodes(commands);
 	return (commands);
 }
 
@@ -114,6 +118,5 @@ void	prompt_loop(t_mini *mini)
 		mini->signals.is_executing_command = 1;
 		handle_input(input, mini);
 		mini->signals.is_executing_command = 0;
-		// printf("exit code: %d\n", mini->exit_status);
 	}
 }
