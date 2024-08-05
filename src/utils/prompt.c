@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 16:32:15 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:58:49 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*create_nodes(char **input, t_mini *mini)
 			return (g_mini->exit_status = 1, NULL);
 		if (i == -2)
 		{
-			ft_lstclear(&commands, free);
+			ft_lstclear(&commands, free_cmd);
 			ft_free_2d_array(&input);
 			return (NULL);
 		}
@@ -85,7 +85,10 @@ void	handle_input(char *input, t_mini *mini)
 	}
 	commands = create_nodes(tokenized_input, mini);
 	if (commands)
+	{
 		check_to_fork(mini, commands);
+		ft_lstclear(&commands, free_cmd);
+	}
 	ft_free_2d_array(&tokenized_input);
 	free(input);
 }

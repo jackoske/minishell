@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 16:24:52 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:58:33 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 		else if (input[0] == '<')
 			node = handle_redirection(node, full_command, &i, 1); // Input
 		else if (input[0] != '|')
-			node->full_command = ft_add_row_2d_array(node->full_command, input);
+			node->full_command = ft_add_row_2d_array(node->full_command, input, 0);
 	}
 	if (node->fd_in == -1 || node->fd_out == -1)
 	{
