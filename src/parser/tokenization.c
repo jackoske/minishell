@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 18:54:21 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 19:25:46 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
 			0);
 	*i += 1;
 }
+
 
 /*splits by spaces, taking quotted elements into consideration*/
 char	**tokenize_input(char *input)

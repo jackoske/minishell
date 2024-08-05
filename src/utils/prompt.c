@@ -12,9 +12,28 @@
 
 #include "minishell.h"
 
+int is_string_quoted(char *str)
+{
+	int i;
+	int quote[2];
+
+	i = 0;
+	quote[0] = 0;
+	quote[1] = 0;
+	while (str[i])
+	{
+		quote[0] = (quote[0] + (!quote[1] && str[i] == '\'')) % 2;
+		quote[1] = (quote[1] + (!quote[0] && str[i] == '\"')) % 2;
+		i++;
+	}
+	return (quote[0] || quote[1]);
+
+}
+
 int	handle_command_node(char **input, t_list **commands,
 		t_list **cur_command, int *i)
 {
+	// printf("input: %s\n", input[*i]);
 	*cur_command = ft_lstlast(*commands);
 	if (*i == 0 || (input[*i][0] == '|' && input[*i + 1] && input[*i + 1][0]))
 	{
