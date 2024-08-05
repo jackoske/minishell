@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 16:18:01 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 14:51:58 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	handle_signal(int signal)
 	else if (signal == SIGQUIT)
 	{
 		write(STDOUT_FILENO, "\nQuit\n", 6);
-		free_mini(g_mini);
+		free_mini(&g_mini);
 	}
 }
 

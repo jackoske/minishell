@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 11:46:14 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:20:46 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	ft_isdigit_str(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
@@ -89,29 +91,28 @@ int	ft_isdigit_str(char *str)
 }
 
 // Handle the `exit` built-in command
-void	mini_exit(char **args, t_mini *mini)
+void	mini_exit(char **args)
 {
 	int	exit_status;
 
-	(void)mini;
 	exit_status = g_mini->exit_status;
 	if (ft_2d_array_len(args) > 2)
 	{
-		// ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		// mini_perror("too many arguments", "exit", 2);
 		ft_error1(8, NULL, 1, "too many arguments");
 		exit(1);
 	}
-	else if (!ft_isdigit_str(args[1]))
+	else if (args[1] && !ft_isdigit_str(args[1]))
 	{
-		// mini_perror("numeric argument required", args[1], 2);
 		ft_error1(7, args[1], 2, "numeric argument required");
 		exit(2);
 	}
 	else if (args[1])
+	{
 		exit_status = ft_atoi(args[1]);
+	}
 	else
+	{
 		exit_status = g_mini->exit_status;
-	// For example: free allocated memory, close file descriptors, etc.
+	}
 	exit(exit_status);
 }

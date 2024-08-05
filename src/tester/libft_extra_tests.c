@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:00:46 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 16:50:55 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/05 15:08:46 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void libft_extra_tester(void)
 
 	printf("\n%d\n", ft_2d_array_len(env));
 	
-	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
-	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
+	env = ft_add_row_2d_array(env, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
 	ft_print_2d_array_fd(env, 1);
 	printf("\n%d\n", ft_2d_array_len(env));
 
 	printf("\nTEST4\n");
 	printf("\nempty_len:%d\n", ft_2d_array_len(empty));
-	empty = ft_add_row_2d_array(empty, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty = ft_add_row_2d_array(empty, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
 	ft_print_2d_array_fd(empty, 1);
 
 
@@ -75,10 +75,10 @@ void libft_extra_tester(void)
 	
 	printf("\nTEST12\n");
 	char **empty3 = NULL;
-	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
-	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
-	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
-	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin");
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
+	empty3 = ft_add_row_2d_array(empty3, "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", 0);
 	ft_print_2d_array_fd(empty3, 1);
 	
 	ft_free_2d_array(&empty3);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 12:54:54 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:17:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ typedef struct s_cmd
 /* Initialization and Setup */
 t_cmd							*init_cmd(t_mini *mini);
 void							init_mini(t_mini *mini);
-void							free_mini(t_mini *mini);
+void							free_mini(t_mini **mini);
+void							free_cmd(void *cmd_ptr);
+
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
@@ -154,7 +156,7 @@ int								is_all_num(char *str);
 int								mini_cd(char **args, t_mini *mini);
 void							mini_echo(t_cmd *cmd);
 void							mini_pwd(void);
-void							mini_exit(char **args, t_mini *mini);
+void							mini_exit(char **args);
 void							mini_export(char **args, t_mini *mini);
 void							mini_env(t_mini *mini);
 void							mini_unset(char **args, t_mini *mini);
