@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 16:32:15 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:02:06 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	handle_command_node(char **input, t_list **commands,
-		t_list **cur_command, int *i, t_mini *mini)
+		t_list **cur_command, int *i)
 {
 	*cur_command = ft_lstlast(*commands);
 	if (*i == 0 || (input[*i][0] == '|' && input[*i + 1] && input[*i + 1][0]))
 	{
-		ft_lstadd_back(commands, ft_lstnew(init_cmd(mini)));
+		ft_lstadd_back(commands, ft_lstnew(init_cmd()));
 		*cur_command = ft_lstlast(*commands);
 	}
 	(*cur_command)->content = set_redir((*cur_command)->content, input[*i],
@@ -28,7 +28,7 @@ int	handle_command_node(char **input, t_list **commands,
 	return (1);
 }
 
-t_list	*create_nodes(char **input, t_mini *mini)
+t_list	*create_nodes(char **input)
 {
 	t_list	*commands;
 	t_list	*cur_command;
@@ -37,14 +37,13 @@ t_list	*create_nodes(char **input, t_mini *mini)
 	commands = NULL;
 	cur_command = NULL;
 	i = -1;
-	(void)mini;
 	while (input && input[++i])
 	{
-		if (handle_command_node(input, &commands, &cur_command, &i, mini) == -1)
+		if (handle_command_node(input, &commands, &cur_command, &i) == -1)
 			return (g_mini->exit_status = 1, NULL);
 		if (i == -2)
 		{
-			ft_lstclear(&commands, free);
+			ft_lstclear(&commands, free_cmd);
 			ft_free_2d_array(&input);
 			return (NULL);
 		}
@@ -69,12 +68,12 @@ int	check_tokenized_input(char **tokenized_input)
 	return (1);
 }
 
-void	handle_input(char *input, t_mini *mini)
+void	handle_input(char *input)
 {
 	char	**tokenized_input;
 	t_list	*commands;
 
-	tokenized_input = ft_remove_quotes(tokenize_input(input, &mini));
+	tokenized_input = ft_remove_quotes(tokenize_input(input));
 	if (!tokenized_input || !tokenized_input[0]
 		|| !check_tokenized_input(tokenized_input))
 	{
@@ -83,23 +82,26 @@ void	handle_input(char *input, t_mini *mini)
 			ft_free_2d_array(&tokenized_input);
 		return ;
 	}
-	commands = create_nodes(tokenized_input, mini);
+	commands = create_nodes(tokenized_input);
 	if (commands)
-		check_to_fork(mini, commands);
+	{
+		check_to_fork(commands);
+		ft_lstclear(&commands, free_cmd);
+	}
 	ft_free_2d_array(&tokenized_input);
 	free(input);
 }
 
-void	prompt_loop(t_mini *mini)
+void	prompt_loop()
 {
 	char	*input;
 
 	setup_signal_handlers();
 	while (1)
 	{
-		if (mini->signals.sigint_received)
+		if (g_mini->signals.sigint_received)
 		{
-			mini->signals.sigint_received = 0;
+			g_mini->signals.sigint_received = 0;
 			continue ; // Ensure readline gets called again
 		}
 		input = readline(PROMPT);
@@ -115,8 +117,8 @@ void	prompt_loop(t_mini *mini)
 			free(input);
 			continue ;
 		}
-		mini->signals.is_executing_command = 1;
-		handle_input(input, mini);
-		mini->signals.is_executing_command = 0;
+		g_mini->signals.is_executing_command = 1;
+		handle_input(input);
+		g_mini->signals.is_executing_command = 0;
 	}
 }

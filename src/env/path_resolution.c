@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 13:26:42 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:32:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*resolve_command_path(char *command, t_mini **mini)
+char	*resolve_command_path(char *command)
 {
 	char	*path_env;
 	char	**paths;
@@ -25,7 +25,7 @@ char	*resolve_command_path(char *command, t_mini **mini)
 			return (strdup(command));
 		return (g_mini->exit_status = 126, NULL);
 	}
-	path_env = find_var("PATH", mini);
+	path_env = find_var("PATH");
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');

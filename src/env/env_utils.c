@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 12:48:02 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:55:46 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	mini_unset(char **args, t_mini *mini)
+void	mini_unset(char **args)
 {
 	int		i;
 	char	**new_env_arr;
@@ -22,40 +22,18 @@ void	mini_unset(char **args, t_mini *mini)
 		return ;
 	i = -1;
 	j = 0;
-	new_env_arr = ft_calloc(ft_2d_array_len(mini->envp), sizeof(char *));
+	new_env_arr = ft_calloc(ft_2d_array_len(g_mini->envp), sizeof(char *));
 	if (!new_env_arr)
 		return ;
-	while (mini->envp[++i])
+	while (g_mini->envp[++i])
 	{
-		if (ft_strncmp(mini->envp[i], args[1], ft_strlen(args[1])) != 0)
-			new_env_arr[j++] = ft_strdup(mini->envp[i]);
+		if (ft_strncmp(g_mini->envp[i], args[1], ft_strlen(args[1])) != 0)
+			new_env_arr[j++] = ft_strdup(g_mini->envp[i]);
 	}
 	new_env_arr[j] = NULL;
-	ft_free_2d_array(&mini->envp);
-	mini->envp = new_env_arr;
+	ft_free_2d_array(&g_mini->envp);
+	g_mini->envp = new_env_arr;
 }
-
-//checks if there is anything after '='
-// int	check_after_equal(char *str)
-// {
-// 	int	i;
-// 	// int	marker;
-
-// 	// marker = 0;
-// 	i = 0;
-// 	while (str[i++] != '\0')
-// 	{
-// 		if (is_special_char_export(str[i]) && marker == 0)
-// 			return (g_mini->exit_status = 1, 0);
-// 		if (str[i] == '=')
-// 		{
-// 			// marker = 1;
-// 			if (str[i + 1] == '\0')
-// 				return (0);
-// 		}
-// 	}
-// 	return (1);
-// }
 
 int	check_special_in_key(char *str)
 {
@@ -77,7 +55,6 @@ int	check_after_equal(char *str)
 	int	i;
 
 	i = 0;
-	
 	while (str[i++] != '\0')
 	{
 		if (str[i] == '=')
@@ -90,7 +67,7 @@ int	check_after_equal(char *str)
 }
 
 //does actions if there is only key, without any value
-int	add_env_key(char *str, t_mini *mini, int len)
+int	add_env_key(char *str, int len)
 {
 	char	*value;
 	char	**new_envp_array;
@@ -98,7 +75,7 @@ int	add_env_key(char *str, t_mini *mini, int len)
 	char	*original_value;
 
 	value = ((i = -1), NULL);
-	if (is_already_exist(str, mini))
+	if (is_already_exist(str))
 		return (1);
 	if (is_special_char_in_env(str))
 		return (1);
@@ -110,12 +87,12 @@ int	add_env_key(char *str, t_mini *mini, int len)
 	value++;
 	*value = '\0';
 	new_envp_array = ft_calloc(len + 2, sizeof(char *));
-	while (mini->envp[++i])
-		new_envp_array[i] = ft_strdup(mini->envp[i]);
+	while (g_mini->envp[++i])
+		new_envp_array[i] = ft_strdup(g_mini->envp[i]);
 	new_envp_array[i] = ft_strdup(original_value);
 	new_envp_array[i + 1] = NULL;
-	ft_free_2d_array(&(mini->envp));
-	mini->envp = new_envp_array;
+	ft_free_2d_array(&(g_mini->envp));
+	g_mini->envp = new_envp_array;
 	return (free(original_value), 1);
 }
 
@@ -145,7 +122,7 @@ int	is_special_char_in_env(char *str)
 	return (0);
 }
 
-void	replace_value(char *key, char *value, t_mini *mini)
+void	replace_value(char *key, char *value)
 {
 	int		i;
 	char	**temp;
@@ -153,17 +130,17 @@ void	replace_value(char *key, char *value, t_mini *mini)
 	char	*new_env;
 
 	i = 0;
-	while (mini->envp[i])
+	while (g_mini->envp[i])
 	{
-		temp = ft_split(mini->envp[i], '=');
+		temp = ft_split(g_mini->envp[i], '=');
 		if (!temp[0])
 			return ;
 		temp_key = ft_strdup(temp[0]);
 		if (ft_strcmp(temp_key, key) == 0)
 		{
 			new_env = ft_strjoin(key, ft_strjoin("=", value));
-			free(mini->envp[i]);
-			mini->envp[i] = ft_strdup(new_env);
+			free(g_mini->envp[i]);
+			g_mini->envp[i] = ft_strdup(new_env);
 			free(temp_key);
 			ft_free_2d_array(&temp);
 			return ;

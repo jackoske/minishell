@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 14:06:29 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:48:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	is_builtin(t_cmd *cmd)
 	return (0);
 }
 
-void	show_last_command_status(t_mini *mini, char **str)
+void	show_last_command_status(char **str)
 {
-	(void)mini;
 	if (ft_2d_array_len(str) == 1)
 	{
 		ft_putstr_fd(ft_itoa(g_mini->exit_status), STDERR_FILENO);
@@ -47,23 +46,23 @@ void	show_last_command_status(t_mini *mini, char **str)
 }
 
 // Execute built-in commands
-void	execute_builtin(t_mini *mini, t_cmd *cmd)
+void	execute_builtin(t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->full_command[0], "echo") == 0)
 		return (mini_echo(cmd));
 	else if (ft_strcmp(cmd->full_command[0], "pwd") == 0)
 		mini_pwd();
 	else if (ft_strcmp(cmd->full_command[0], "cd") == 0)
-		g_mini->exit_status = mini_cd(cmd->full_command, mini);
+		g_mini->exit_status = mini_cd(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "exit") == 0)
-		mini_exit(cmd->full_command, mini);
+		mini_exit(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "$?") == 0)
-		show_last_command_status(mini, cmd->full_command);
+		show_last_command_status(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "export") == 0)
-		return (mini_export(cmd->full_command, mini));
+		return (mini_export(cmd->full_command));
 	else if (ft_strcmp(cmd->full_command[0], "unset") == 0)
-		mini_unset(cmd->full_command, mini);
+		mini_unset(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "env") == 0)
-		mini_env(mini);
+		mini_env();
 	g_mini->exit_status = 0;
 }

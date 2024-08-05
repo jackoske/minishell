@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/02 15:43:45 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:47:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,18 @@ static int	go_to_path(int option, t_mini *mini)
 }
 
 // The `cd` built-in command implementation
-int	mini_cd(char **args, t_mini *mini)
+int	mini_cd(char **args)
 {
 	int		cd_ret;
 	char	*newpwd;
 
 	if (!args[1])
-		return (go_to_path(0, mini));
+		return (go_to_path(0, g_mini));
 	if (ft_strcmp(args[1], "-") == 0)
-		cd_ret = go_to_path(1, mini);
+		cd_ret = go_to_path(1, g_mini);
 	else
 	{
-		if (update_oldpwd(mini) != 0)
+		if (update_oldpwd(g_mini) != 0)
 			return (1);
 		cd_ret = chdir(args[1]);
 		if (cd_ret < 0)
@@ -127,8 +127,8 @@ int	mini_cd(char **args, t_mini *mini)
 		perror("getcwd");
 		return (1);
 	}
-	mini->envp = ft_setenv("PWD", newpwd, mini->envp, 1);
-	mini->current_dir = newpwd;
+	g_mini->envp = ft_setenv("PWD", newpwd, g_mini->envp, 1);
+	g_mini->current_dir = newpwd;
 	// printf("Current directory: %s\n", mini->current_dir);
 	free(newpwd);
 	return (0);

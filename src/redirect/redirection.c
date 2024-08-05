@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 16:25:51 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:59:33 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 	return (mini);
 }
 
-t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
+t_mini	*handle_here_doc(t_list *command, char **args, int *i)
 {
 	char	*nl;
 	char	*warn;
@@ -77,15 +77,15 @@ t_mini	*handle_here_doc(t_mini *mini, t_list *command, char **args, int *i)
 	nl = "minishell: syntax error near unexpected token `newline'";
 	(*i)++;
 	if (args[*i])
-		cmd->fd_in = get_here_doc(mini, args[*i], warn);
+		cmd->fd_in = get_here_doc(args[*i], warn);
 	if (!args[*i] || cmd->fd_in == -1)
 	{
 		*i = -1;
 		if (cmd->fd_in != -1)
 		{
 			ft_putendl_fd(nl, 2);
-			mini->exit_status = 2;
+			g_mini->exit_status = 2;
 		}
 	}
-	return (mini);
+	return (g_mini);
 }
