@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 11:49:49 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:12:13 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ static void	child_redir(t_cmd *cmd)
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
 			perror("dup2");
 		close(cmd->fd_out);
+	}
+	if (cmd->fd_out == -1)
+	{
+		// printf("fdout = -1\n");
+		if (close(STDOUT_FILENO) == -1)
+			perror("close");
 	}
 }
 
@@ -49,7 +55,8 @@ static void	execute_command(t_mini *mini, t_cmd *cmd)
 		}
 		else
 		{
-			mini_perror(CMD_NOT_FOUND, cmd->full_command[0], 127);
+			// mini_perror(CMD_NOT_FOUND, cmd->full_command[0], 127);
+			ft_error1(4, cmd->full_command[0], 127, cmd->full_command[0]);
 			exit(127);
 		}
 	}
@@ -118,16 +125,21 @@ static void	wait_for_children(int num_cmds, t_mini *mini)
 {
 	int	status;
 
+	(void)mini;
 	for (int k = 0; k < num_cmds; k++)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
 		{
-			mini->exit_status = WEXITSTATUS(status);
+			// mini->exit_status = WEXITSTATUS(status);
+			g_mini->exit_status = WEXITSTATUS(status);
 		}
 		else if (WIFSIGNALED(status))
 		{
-			mini->exit_status = 128 + WTERMSIG(status);
+			// mini->exit_status = 128 + WTERMSIG(status);
+			// g_mini->exit_status = 128 + WTERMSIG(status);
+			g_mini->exit_status = 1;
+
 		}
 	}
 }
@@ -180,11 +192,11 @@ void	*check_to_fork(t_mini *mini, t_list *commands)
 	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
 	{
 		closedir(dir);
-		mini->exit_status = 126; // Command is a directory
+		g_mini->exit_status = 126; // Command is a directory
 		return (NULL);
 	}
 	if (!cmd->full_command && cmd->is_heredoc == 1)
-		return (mini->exit_status = 127, NULL);// Command not found
+		return (g_mini->exit_status = 127, NULL);// Command not found
 	cmd->command_path = resolve_command_path(cmd->full_command[0], &mini);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_pipes(mini, commands);
