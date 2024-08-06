@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 21:17:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:37:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	count_unescaped_quotes(char const *s1)
 	return (count);
 }
 
-static char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
+char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
 {
 	int		unescaped_quotes;
 	char	*trimmed;
@@ -97,6 +97,7 @@ char	**ft_remove_quotes(char **tokenizedInput)
 	int		i;
 
 	i = -1;
+	// ft_print_2d_array_fd(tokenizedInput, 1);
 	temp = ft_duplicate_2d_array(tokenizedInput);
 	while (temp && temp[++i])
 	{
@@ -111,5 +112,8 @@ char	**ft_remove_quotes(char **tokenizedInput)
 	// 		return (NULL);
 
 	// }
+	// ft_print_2d_array_fd(temp, 1);
 	return (temp);
 }
+
+

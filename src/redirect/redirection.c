@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:15:30 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 	if (!path)
 		return (-1);
 	if (access(path, F_OK) == -1 && !cmd->is_outfile)
-		return (ft_error_with_exit(127, path, 1, "NDIR"), -1);
+		return (ft_error_with_exit(1, path, 127, "NDIR"), -1);
 	else if (!cmd->is_outfile && access(path, R_OK) == -1)
-		return (ft_error_with_exit(126, path, 1, "NPERM"), -1);
+		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
 	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
 			F_OK) == 0)
-		return (ft_error_with_exit(126, path, 1, "NPERM"), -1);
+		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
 	if (cmd->is_outfile && cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (cmd->is_outfile && !cmd->is_append)

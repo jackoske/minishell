@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:10:09 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Error handling for file access:
 - '>' : permission denied (W_OK == -1)
 - '>>': permission denied (W_OK == -1)
 */
-static int	check_access(char *path, int mode)
+static int check_access(char *path, int mode)
 {
 	if (mode == 1) // Read mode
 	{
@@ -40,7 +40,7 @@ static int	check_access(char *path, int mode)
 	return (1);
 }
 
-static int	get_fd(int oldfd, int mode, char *path)
+static int get_fd(int oldfd, int mode, char *path)
 {
 	if (oldfd > 2)
 		close(oldfd);
@@ -57,8 +57,8 @@ static int	get_fd(int oldfd, int mode, char *path)
 	return (-1);
 }
 
-static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
-		int mode)
+static t_cmd *handle_redirection(t_cmd *node, char **full_command, int **i,
+								 int mode)
 {
 	if (mode == 2 || mode == 3)
 	{
@@ -85,8 +85,8 @@ static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
 	return (node);
 }
 
-static t_cmd	*get_redir_heredoc(t_cmd *node,
-		char **full_command, int **i)
+static t_cmd *get_redir_heredoc(t_cmd *node,
+								char **full_command, int **i)
 {
 	if (!full_command[++(**i)])
 	{
@@ -96,7 +96,7 @@ static t_cmd	*get_redir_heredoc(t_cmd *node,
 		return (node);
 	}
 	node->fd_in = get_here_doc(full_command[(*(*i))],
-			"minishell: warning: here-document delimited by end-of-file");
+							   "minishell: warning: here-document delimited by end-of-file");
 	if (node->fd_in == -1)
 	{
 		**i = -2;
@@ -106,10 +106,46 @@ static t_cmd	*get_redir_heredoc(t_cmd *node,
 	return (node);
 }
 
-t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
+char *remove_1st_and_last_el(char *str)
+{
+	char *new_str;
+	int i;
+
+	i = 0;
+	new_str = ft_calloc(ft_strlen(str) - 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
+	while (i++ < (int)ft_strlen(str) - 2)
+		new_str[i - 1] = str[i];
+	new_str[i - 1] = '\0';
+	return (new_str);
+}
+
+char *remove_paired_quotes(char *str) {
+	int i = 0,
+	j = 0;
+	int single_quote_open = 0,
+	double_quote_open = 0;
+
+	while (str[i]) {
+		if (str[i] == '\'' && !double_quote_open) {
+			single_quote_open = !single_quote_open;
+		} else if (str[i] == '\"' && !single_quote_open) {
+			double_quote_open = !double_quote_open;
+		} else {
+			str[j++] = str[i];
+		}
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+t_cmd *set_redir(t_cmd *node, char *input, char **full_command, int *i)
 {
 	if (input[0])
 	{
+		// printf("input[0] = %c\n", input[0]);
 		if (input[0] == '>' && input[1] == '>')
 			node = handle_redirection(node, full_command, &i, 3); // Append
 		else if (input[0] == '>')
@@ -119,7 +155,12 @@ t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
 		else if (input[0] == '<')
 			node = handle_redirection(node, full_command, &i, 1); // Input
 		else if (input[0] != '|')
-			node->full_command = ft_add_row_2d_array(node->full_command, input, 0);
+		{
+			if (!is_string_quoted(input))
+				node->full_command = ft_add_row_2d_array(node->full_command, input, 0);
+			else
+				node->full_command = ft_add_row_2d_array(node->full_command, remove_paired_quotes(input), 0);
+		}
 	}
 	if (node->fd_in == -1 || node->fd_out == -1)
 	{
