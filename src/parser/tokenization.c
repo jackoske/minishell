@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 20:53:58 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/06 14:11:14 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ char	**tokenize_input(char *input)
 		if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1
 			&& !ft_is_only_special(expandedArray[i[0]]))
 		{
+			specialSymbolArray = NULL;
 			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
 					tokenize_special_symbols(expandedArray[i[0]], 0, -1),
 					ft_2d_array_len(specialSymbolArray));
