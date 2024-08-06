@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/06 17:28:33 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:03:46 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ int	handle_command_node(char **input, t_list **commands,
 	// char	*aux;
 
 	// j = -1;
-	// printf("inside handle_command_node\n");
-	// ft_print_2d_array_fd(input, 1);
+	printf("inside handle_command_node\n");
+	ft_print_2d_array_fd(input, 1);
 	*cur_command = ft_lstlast(*commands);
 	if (*i == 0 || (input[*i][0] == '|' && input[*i + 1] && input[*i + 1][0]))
 	{
 		ft_lstadd_back(commands, ft_lstnew(init_cmd()));
 		*cur_command = ft_lstlast(*commands);
 	}
-	// printf("input[*i]: %s\n", input[*i]);
+	printf("input[*i]: %s\n", input[*i]);
 	// if (!is_string_quoted(input[*i]))
 	// {
 	// 	// while (temp && temp[++j])
@@ -91,20 +91,20 @@ t_list	*create_nodes(char **input)
 
 		if (handle_command_node(input, &commands, &cur_command, &i) == -1)
 		{
-			// printf("test4\n");
+			printf("test4\n");
 			return (g_mini->exit_status = 1, NULL);
 		}
 		if (i == -2)
 		{
-			// printf("test2\n");
+			printf("test2\n");
 			ft_lstclear(&commands, free_cmd);
 			ft_free_2d_array(&input);
 			return (NULL);
 		}
-		// printf("test3\n");
+		printf("test3\n");
 	}
-	// printf("test4\n");
-	// print_nodes(commands);
+	printf("test4\n");
+	print_nodes(commands);
 	return (commands);
 }
 

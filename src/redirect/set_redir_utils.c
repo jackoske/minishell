@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/06 17:10:09 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:03:18 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ t_cmd *set_redir(t_cmd *node, char *input, char **full_command, int *i)
 {
 	if (input[0])
 	{
-		// printf("input[0] = %c\n", input[0]);
+		printf("input[0] = %c\n", input[0]);
 		if (input[0] == '>' && input[1] == '>')
 			node = handle_redirection(node, full_command, &i, 3); // Append
 		else if (input[0] == '>')

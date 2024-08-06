@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 17:12:47 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:32:58 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**populateTokenArray(char **tokenizedInput, char *input)
 			tokenizedInput[k++] = ft_substr(input, begin, end - begin);
 	}
 	tokenizedInput[k] = NULL;
+	printf("tokenizedInput: %s\n", tokenizedInput[1]);
 	return (tokenizedInput);
 }
 
@@ -47,10 +48,12 @@ char	**split_by_spaces(char *input, int w_count)
 {
 	char	**tokenizedInput;
 
+	printf("INPUT: %s\n", input);
 	tokenizedInput = ft_calloc(w_count + 1, sizeof(char *));
 	if (!tokenizedInput)
 		return (NULL);
 	tokenizedInput = populateTokenArray(tokenizedInput, input);
+	printf("tokenizedInput: %s\n", tokenizedInput[1]);
 	return (tokenizedInput);
 }
 
@@ -168,13 +171,15 @@ char	**tokenize_input(char *input)
 
 	i[0] = init_tokenize_input_vars(&tempTokenArray, &specialSymbolArray,
 		&expandedArray, &tokenizedInput);
+	printf("input: %s\n", input);
 	trimmedInput = ft_strtrim(input, " ");
-	tokenizedInput = split_by_spaces(trimmedInput,
-			ft_word_count_quotes(trimmedInput));
+	tokenizedInput = split_by_spaces(trimmedInput, ft_word_count_quotes(trimmedInput));
+	printf("tokenizedInput: %s\n", tokenizedInput[1]);
 	free(trimmedInput);
 	if (!tokenizedInput)
 		return (NULL);
 	expandedArray = expand_vars(tokenizedInput);
+	printf("expandedArray: %s\n", expandedArray[1]);
 	if (!expandedArray)
 	{
 		ft_free_2d_array(&tokenizedInput);
@@ -182,11 +187,13 @@ char	**tokenize_input(char *input)
 	}
 	while (expandedArray[++i[0]])
 	{
+		printf("expandedArray[i[0]]) = %s\n", expandedArray[i[0]]);
 		if (is_string_quoted(expandedArray[i[0]]))
 			tempTokenArray = ft_add_row_2d_array1(tempTokenArray, expandedArray[i[0]]);
 		else if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1
 			&& !ft_is_only_special(expandedArray[i[0]]))
 		{
+			printf("test4\n");
 			specialSymbolArray = NULL;
 			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
 					tokenize_special_symbols(expandedArray[i[0]], 0, -1),
@@ -211,6 +218,8 @@ char	**tokenize_input(char *input)
 					expandedArray[i[0]], 0);
 		}
 	}
+	printf("tokenizatiion\n");
+	ft_print_2d_array_fd(tempTokenArray, 1);
 	// printf("tempTokenArray[i[1]]: %s\n", tempTokenArray[i[1]]);
 	// printf("tempTokenArray[i[++1]]: %s\n", tempTokenArray[++i[1]]);
 	ft_free_2d_array(&specialSymbolArray);
