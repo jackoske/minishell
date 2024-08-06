@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 18:22:59 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:51:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	**expand_vars(char **tokenizedInput)
 	int		i;
 	char	**replaced;
 
-	printf("test5\n");
 	tempTokenArray = ft_duplicate_2d_array(tokenizedInput);
 	if (!tempTokenArray)
 		return (NULL);
@@ -97,7 +96,6 @@ char	**expand_vars(char **tokenizedInput)
 		{
 			replaced = find_env_var_and_replace(tempTokenArray[i],
 					tokenizedInput);
-					printf("replaced: %s\n", replaced[0]);
 			if (replaced)
 			{
 				ft_free_2d_array(&last_str);
@@ -105,6 +103,5 @@ char	**expand_vars(char **tokenizedInput)
 			}
 		}
 	}
-	printf("last_str: %s\n", last_str[0]);
 	return (last_str);
 }
