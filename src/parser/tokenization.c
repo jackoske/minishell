@@ -6,21 +6,21 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 19:53:14 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:46:20 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Populate Token Array Function
-char	**populateTokenArray(char **tokenizedInput, char *input)
+char	**populate_token_array(char **tokenizedInput, char *input)
 {
 	int	k;
 	int	quote[2];
 	int	begin;
 	int	end;
 
-	quote[0] = quote[1] = begin = end = k = 0;
+	quote[0] = ((quote[1] = 0, begin = 0, end = 0), k = 0);
 	while (input[end])
 	{
 		while (ft_strchr(" ", input[end]) && input[end] != '\0')
@@ -43,15 +43,15 @@ char	**populateTokenArray(char **tokenizedInput, char *input)
 }
 
 // Split by Spaces Function
-char	**split_by_spaces(char *input, int w_count)
+char	**split_spaces(char *input, int w_count)
 {
-	char	**tokenizedInput;
+	char	**tokenized_input;
 
-	tokenizedInput = ft_calloc(w_count + 1, sizeof(char *));
-	if (!tokenizedInput)
+	tokenized_input = ft_calloc(w_count + 1, sizeof(char *));
+	if (!tokenized_input)
 		return (NULL);
-	tokenizedInput = populateTokenArray(tokenizedInput, input);
-	return (tokenizedInput);
+	tokenized_input = populate_token_array(tokenized_input, input);
+	return (tokenized_input);
 }
 
 // Define Symbol Length Function
@@ -73,8 +73,7 @@ void	allocate_and_copy_token(char **tokens, int token_count, const char *str,
 	tokens[token_count][c] = '\0';
 }
 
-// Tokenize Special Symbols Function
-char	**tokenize_special_symbols(const char *str, int i, int token_count)
+char	**tokenize_sp_symb(const char *str, int i, int token_count)
 {
 	char	**tokens;
 	int		c[2];
@@ -107,15 +106,15 @@ char	**tokenize_special_symbols(const char *str, int i, int token_count)
 }
 
 // Initialize Tokenize Input Variables Function
-int	init_tokenize_input_vars(char ***tempTokenArray, char ***specialSymbolArray,
-		char ***expandedArray, char ***tokenizedInput)
-{
-	*tempTokenArray = NULL;
-	*specialSymbolArray = NULL;
-	*expandedArray = NULL;
-	*tokenizedInput = NULL;
-	return (-1);
-}
+// int	init_tokenize_input_vars(char ***tempTokenArray, char ***specialSymbolArray,\
+// 		char ***expandedArray, char ***tokenizedInput)
+// {
+// 	*tempTokenArray = NULL;
+// 	*specialSymbolArray = NULL;
+// 	*expandedArray = NULL;
+// 	*tokenizedInput = NULL;
+// 	return (-1);
+// }
 
 // Add Special Row Function
 void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
@@ -155,63 +154,68 @@ char	**ft_add_row_2d_array1(char **array, char *row)
 	return (new_array);
 }
 
-
-// Tokenize Input Function
-char	**tokenize_input(char *input)
+static char	**process_special_symb(char *token, char **tempTokenArr, int *i)
 {
-	char	**tokenizedInput;
-	char	**expandedArray;
-	char	**tempTokenArray;
-	char	**specialSymbolArray;
-	char	*trimmedInput;
-	int		i[2];
+	char	**sp_sym_arr;
+	int		j;
 
-	i[0] = init_tokenize_input_vars(&tempTokenArray, &specialSymbolArray,
-		&expandedArray, &tokenizedInput);
-	trimmedInput = ft_strtrim(input, " ");
-	tokenizedInput = split_by_spaces(trimmedInput, ft_word_count_quotes(trimmedInput));
-	free(trimmedInput);
-	if (!tokenizedInput)
-		return (NULL);
-	expandedArray = expand_vars(tokenizedInput);
-	if (!expandedArray)
+	sp_sym_arr = ft_splice_2d_array(NULL, tokenize_sp_symb(token, 0, -1), 0);
+	if (!sp_sym_arr)
+		return (ft_free_2d_array(&tempTokenArr), NULL);
+	j = -1;
+	while (sp_sym_arr[++j])
+		add_special_row(&tempTokenArr, sp_sym_arr[j], i);
+	free(sp_sym_arr);
+	return (tempTokenArr);
+}
+
+static char	**process_expanded_array(char **expandedArray, char **tmpTokArr)
+{
+	int	i;
+
+	i = -1;
+	while (expandedArray[++i])
 	{
-		ft_free_2d_array(&tokenizedInput);
-		return (NULL);
-	}
-	while (expandedArray[++i[0]])
-	{
-		if (is_string_quoted(expandedArray[i[0]]))
-			tempTokenArray = ft_add_row_2d_array1(tempTokenArray, expandedArray[i[0]]);
-		else if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1
-			&& !ft_is_only_special(expandedArray[i[0]]))
+		if (is_string_quoted(expandedArray[i]))
+			tmpTokArr = ft_add_row_2d_array1(tmpTokArr, expandedArray[i]);
+		else if (ft_1st_char_in_set_i(expandedArray[i], "<>|") != -1
+			&& !ft_is_only_special(expandedArray[i]))
 		{
-			specialSymbolArray = NULL;
-			specialSymbolArray = ft_splice_2d_array(specialSymbolArray,
-					tokenize_special_symbols(expandedArray[i[0]], 0, -1),
-					ft_2d_array_len(specialSymbolArray));
-			if (!specialSymbolArray)
-			{
-				ft_free_2d_array(&expandedArray);
-				ft_free_2d_array(&tempTokenArray);
+			tmpTokArr = process_special_symb(expandedArray[i], tmpTokArr, &i);
+			if (!tmpTokArr)
 				return (NULL);
-			}
-			i[1] = -1;
-			while (specialSymbolArray[++i[1]])
-			{
-				add_special_row(&tempTokenArray, specialSymbolArray[i[1]],
-					&i[0]);
-			}
-			i[0] -= 2;
+			i -= 2;
 		}
 		else
-		{
-			tempTokenArray = ft_add_row_2d_array(tempTokenArray,
-					expandedArray[i[0]], 0);
-		}
+			tmpTokArr = ft_add_row_2d_array(tmpTokArr, expandedArray[i], 0);
 	}
-	ft_free_2d_array(&specialSymbolArray);
-	ft_free_2d_array(&expandedArray);
-	ft_free_2d_array(&tokenizedInput);
-	return (ft_add_row_2d_array(tempTokenArray, NULL, 1));
+	return (tmpTokArr);
+}
+
+char	**tokenize_input(char *input)
+{
+	char	**tok_input;
+	char	**expanded_arr;
+	char	**temp_token_arr;
+	char	*trimmed_input;
+
+	temp_token_arr = NULL;
+	trimmed_input = ft_strtrim(input, " ");
+	tok_input = split_spaces(trimmed_input, w_count_quotes(trimmed_input));
+	free(trimmed_input);
+	if (!tok_input)
+		return (NULL);
+	expanded_arr = expand_vars(tok_input);
+	if (!expanded_arr)
+		return (ft_free_2d_array(&tok_input), NULL);
+	temp_token_arr = process_expanded_array(expanded_arr, temp_token_arr);
+	if (!temp_token_arr)
+	{
+		ft_free_2d_array(&expanded_arr);
+		ft_free_2d_array(&tok_input);
+		return (NULL);
+	}
+	ft_free_2d_array(&expanded_arr);
+	ft_free_2d_array(&tok_input);
+	return (ft_add_row_2d_array(temp_token_arr, NULL, 1));
 }

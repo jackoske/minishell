@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 16:30:43 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:38:24 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ void							ft_error_with_exit(int error_code, char *arg,
 char							**tokenize_input(char *input);
 char							**tokenize_special_symbols(const char *str,
 									int i, int token_count);
-char							**split_by_spaces(char *input, int w_count);
-char							**populateTokenArray(char **tokenizedInput,
+char							**split_spaces(char *input, int w_count);
+char							**populate_token_array(char **tokenizedInput,
 									char *input);
-int								ft_word_count_quotes(char *input);
+int								w_count_quotes(char *input);
 int								quotes_closed(char *line);
 int								ft_alloc_len(char const *s1);
 char							*ft_trimm_quotes(char const *s1, int s_quote, int d_quote);

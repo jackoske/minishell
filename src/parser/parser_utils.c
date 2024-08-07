@@ -6,13 +6,13 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 16:37:43 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:38:24 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_word_count_quotes(char *input)
+int	w_count_quotes(char *input)
 {
 	int		i;
 	int		count;

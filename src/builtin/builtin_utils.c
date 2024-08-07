@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/07 13:56:07 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/07 17:43:10 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	execute_builtin(t_cmd *cmd)
 		mini_unset(cmd->full_command);
 	else if (ft_strcmp(cmd->full_command[0], "env") == 0)
 		mini_env();
-	g_mini->exit_status = 0;
+	else
+		g_mini->exit_status = 0;
 }
