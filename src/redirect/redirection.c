@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/06 17:15:30 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:40:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 
 t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 {
-	char	*nl;
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)command->content;
-	nl = "minishell: syntax error near unexpected token `newline'";
 	(*i)++;
 	if (args[*i])
 	{

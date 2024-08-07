@@ -3,46 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 21:26:51 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/07 12:55:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Implementation of echo command with '-n' option
-void	mini_echo(t_cmd *cmd)
+void mini_echo(t_cmd *cmd)
 {
-	int	i;
-	int	newline;
+    int i = 1;
+    int newline = 1;
 
-	i = 1;
-	newline = 1;
-	if (cmd->full_command[i] && ft_strcmp(cmd->full_command[i], "-n") == 0)
-	{
-		newline = 0;
-		i++;
-	}
-	while (cmd->full_command[i])
-	{
-		if (ft_strcmp(cmd->full_command[i], "$?") == 0)
-		{
-			show_last_command_status(cmd->full_command);
-			return ;
-		}
-		else
-		{
-			ft_putstr_fd(cmd->full_command[i], 1);
-			if (cmd->full_command[i + 1])
-				ft_putstr_fd(" ", 1);
-			i++;
-		}
-	}
-	if (newline)
-		ft_putstr_fd("\n", 1);
+    if (cmd->full_command[i] && ft_strcmp(cmd->full_command[i], "-n") == 0)
+    {
+        newline = 0;
+        i++;
+    }
+    while (cmd->full_command[i])
+    {
+        if (ft_strcmp(cmd->full_command[i], "$?") == 0)
+        {
+            show_last_command_status(cmd->full_command);
+            return;
+        }
+        else
+        {
+            ft_putstr_fd(cmd->full_command[i], cmd->fd_out);
+            if (cmd->full_command[i + 1])
+                ft_putstr_fd(" ", cmd->fd_out);
+            i++;
+        }
+    }
+    if (newline)
+        ft_putstr_fd("\n", cmd->fd_out);
 }
+
 
 // Implementation of pwd command
 void	mini_pwd(void)

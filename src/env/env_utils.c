@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 17:55:46 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/07 12:39:12 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ int	add_env_key(char *str, int len)
 int	is_special_char_in_env(char *str)
 {
 	int	i;
-	int	marker;
 
-	marker = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
