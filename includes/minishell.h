@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 21:25:35 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:30:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ char							**populateTokenArray(char **tokenizedInput,
 int								ft_word_count_quotes(char *input);
 int								quotes_closed(char *line);
 int								ft_alloc_len(char const *s1);
+char							*ft_trimm_quotes(char const *s1, int s_quote, int d_quote);
 
 /* Variable Expansion and Environment Handling */
 char							*find_var(char *var);
@@ -155,6 +156,7 @@ int								is_already_exist(char *key);
 void							show_last_command_status(char **str);
 int								is_special_char_export(char c);
 int								is_all_num(char *str);
+int								is_string_quoted(char *str);
 
 /* Built-in Commands */
 int								mini_cd(char **args);

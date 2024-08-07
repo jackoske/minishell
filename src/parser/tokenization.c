@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 14:11:14 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:53:14 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,36 @@ void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
 	*i += 1;
 }
 
+char	**ft_add_row_2d_array1(char **array, char *row)
+{
+	int		i;
+	char	**new_array;
+
+	i = 0;
+	if (!array)
+	{
+		new_array = ft_calloc(2, sizeof(char *));
+		if (!new_array)
+			return (NULL);
+		new_array[0] = ft_strdup(row);
+		new_array[1] = NULL;
+		return (new_array);
+	}
+	while (array[i])
+		i++;
+	new_array = ft_calloc(i + 2, sizeof(char *));
+	if (!new_array)
+		return (NULL);
+	i = -1;
+	while (array[++i])
+		new_array[i] = ft_strdup(array[i]);
+	new_array[i] = ft_strdup(row);
+	new_array[i + 1] = NULL;
+	ft_free_2d_array(&array);
+	return (new_array);
+}
+
+
 // Tokenize Input Function
 char	**tokenize_input(char *input)
 {
@@ -136,11 +166,10 @@ char	**tokenize_input(char *input)
 	char	*trimmedInput;
 	int		i[2];
 
-	init_tokenize_input_vars(&tempTokenArray, &specialSymbolArray,
+	i[0] = init_tokenize_input_vars(&tempTokenArray, &specialSymbolArray,
 		&expandedArray, &tokenizedInput);
 	trimmedInput = ft_strtrim(input, " ");
-	tokenizedInput = split_by_spaces(trimmedInput,
-			ft_word_count_quotes(trimmedInput));
+	tokenizedInput = split_by_spaces(trimmedInput, ft_word_count_quotes(trimmedInput));
 	free(trimmedInput);
 	if (!tokenizedInput)
 		return (NULL);
@@ -150,10 +179,11 @@ char	**tokenize_input(char *input)
 		ft_free_2d_array(&tokenizedInput);
 		return (NULL);
 	}
-	i[0] = -1;
 	while (expandedArray[++i[0]])
 	{
-		if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1
+		if (is_string_quoted(expandedArray[i[0]]))
+			tempTokenArray = ft_add_row_2d_array1(tempTokenArray, expandedArray[i[0]]);
+		else if (ft_1st_char_in_set_i(expandedArray[i[0]], "<>|") != -1
 			&& !ft_is_only_special(expandedArray[i[0]]))
 		{
 			specialSymbolArray = NULL;

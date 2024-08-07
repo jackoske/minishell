@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:43:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 17:48:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/07 13:56:07 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,15 @@ int	is_builtin(t_cmd *cmd)
 
 void	show_last_command_status(char **str)
 {
+	char	*exit_status;
+
 	if (ft_2d_array_len(str) == 1)
 	{
-		ft_putstr_fd(ft_itoa(g_mini->exit_status), STDERR_FILENO);
+		g_mini->exit_status = 127;
+		exit_status = ft_itoa(g_mini->exit_status);
+		ft_putstr_fd(exit_status, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		free(exit_status);
 		return ;
 	}
 	ft_putnbr_fd(g_mini->exit_status, STDOUT_FILENO);
