@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 19:46:20 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:39:07 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,116 +42,32 @@ char	**populate_token_array(char **tokenizedInput, char *input)
 	return (tokenizedInput);
 }
 
-// Split by Spaces Function
-char	**split_spaces(char *input, int w_count)
-{
-	char	**tokenized_input;
-
-	tokenized_input = ft_calloc(w_count + 1, sizeof(char *));
-	if (!tokenized_input)
-		return (NULL);
-	tokenized_input = populate_token_array(tokenized_input, input);
-	return (tokenized_input);
-}
-
-// Define Symbol Length Function
-static void	define_symbol_len(int *len, char index1, char index2)
-{
-	*len = 1;
-	if ((index1 == '<' && index2 == '<') || (index1 == '>' && index2 == '>'))
-		*len = 2;
-}
-
-// Allocate and Copy Token Function
-void	allocate_and_copy_token(char **tokens, int token_count, const char *str,
-		int i, int c)
-{
-	tokens[token_count] = malloc((c + 1) * sizeof(char));
-	if (!tokens[token_count])
-		return ;
-	ft_strlcpy(tokens[token_count], &str[i], c + 1);
-	tokens[token_count][c] = '\0';
-}
-
 char	**tokenize_sp_symb(const char *str, int i, int token_count)
 {
 	char	**tokens;
-	int		c[2];
-	int		len;
+	int		c[6];
 	int		start;
 
-	tokens = ft_calloc(100, sizeof(char *));
+	tokens = ((c[3] = i), ft_calloc(100, sizeof(char *)));
 	if (!tokens)
 		return (NULL);
-	len = ft_strlen(str);
-	while (i < len && ++token_count <= 1000)
+	while (c[3] < (int)ft_strlen(str) && ++token_count <= 1000)
 	{
-		if (ft_is_special_symbol(str[i]))
+		if (ft_is_special_symbol(str[c[3]]))
 		{
-			define_symbol_len(&c[0], str[i], str[i + 1]);
-			allocate_and_copy_token(tokens, token_count, str, i, c[0]);
-			i += c[0];
+			define_symbol_len(&c[0], str[c[3]], str[c[3] + 1]);
+			allocate_and_copy_token1(tokens, token_count, str, c);
+			c[3] += c[0];
 		}
 		else
 		{
-			start = i;
-			while (i < len && !ft_is_space(str[i])
-				&& !ft_is_special_symbol(str[i]))
-				i++;
-			c[1] = i - start;
-			allocate_and_copy_token(tokens, token_count, str, start, c[1]);
+			imp_while(&c[3], ft_strlen(str), str, &start);
+			c[4] = start;
+			c[5] = c[3] - c[4];
+			allocate_and_copy_token2(tokens, token_count, str, c);
 		}
 	}
 	return (tokens);
-}
-
-// Initialize Tokenize Input Variables Function
-// int	init_tokenize_input_vars(char ***tempTokenArray, char ***specialSymbolArray,\
-// 		char ***expandedArray, char ***tokenizedInput)
-// {
-// 	*tempTokenArray = NULL;
-// 	*specialSymbolArray = NULL;
-// 	*expandedArray = NULL;
-// 	*tokenizedInput = NULL;
-// 	return (-1);
-// }
-
-// Add Special Row Function
-void	add_special_row(char ***tempTokenArray, char *specialSymbolArray,
-		int *i)
-{
-	*tempTokenArray = ft_add_row_2d_array(*tempTokenArray, specialSymbolArray,
-			0);
-	*i += 1;
-}
-
-char	**ft_add_row_2d_array1(char **array, char *row)
-{
-	int		i;
-	char	**new_array;
-
-	i = 0;
-	if (!array)
-	{
-		new_array = ft_calloc(2, sizeof(char *));
-		if (!new_array)
-			return (NULL);
-		new_array[0] = ft_strdup(row);
-		new_array[1] = NULL;
-		return (new_array);
-	}
-	while (array[i])
-		i++;
-	new_array = ft_calloc(i + 2, sizeof(char *));
-	if (!new_array)
-		return (NULL);
-	i = -1;
-	while (array[++i])
-		new_array[i] = ft_strdup(array[i]);
-	new_array[i] = ft_strdup(row);
-	new_array[i + 1] = NULL;
-	ft_free_2d_array(&array);
-	return (new_array);
 }
 
 static char	**process_special_symb(char *token, char **tempTokenArr, int *i)

@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 18:38:24 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:41:45 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ extern volatile sig_atomic_t	g_is_executing_command;
 /* Struct Definitions                                                         */
 /*                                                                            */
 /* ************************************************************************** */
+
+typedef struct param
+{
+	int							token_count;
+	int							i;
+}								t_param;
+
 typedef struct s_error_info
 {
 	int							error_code;
@@ -133,6 +140,19 @@ int								w_count_quotes(char *input);
 int								quotes_closed(char *line);
 int								ft_alloc_len(char const *s1);
 char							*ft_trimm_quotes(char const *s1, int s_quote, int d_quote);
+void							allocate_and_copy_token1(char **tokens,	\
+	int token_count, const char *str, int c[5]);
+void							allocate_and_copy_token2(char **tokens, \
+	int token_count, const char *str, int n[5]);
+void							imp_while(int *i, int len, const char *str, int *start);
+char							**ft_add_row_2d_array1(char **array, char *row);
+void							add_special_row(char ***tempTokenArray, char *specialSymbolArray, \
+	int *i);
+char							**split_spaces(char *input, int w_count);
+void							define_symbol_len(int *len, char index1, char index2);
+
+
+
 
 /* Variable Expansion and Environment Handling */
 char							*find_var(char *var);
