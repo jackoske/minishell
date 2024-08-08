@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/08 12:41:45 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:55:50 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ char							**find_env_var_and_replace(char *var,
 									char **tokenizedInput);
 char							**expand_vars(char **tokenizedInput);
 char							**ft_remove_quotes(char **tokenizedInput);
+char							*remove_double_quotes(char *str);
+char							*get_var_value(char *var);
+char							*copy_or_replace_token(char *token, char *var);
+
 
 /* Command Handling */
 void							*check_to_fork(t_list *command);
