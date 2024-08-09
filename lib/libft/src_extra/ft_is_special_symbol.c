@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:35:34 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 19:45:41 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:31:28 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	ft_is_special_symbol(char c)
 
 int	is_special_char_export(char c)
 {
-	char *prohibited_chars;
+	char	*prohibited_chars;
 
 	prohibited_chars = "!@#$%^&*()-+=|\\{}[]:;\"'<>,.?/";
-	while (*prohibited_chars) {
-		if (c == *prohibited_chars) {
-			return 1;
-		}
+	while (*prohibited_chars)
+	{
+		if (c == *prohibited_chars)
+			return (1);
 		prohibited_chars++;
 	}
-	return 0;
+	return (0);
 }

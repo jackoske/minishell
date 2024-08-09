@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc_2d_array.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:16:05 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 18:04:01 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:25:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_realloc_2d_array(char **array, int new_size)
 	if (!out)
 		return (NULL);
 	out = (ft_splice_2d_array(out, array, 0));
-	if(!out)
+	if (!out)
 	{
 		ft_free_2d_array(&out);
 		return (NULL);

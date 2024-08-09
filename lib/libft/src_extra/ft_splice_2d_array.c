@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splice_2d_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:55:10 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/07 12:13:33 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:29:28 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ char	**ft_splice_2d_array(char **dest, char **src, int n)
 	int		total_i;
 	int		total_len;
 
-	if (!dest || !dest[0]) // If dest is empty
+	if (!dest || !dest[0])
 	{
-		// Return a copy of src
 		total_len = ft_2d_array_len(src);
 		temp = ft_calloc(total_len + 1, sizeof(char *));
 		if (!temp)
 			return (NULL);
-		for (src_i = 0; src_i < total_len; src_i++)
+		src_i = -1;
+		while (++src_i < total_len)
 			temp[src_i] = ft_strdup(src[src_i]);
 		return (temp);
 	}

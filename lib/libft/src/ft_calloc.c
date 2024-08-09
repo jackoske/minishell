@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 09:36:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 16:49:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:23:58 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*str;
-	
+
 	if (nmemb <= 0 || size <= 0)
 		str = (char *)malloc(1);
 	else

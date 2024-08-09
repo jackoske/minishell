@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 18:38:24 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:32:20 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
 {
 	int		unescaped_quotes;
 	char	*trimmed;
-	int 	i;
+	int		i;
 
 	i = -1;
 	unescaped_quotes = count_unescaped_quotes(s1);
@@ -97,7 +97,6 @@ char	**ft_remove_quotes(char **tokenizedInput)
 	int		i;
 
 	i = -1;
-	// ft_print_2d_array_fd(tokenizedInput, 1);
 	temp = ft_duplicate_2d_array(tokenizedInput);
 	while (temp && temp[++i])
 	{
@@ -105,15 +104,6 @@ char	**ft_remove_quotes(char **tokenizedInput)
 		free(temp[i]);
 		temp[i] = aux;
 	}
-	// i = -1;
-	// while (temp && temp[++i])
-	// {
-	// 	if (ft_is_special_in_str(temp[i]) && ft_is_special_in_str(temp[i++]))
-	// 		return (NULL);
-
-	// }
-	// ft_print_2d_array_fd(temp, 1);
 	return (temp);
 }
-
 

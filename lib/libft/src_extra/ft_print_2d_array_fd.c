@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_2d_array_fd.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:21:48 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/06/06 12:29:41 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:25:03 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-int ft_print_2d_array_fd(char **array, int fd)
+int	ft_print_2d_array_fd(char **array, int fd)
 {
-	int i;
+	int	i;
 
 	if (fd < 0)
 		return (0);
