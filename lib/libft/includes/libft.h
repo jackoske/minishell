@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 19:45:41 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:01:05 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <stddef.h>
 # include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 
 typedef struct s_list
 {
@@ -56,8 +56,8 @@ char				*ft_strtrim(const char *s1, const char *set);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 int					ft_putchar_fd(char c, int fd);
-int					ft_putstr_fd(char *str, int fd);
-int					ft_putendl_fd(char *str, int fd);
+int					ft_putstr_fd(const char *str, int fd);
+int					ft_putendl_fd(const char *str, int fd);
 int					ft_putnbr_fd(int n, int fd);
 char				**ft_split(const char *s, char c);
 char				*ft_itoa(int n);
@@ -76,11 +76,13 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
 int					ft_2d_array_len(char **array);
+char				*ft_quote_string(const char *str);
 int					ft_print_2d_array_fd(char **array, int fd);
 void				ft_free_2d_array(char ***array);
 void				ft_copy_2d_array_i(char ***dest, char **src, int index);
 char				**ft_duplicate_2d_array(char **array);
-char				**ft_add_row_2d_array(char **array, char *row, int free_row);
+char				**ft_add_row_2d_array(char **array, char *row,
+						int free_row);
 char				**ft_add_row_2d_array_i(char ***out, char *row, int i);
 char				**ft_splice_2d_array(char **dest, char **src, int i);
 char				**ft_realloc_2d_array(char **array, int new_size);

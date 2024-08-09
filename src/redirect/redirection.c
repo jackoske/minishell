@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/07 12:40:37 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 17:13:07 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ int	get_fd(int oldfd, t_cmd *cmd, char *path)
 		close(oldfd);
 	if (!path)
 		return (-1);
-	if (access(path, F_OK) == -1 && !cmd->is_outfile)
-		return (ft_error_with_exit(1, path, 127, "NDIR"), -1);
-	else if (!cmd->is_outfile && access(path, R_OK) == -1)
-		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
-	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
-			F_OK) == 0)
-		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
-	if (cmd->is_outfile && cmd->is_append)
+	if (access(path, F_OK) == -1)
+		return (ft_error_with_exit(3, path, 127, ": No such file or directory"), -1);
+	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path, F_OK) == 0)
+		return (ft_error_with_exit(1, path, 126, ": Permission denied"), -1);
+	else if (cmd->is_outfile && access(path, X_OK) == -1 && access(path, F_OK) == 0 && !cmd->is_outfile)
+		return (ft_error_with_exit(1, path, 126, ": Is a directory"), -1);
+	else if (cmd->is_outfile && cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (cmd->is_outfile && !cmd->is_append)
 		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
