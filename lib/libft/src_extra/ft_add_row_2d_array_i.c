@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_row_2d_array_i.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:06:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/05/31 15:16:54 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:24:45 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@
 // 	char *temp;
 
 // 	temp = out[len];
-// 	out[len] = 
+// 	out[len] =
 // }
-

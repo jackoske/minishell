@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:14:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/07/18 18:55:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:23:23 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,23 @@ static int	letter_count(char const *s, char c, int index)
 	return (count);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	int		i;
 	int		j;
 	int		k;
 
-	i = 0;
-	k = 0;
-	if (!s || !c || !(tab = malloc(sizeof(char *) * (word_count(s, c) + 1))))
+	tab = ((i = 0), (k = 0), malloc(sizeof(char *) * (word_count(s, c) + 1)));
+	if (!s || !c || !tab)
 		return (NULL);
 	while (s[k] == c)
 		k++;
 	while (s[k] != '\0')
 	{
 		j = 0;
-		if (!(tab[i] = malloc(sizeof(char) * letter_count(s, c, k) + 1)))
+		tab[i] = malloc(sizeof(char) * letter_count(s, c, k) + 1);
+		if (!tab[i])
 			return (NULL);
 		while (s[k] != c && s[k] != '\0')
 			tab[i][j++] = s[k++];

@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/09 13:52:45 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:20:08 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ void							add_special_row(char ***tempTokenArray, char *specialSymbolArray, \
 	int *i);
 char							**split_spaces(char *input, int w_count);
 void							define_symbol_len(int *len, char index1, char index2);
-
-
+int								is_special_char_input(char c);
+int								is_string_quoted(char *str);
 
 
 /* Variable Expansion and Environment Handling */
