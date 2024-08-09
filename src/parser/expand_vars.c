@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/06 19:51:51 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:52:09 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,73 +34,77 @@ char	*find_var(char *var)
 	return (value);
 }
 
-// echo "hello      there" how are  $USER |wc -l >outfile
-char	**find_env_var_and_replace(char *var, char **tokenizedInput)
+char	**replace_var(char *tempTokenArray, char **tokenizedInput)
 {
-	char	*tempTokenArray;
+	char	**expanded_array;
 	int		i;
-	int		j;
-	char	**expandedArray;
 	char	*var_value;
 
-	tempTokenArray = ft_calloc(ft_strlen(var) + 1, sizeof(char));
-	if (!tempTokenArray)
-		return (NULL);
-	expandedArray = ft_calloc(ft_2d_array_len(tokenizedInput) + 1,
-			sizeof(char *));
-	if (!expandedArray)
-	{
-		free(tempTokenArray);
-		return (NULL);
-	}
-	j = 0;
-	i = 0;
-	while (var[i])
-		tempTokenArray[j++] = var[i++];
-	tempTokenArray[j] = '\0';
 	i = -1;
+	expanded_array = ft_calloc(ft_2d_array_len(tokenizedInput) + 1, \
+		sizeof(char *));
+	if (!expanded_array)
+		return (NULL);
 	while (tokenizedInput[++i])
 	{
 		if (ft_strchr(tokenizedInput[i], '$') == NULL)
-			expandedArray[i] = ft_strdup(tokenizedInput[i]);
+			expanded_array[i] = ft_strdup(tokenizedInput[i]);
 		else
 		{
 			var_value = find_var(tempTokenArray);
 			if (var_value)
-				expandedArray[i] = var_value;
+				expanded_array[i] = var_value;
 			else
-				expandedArray[i] = ft_strdup(tokenizedInput[i]);
+				expanded_array[i] = ft_strdup(tokenizedInput[i]);
 		}
 	}
 	free(tempTokenArray);
-	return (expandedArray);
+	return (expanded_array);
+}
+
+char	**find_env_var_and_replace(char *var, char **tokenizedInput)
+{
+	char	*temp_token_array;
+	char	*tmp;
+	int		j;
+	char	**res;
+
+	j = 0;
+	temp_token_array = ft_calloc(ft_strlen(var) + 1, sizeof(char));
+	if (!temp_token_array)
+		return (NULL);
+	tmp = remove_double_quotes(var);
+	while (*tmp)
+		temp_token_array[j++] = *++tmp;
+	temp_token_array[j] = '\0';
+	res = replace_var(temp_token_array, tokenizedInput);
+	if (!res)
+		return (free(temp_token_array), NULL);
+	return (res);
 }
 
 char	**expand_vars(char **tokenizedInput)
 {
-	char	**tempTokenArray;
+	char	**temp_token_array;
 	char	**last_str;
 	int		i;
 	char	**replaced;
 
-	tempTokenArray = ft_duplicate_2d_array(tokenizedInput);
-	if (!tempTokenArray)
+	temp_token_array = ft_duplicate_2d_array(tokenizedInput);
+	if (!temp_token_array)
 		return (NULL);
-	last_str = tempTokenArray;
+	last_str = temp_token_array;
 	i = -1;
-	while (tempTokenArray[++i])
+	while (temp_token_array[++i])
 	{
-		if (ft_strchr(tempTokenArray[i], '$') != NULL
-			&& (tempTokenArray[i][1] != '?'
-				&& ft_strlen(tempTokenArray[i]) == 2))
+		if (ft_strchr(temp_token_array[i], '$') != NULL
+			&& (temp_token_array[i][1] != '?'
+			&& ft_strlen(temp_token_array[i]) != 2))
 		{
-			replaced = find_env_var_and_replace(tempTokenArray[i],
+			replaced = find_env_var_and_replace(temp_token_array[i],
 					tokenizedInput);
 			if (replaced)
-			{
-				ft_free_2d_array(&last_str);
-				last_str = replaced;
-			}
+				last_str = manage_replaced(replaced, last_str);
 		}
 	}
 	return (last_str);
