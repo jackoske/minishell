@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:06:08 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 12:10:56 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 16:06:24 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static t_error_info			g_error_table[] = {
 	{3, NO_FILE_ERR, handle_exit},
 	{4, CMD_NOT_FOUND, handle_exit},
 	{5, PERM_ERR, handle_message},
-	{6, NULL, handle_message}, // Special case handled in the function below
+	{6, NULL, handle_message},
 	{7, NUM_REQ, handle_exit},
-	{8, NULL, handle_exit}, // Custom message will be passed
-	{9, NULL, handle_exit}  // Special case handled in the function below
+	{8, NULL, handle_exit},
+	{9, NULL, handle_exit},
 };
 
 static const t_error_info	*find_error_info(int error_code)
@@ -107,6 +107,5 @@ void	ft_error_with_exit(int error_code, char *arg, int exit_code,
 		ft_putstr_fd(message, STDERR_FILENO);
 	else if (error_info->message)
 		ft_putstr_fd(error_info->message, STDERR_FILENO);
-	// ft_putstr_fd("\n", STDERR_FILENO); can delete I think
 	g_mini->exit_status = exit_code;
 }

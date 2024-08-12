@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 09:26:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 16:03:48 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define PERM_ERR "minishell> permission denied: "
 # define NUM_REQ "numeric argument required"
 # define NOT_VALID_ID " not a valid identifier"
+# define CD_ERR "minishell: cd: HOME not set"
 
 # define READ_END 0
 # define WRITE_END 1

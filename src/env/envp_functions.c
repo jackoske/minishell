@@ -37,19 +37,14 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 	char	**new_envp_array;
 	char	*temp;
 
-	// printf("ft_setenv called with name=%s, value=%s, overwrite=%d\n", name,
-		// value, overwrite);
 	i = 0;
 	while (envp && envp[i])
 	{
-		// printf("Checking envp[%d]: %s\n", i, envp[i]);
 		if (!strncmp(envp[i], name, strlen(name))
 			&& envp[i][strlen(name)] == '=')
 		{
-			// printf("Match found at envp[%d]\n", i);
 			if (overwrite)
 			{
-				// printf("Overwriting existing value\n");
 				temp = ft_strjoin(name, "=");
 				new_envp = ft_strjoin_free(temp, (char *)value);
 				free(envp[i]);
@@ -94,7 +89,6 @@ char	**copy_env(char **envp)
 		new_envp[i] = strdup(envp[i]);
 		if (!new_envp[i])
 		{
-			// Free previously allocated memory in case of failure
 			while (i--)
 				free(new_envp[i]);
 			free(new_envp);

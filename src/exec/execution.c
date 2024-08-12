@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 12:25:11 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 16:32:35 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static void	execute_command(t_cmd *cmd)
 		if (command_path)
 		{
 			execve(command_path, cmd->full_command, g_mini->envp);
-			ft_error_with_exit(126, cmd->full_command[0], 126, ": Permission denied\n");
+			ft_error_with_exit(126, cmd->full_command[0], 126, "Permission denied\n");
 			free(command_path);
 			exit(126);
 		}
 		else
-			ft_error_with_exit(127, cmd->full_command[0], 127, ": command not found\n");
+			ft_error_with_exit(127, cmd->full_command[0], 127, "command not found\n");
 	}
 }
 
