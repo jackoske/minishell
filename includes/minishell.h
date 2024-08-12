@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/09 16:20:08 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/12 09:26:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ typedef struct s_error_info
 {
 	int							error_code;
 	const char					*message;
-	const char					*additional_info;
+	void						(*action)(int exit_code, char *arg,
+								const char *message);
 }								t_error_info;
 
 typedef struct s_signals
@@ -119,6 +120,8 @@ void							init_mini(t_mini *mini);
 void							free_mini(t_mini **mini);
 void							init_envp(char **envp);
 void							free_cmd(void *cmd_ptr);
+void							handle_input(char *input);
+t_list							*create_nodes(char **input);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
@@ -139,20 +142,22 @@ char							**populate_token_array(char **tokenizedInput,
 int								w_count_quotes(char *input);
 int								quotes_closed(char *line);
 int								ft_alloc_len(char const *s1);
-char							*ft_trimm_quotes(char const *s1, int s_quote, int d_quote);
-void							allocate_and_copy_token1(char **tokens,	\
-	int token_count, const char *str, int c[5]);
-void							allocate_and_copy_token2(char **tokens, \
-	int token_count, const char *str, int n[5]);
-void							imp_while(int *i, int len, const char *str, int *start);
+char							*ft_trimm_quotes(char const *s1, int s_quote,
+									int d_quote);
+void							allocate_and_copy_token1(char **tokens,
+									int token_count, const char *str, int c[5]);
+void							allocate_and_copy_token2(char **tokens,
+									int token_count, const char *str, int n[5]);
+void							imp_while(int *i, int len, const char *str,
+									int *start);
 char							**ft_add_row_2d_array1(char **array, char *row);
-void							add_special_row(char ***tempTokenArray, char *specialSymbolArray, \
-	int *i);
+void							add_special_row(char ***tempTokenArray,
+									char *specialSymbolArray, int *i);
 char							**split_spaces(char *input, int w_count);
-void							define_symbol_len(int *len, char index1, char index2);
+void							define_symbol_len(int *len, char index1,
+									char index2);
 int								is_special_char_input(char c);
 int								is_string_quoted(char *str);
-
 
 /* Variable Expansion and Environment Handling */
 char							*find_var(char *var);
@@ -161,8 +166,8 @@ char							**find_env_var_and_replace(char *var,
 char							**expand_vars(char **tokenizedInput);
 char							**ft_remove_quotes(char **tokenizedInput);
 char							*remove_double_quotes(char *str);
-char							**manage_replaced(char **replaced, char **last_str);
-
+char							**manage_replaced(char **replaced,
+									char **last_str);
 
 /* Command Handling */
 void							*check_to_fork(t_list *command);
@@ -203,6 +208,8 @@ void							debug_tokenized_input(char **tokenized_input);
 
 char							*ft_getenv(const char *name, char **envp,
 									int len);
+int								get_fd(int oldfd, t_cmd *cmd, char *path,
+									int mode);
 char							**ft_setenv(const char *name, const char *value,
 									char **envp, int overwrite);
 char							**copy_env(char **envp);

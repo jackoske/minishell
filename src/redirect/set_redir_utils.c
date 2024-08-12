@@ -3,59 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/06 19:53:22 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/12 09:38:13 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-Error handling for file access:
-- '<' : no such file or directory (F_OK == -1) or permission denied (R_OK == -1)
-- '>' : permission denied (W_OK == -1)
-- '>>': permission denied (W_OK == -1)
-*/
-static int check_access(char *path, int mode)
-{
-	if (mode == 1) // Read mode
-	{
-		if (access(path, F_OK) == -1)
-		{
-			ft_error_with_exit(3, NULL, 0, NULL);
-			return (0);
-		}
-		else if (access(path, R_OK) == -1)
-			return (ft_error_with_exit(5, NULL, 1, NULL), 0);
-		return (1);
-	}
-	else if (mode == 2) // Write mode
-	{
-		if (access(path, W_OK) == -1 && access(path, F_OK) != -1)
-			return (ft_error_with_exit(5, NULL, 1, NULL), 0);
-		return (1);
-	}
-	return (1);
-}
-
-static int get_fd(int oldfd, int mode, char *path)
-{
-	if (oldfd > 2)
-		close(oldfd);
-	if (!path)
-		return (-1);
-	if (!check_access(path, mode))
-		return (-1);
-	if (mode == 1)
-		return (open(path, O_RDONLY));
-	else if (mode == 2)
-		return (open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666));
-	else if (mode == 3)
-		return (open(path, O_WRONLY | O_CREAT | O_APPEND, 0666));
-	return (-1);
-}
 
 static t_cmd *handle_redirection(t_cmd *node, char **full_command, int **i,
 								 int mode)
@@ -64,7 +19,7 @@ static t_cmd *handle_redirection(t_cmd *node, char **full_command, int **i,
 	{
 		if (node->fd_out > 2)
 			close(node->fd_out);
-		node->fd_out = get_fd(node->fd_out, mode, full_command[++(**i)]);
+		node->fd_out = get_fd(node->fd_out, NULL, full_command[++(**i)], mode);
 		if (!full_command[*(*i)] || node->fd_out == -1)
 		{
 			**i = -2;
@@ -78,7 +33,7 @@ static t_cmd *handle_redirection(t_cmd *node, char **full_command, int **i,
 	{
 		if (node->fd_in > 2)
 			close(node->fd_in);
-		node->fd_in = get_fd(node->fd_in, mode, full_command[++(**i)]);
+		node->fd_in = get_fd(node->fd_in, NULL, full_command[++(**i)], mode);
 		if (node->fd_in == -1)
 			**i = -2;
 	}

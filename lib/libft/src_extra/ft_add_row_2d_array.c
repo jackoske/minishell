@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_row_2d_array.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:06:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/06 15:02:01 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:05:56 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,18 @@ char	**ft_add_row_2d_array(char **array, char *row, int free_row)
 			free(row);
 		return (new_array);
 	}
-	for (i = 0; array[i]; i++)
-		;
+	i = 0;
+	while (array[i])
+		i++;
 	new_array = ft_calloc(i + 2, sizeof(char *));
 	if (!new_array)
 		return (NULL);
-	for (i = 0; array[i]; i++)
+	i = 0;
+	while (array[i])
+	{
 		new_array[i] = ft_strdup(array[i]);
+		i++;
+	}
 	new_array[i] = ft_strdup(row);
 	if (free_row)
 		free(row);

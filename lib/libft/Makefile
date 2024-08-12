@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 17:01:09 by Jskehan           #+#    #+#              #
-#    Updated: 2024/08/07 17:54:50 by iverniho         ###   ########.fr        #
+#    Updated: 2024/08/09 17:01:38 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS_BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_b
 SRC_EXTRA_DIR = src_extra/
 SRCS_EXTRA = ft_1st_char_in_set_i.c ft_2d_array_len.c ft_add_row_2d_array.c ft_count_char.c ft_duplicate_2d_array.c \
 			 ft_free_2d_array.c ft_is_space.c ft_print_2d_array_fd.c ft_splice_2d_array.c ft_strchr_i.c ft_realloc_2d_array.c \
-			 ft_add_row_2d_array_i.c ft_strjoin_free.c ft_is_only_special.c ft_is_special_symbol.c ft_strcmp.c
+			 ft_add_row_2d_array_i.c ft_strjoin_free.c ft_is_only_special.c ft_is_special_symbol.c ft_strcmp.c ft_quote_string.c
 
 # Include Directory
 INC = -I./includes
