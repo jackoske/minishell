@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 17:32:06 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:33:40 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,12 @@ char							**ft_remove_quotes(char **tokenizedInput);
 char							*remove_quotes(char *str, char q);
 char							**manage_replaced(char **replaced,
 									char **last_str);
+int								calculate_new_length(const char *input, int replacement_len);
+void							replace_and_build(const char *input, char *output, \
+									const char *replacement_value);
+char							*replace_special_signs(const char *input);
+int								is_str_has_sigle_quottes(char *str);
+int								has_single_quoting(const char *str);
 
 /* Command Handling */
 void							*check_to_fork(t_list *command);

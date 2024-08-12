@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/09 17:40:48 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/12 20:32:21 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC_ENV = envp_functions.c path_resolution.c additional_env.c env_utils.c
 SRC_EXEC = execution.c
 SRC_INIT = initilisation.c
 SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c tokenization_utils.c\
-	tokenization_utils1.c expand_vars_utils.c input.c node.c
+	tokenization_utils1.c expand_vars_utils.c expand_vars_utils1.c input.c node.c
 SRC_REDIRECT = here_doc.c redirection.c set_redir_utils.c
 SRC_SIGNAL = signal.c
 SRC_TESTER = libft_extra_tests.c execution_tests.c node_tester.c
