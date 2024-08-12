@@ -3,39 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/07 12:40:37 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 09:39:30 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_fd(int oldfd, t_cmd *cmd, char *path)
+static int	check_access(char *path, int mode)
 {
-	int	fd;
+	if (mode == 1)
+	{
+		if (access(path, F_OK) == -1)
+		{
+			ft_error_with_exit(3, path, 127, ": No such file or directory");
+			return (0);
+		}
+		else if (access(path, R_OK) == -1)
+		{
+			ft_error_with_exit(5, path, 126, ": Permission denied");
+			return (0);
+		}
+		return (1);
+	}
+	else if (mode == 2)
+	{
+		if (access(path, F_OK) != -1 && access(path, W_OK) == -1)
+		{
+			ft_error_with_exit(5, path, 126, ": Permission denied");
+			return (0);
+		}
+		return (1);
+	}
+	return (1);
+}
 
+static int	open_file_for_reading(char *path)
+{
+	int fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		ft_error_with_exit(3, path, 127, ": Unable to open for reading");
+	return (fd);
+}
+
+static int	open_file_for_writing(char *path, int append)
+{
+	int fd;
+
+	if (append)
+		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	else
+		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+
+	if (fd == -1)
+		ft_error_with_exit(3, path, 127, ": Unable to open for writing");
+
+	return (fd);
+}
+
+static int	determine_fd(t_cmd *cmd, char *path)
+{
+	if (cmd->is_outfile)
+		return open_file_for_writing(path, cmd->is_append);
+	else
+		return open_file_for_reading(path);
+}
+
+int	get_fd(int oldfd, t_cmd *cmd, char *path, int mode)
+{
 	if (oldfd > 2)
 		close(oldfd);
 	if (!path)
 		return (-1);
-	if (access(path, F_OK) == -1 && !cmd->is_outfile)
-		return (ft_error_with_exit(1, path, 127, "NDIR"), -1);
-	else if (!cmd->is_outfile && access(path, R_OK) == -1)
-		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
-	else if (cmd->is_outfile && access(path, W_OK) == -1 && access(path,
-			F_OK) == 0)
-		return (ft_error_with_exit(1, path, 126, "NPERM"), -1);
-	if (cmd->is_outfile && cmd->is_append)
-		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	else if (cmd->is_outfile && !cmd->is_append)
-		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	else if (!cmd->is_outfile && oldfd != -1)
-		fd = open(path, O_RDONLY);
+	if (!check_access(path, mode))
+		return (-1);
+
+	if (cmd)
+		return determine_fd(cmd, path);
 	else
-		fd = oldfd;
-	return (fd);
+	{
+		if (mode == 1)
+			return open_file_for_reading(path);
+		else if (mode == 2)
+			return open_file_for_writing(path, 0);
+		else if (mode == 3)
+			return open_file_for_writing(path, 1);
+	}
+
+	return (-1);
 }
 
 t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
@@ -47,9 +106,9 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 	if (args[*i])
 	{
 		if (cmd->is_outfile)
-			cmd->fd_out = get_fd(cmd->fd_out, cmd, args[*i]);
+			cmd->fd_out = get_fd(cmd->fd_out, cmd, args[*i], cmd->is_append ? 3 : 2);
 		else
-			cmd->fd_in = get_fd(cmd->fd_in, cmd, args[*i]);
+			cmd->fd_in = get_fd(cmd->fd_in, cmd, args[*i], 1);
 	}
 	if (!args[*i] || (cmd->is_outfile ? cmd->fd_out : cmd->fd_in) == -1)
 	{
@@ -60,28 +119,4 @@ t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
 			g_mini->exit_status = 1;
 	}
 	return (mini);
-}
-
-t_mini	*handle_here_doc(t_list *command, char **args, int *i)
-{
-	char	*nl;
-	char	*warn;
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)command->content;
-	warn = "minishell: warning: here-document delimited by end-of-file";
-	nl = "minishell: syntax error near unexpected token `newline'";
-	(*i)++;
-	if (args[*i])
-		cmd->fd_in = get_here_doc(args[*i], warn);
-	if (!args[*i] || cmd->fd_in == -1)
-	{
-		*i = -1;
-		if (cmd->fd_in != -1)
-		{
-			ft_putendl_fd(nl, 2);
-			g_mini->exit_status = 2;
-		}
-	}
-	return (g_mini);
 }

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 12:25:11 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	child_redir(t_cmd *cmd)
 	}
 	if (cmd->fd_out == -1)
 	{
-		// printf("fdout = -1\n");
 		if (close(STDOUT_FILENO) == -1)
 			perror("close");
 	}
@@ -49,29 +48,30 @@ static void	execute_command(t_cmd *cmd)
 		if (command_path)
 		{
 			execve(command_path, cmd->full_command, g_mini->envp);
-			perror("execve");
+			ft_error_with_exit(126, cmd->full_command[0], 126, ": Permission denied\n");
 			free(command_path);
-			exit(EXIT_FAILURE);
+			exit(126);
 		}
 		else
-		{
-			// mini_perror(CMD_NOT_FOUND, cmd->full_command[0], 127);
-			ft_error_with_exit(4, cmd->full_command[0], 127, cmd->full_command[0]);
-			exit(127);
-		}
+			ft_error_with_exit(127, cmd->full_command[0], 127, ": command not found\n");
 	}
 }
 
 static void	child_process(t_cmd *cmd)
 {
 	setup_child_signals();
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		exit(EXIT_FAILURE);
 	child_redir(cmd);
 	execute_command(cmd);
 }
 
 static void	create_pipes(int num_cmds, int pipes[][2])
 {
-	for (int i = 0; i < num_cmds - 1; i++)
+	int	i;
+
+	i = -1;
+	while (++i < num_cmds - 1)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -83,7 +83,10 @@ static void	create_pipes(int num_cmds, int pipes[][2])
 
 static void	close_pipes_in_parent(int num_cmds, int pipes[][2])
 {
-	for (int i = 0; i < num_cmds - 1; i++)
+	int	i;
+
+	i = -1;
+	while (++i < num_cmds - 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
@@ -92,7 +95,10 @@ static void	close_pipes_in_parent(int num_cmds, int pipes[][2])
 
 static void	close_pipes_in_child(int num_cmds, int pipes[][2], int i)
 {
-	for (int j = 0; j < num_cmds - 1; j++)
+	int	j;
+
+	j = -1;
+	while (++j < num_cmds - 1)
 	{
 		if (j != i - 1)
 			close(pipes[j][0]);
@@ -125,28 +131,20 @@ static void	wait_for_children(int num_cmds)
 {
 	int	status;
 
-	for (int k = 0; k < num_cmds; k++)
+	while (--num_cmds >= 0)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
-		{
-			// mini->exit_status = WEXITSTATUS(status);
 			g_mini->exit_status = WEXITSTATUS(status);
-		}
 		else if (WIFSIGNALED(status))
-		{
-			// mini->exit_status = 128 + WTERMSIG(status);
-			// g_mini->exit_status = 128 + WTERMSIG(status);
 			g_mini->exit_status = 1;
-
-		}
 	}
 }
 
 void	exec_pipes(t_list *commands)
 {
 	int		num_cmds;
-	int		pipes[128][2]; // Define a maximum number of pipes
+	int		pipes[128][2];
 	pid_t	pid;
 	int		i;
 	t_cmd	*cmd;
@@ -166,7 +164,7 @@ void	exec_pipes(t_list *commands)
 		else if (pid < 0)
 		{
 			perror("fork");
-			exit(EXIT_FAILURE);
+			g_mini->exit_status = 1;
 		}
 		commands = commands->next;
 		i++;
@@ -175,31 +173,33 @@ void	exec_pipes(t_list *commands)
 	wait_for_children(num_cmds);
 }
 
-
 void	*check_to_fork(t_list *commands)
 {
 	t_cmd	*cmd;
 	DIR		*dir;
 
-	dir = NULL;
+
 	cmd = (t_cmd *)commands->content;
+	if ((dir = opendir(cmd->full_command[0])) != NULL)
+	{
+		closedir(dir);
+		ft_error_with_exit(4, cmd->full_command[0], 126, "Is a directory\n");
+		return (NULL);
+	}
 	if (is_builtin(cmd))
 	{
 		execute_builtin(cmd);
 		return (NULL);
 	}
-	if (cmd->full_command && (dir = opendir(cmd->full_command[0])) != NULL)
+	cmd->command_path = resolve_command_path(cmd->full_command[0]);
+	if (cmd->command_path && access(cmd->command_path, F_OK) == -1)
 	{
-		closedir(dir);
-		g_mini->exit_status = 126; // Command is a directory
+		ft_error_with_exit(3, cmd->full_command[0], 127, "No such file or directory\n");
 		return (NULL);
 	}
-	if (!cmd->full_command && cmd->is_heredoc == 1)
-		return (g_mini->exit_status = 127, NULL);// Command not found
-	cmd->command_path = resolve_command_path(cmd->full_command[0]);
 	if (cmd->command_path && access(cmd->command_path, X_OK) == 0)
 		exec_pipes(commands);
 	else
-		ft_error_with_exit(4, cmd->full_command[0], 127, cmd->full_command[0]);
+		ft_error_with_exit(4, cmd->full_command[0], 127, "command not found\n");
 	return (NULL);
 }
