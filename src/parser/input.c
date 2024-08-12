@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:20:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 09:13:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 15:54:40 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	check_tokenized_input(char **tokenized_input)
 	while (tokenized_input && tokenized_input[++i])
 	{
 		len = ft_strlen(tokenized_input[i]) - 1;
+		if (len < 0)
+			len = 0;
 		if (j == 1 && is_special_char_input(tokenized_input[i][len]) == 1
 			&& is_string_quoted(tokenized_input[i]) != 1)
 			return (ft_error(6, tokenized_input[i]), 0);

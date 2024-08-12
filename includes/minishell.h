@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 09:26:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/12 17:32:06 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ char							**find_env_var_and_replace(char *var,
 									char **tokenizedInput);
 char							**expand_vars(char **tokenizedInput);
 char							**ft_remove_quotes(char **tokenizedInput);
-char							*remove_double_quotes(char *str);
+char							*remove_quotes(char *str, char q);
 char							**manage_replaced(char **replaced,
 									char **last_str);
 

@@ -6,13 +6,13 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:50:12 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/09 13:51:22 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:31:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_double_quotes(char *str)
+char	*remove_quotes(char *str, char q)
 {
 	int		len;
 	char	*result;
@@ -27,7 +27,8 @@ char	*remove_double_quotes(char *str)
 	i = 0;
 	while (i < len)
 	{
-		if (str[i] != '\"')
+		// if (str[i] != '\"')
+		if (str[i] != q)
 			result[j++] = str[i];
 		i++;
 	}

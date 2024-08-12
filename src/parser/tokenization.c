@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/08 12:39:07 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:52:38 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,11 @@ static char	**process_expanded_array(char **expandedArray, char **tmpTokArr)
 			i -= 2;
 		}
 		else
+		{
+			// if (expandedArray[i][0] != ' ')
+			// 	tmpTokArr = ft_add_row_2d_array(tmpTokArr, expandedArray[i], 0);
 			tmpTokArr = ft_add_row_2d_array(tmpTokArr, expandedArray[i], 0);
+		}
 	}
 	return (tmpTokArr);
 }
