@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:20:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 17:19:23 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 17:32:08 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_tokenized_input(char **tokenized_input)
 	return (1);
 }
 
-void	handle_input(char *input)
+t_list	*handle_input(char *input)
 {
 	char	**tokenized_input;
 	t_list	*commands;
@@ -45,14 +45,10 @@ void	handle_input(char *input)
 		free(input);
 		if (tokenized_input)
 			ft_free_2d_array(&tokenized_input);
-		return ;
+		return (NULL);
 	}
 	commands = create_nodes(tokenized_input);
-	if (commands)
-	{
-		check_to_fork(commands);
-		ft_lstclear(&commands, free_cmd);
-	}
 	ft_free_2d_array(&tokenized_input);
 	free(input);
+	return (commands);
 }

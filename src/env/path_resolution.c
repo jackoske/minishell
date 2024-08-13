@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/13 12:12:00 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:01:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*check_direct_command(char *command)
 {
-	printf("command: %s\n", command);
 	if (access(command, F_OK) == -1)
 	{
 		g_mini->exit_status = 127;

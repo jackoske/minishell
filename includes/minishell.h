@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/13 14:34:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 17:58:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void							init_mini(t_mini *mini);
 void							free_mini(t_mini **mini);
 void							init_envp(char **envp);
 void							free_cmd(void *cmd_ptr);
-void							handle_input(char *input);
+t_list							*handle_input(char *input);
 t_list							*create_nodes(char **input);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
@@ -222,15 +222,15 @@ char							**copy_env(char **envp);
 
 int								check_special_in_key(char *str);
 
-void							child_redir(t_cmd *cmd);
+// void							child_redir(t_cmd *cmd);
 
 void							child_process(t_cmd *cmd);
 
-void							create_pipes(int num_cmds, int pipes[][2]);
+// void							create_pipes(int num_cmds, int pipes[][2]);
 
-void							close_pipes_in_parent(int num_cmds,
-									int pipes[][2]);
+// void							close_pipes_in_parent(int num_cmds,
+// 									int pipes[][2]);
 
-void							exec_pipes(t_list *commands);
+// void							exec_pipes(t_list *commands);
 
 #endif // MINISHELL_H

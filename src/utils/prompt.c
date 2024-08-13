@@ -6,11 +6,23 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/09 17:36:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 17:32:23 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void execution(char *input)
+{
+	t_list	*commands;
+	
+	commands = handle_input(input);
+	if (commands)
+	{
+		check_to_fork(commands);
+		ft_lstclear(&commands, free_cmd);
+	}
+}
 
 void	prompt_loop(void)
 {
@@ -35,7 +47,7 @@ void	prompt_loop(void)
 			continue ;
 		}
 		g_mini->signals.is_executing_command = 1;
-		handle_input(input);
+		execution(input);
 		g_mini->signals.is_executing_command = 0;
 	}
 }
