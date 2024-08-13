@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 12:39:12 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 12:57:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_after_equal(char *str)
 	return (1);
 }
 
-//does actions if there is only key, without any value
+// does actions if there is only key, without any value
 int	add_env_key(char *str, int len)
 {
 	char	*value;
@@ -103,8 +103,9 @@ int	is_special_char_in_env(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i])) \
-			|| str[i] == '_' || str[i] == '=')) && (!is_special_char_export(str[i])) )
+		if (((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i]))
+					|| str[i] == '_' || str[i] == '='))
+			&& (!is_special_char_export(str[i])))
 			i++;
 		else if (str[i] == '=')
 			return (0);
@@ -118,33 +119,4 @@ int	is_special_char_in_env(char *str)
 		}
 	}
 	return (0);
-}
-
-void	replace_value(char *key, char *value)
-{
-	int		i;
-	char	**temp;
-	char	*temp_key;
-	char	*new_env;
-
-	i = 0;
-	while (g_mini->envp[i])
-	{
-		temp = ft_split(g_mini->envp[i], '=');
-		if (!temp[0])
-			return ;
-		temp_key = ft_strdup(temp[0]);
-		if (ft_strcmp(temp_key, key) == 0)
-		{
-			new_env = ft_strjoin(key, ft_strjoin("=", value));
-			free(g_mini->envp[i]);
-			g_mini->envp[i] = ft_strdup(new_env);
-			free(temp_key);
-			ft_free_2d_array(&temp);
-			return ;
-		}
-		free(temp_key);
-		ft_free_2d_array(&temp);
-		i++;
-	}
 }

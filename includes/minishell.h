@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 16:03:48 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 14:34:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,9 @@ int								is_all_num(char *str);
 int								is_string_quoted(char *str);
 
 /* Built-in Commands */
+void							copy_envp(t_mini *mini, char ***new_envp_array,
+									char *new_env);
+int								handle_edge_cases(char **args);
 int								mini_cd(char **args);
 void							mini_echo(t_cmd *cmd);
 void							mini_pwd(void);
@@ -218,5 +221,16 @@ char							**copy_env(char **envp);
 /// temporary
 
 int								check_special_in_key(char *str);
+
+void							child_redir(t_cmd *cmd);
+
+void							child_process(t_cmd *cmd);
+
+void							create_pipes(int num_cmds, int pipes[][2]);
+
+void							close_pipes_in_parent(int num_cmds,
+									int pipes[][2]);
+
+void							exec_pipes(t_list *commands);
 
 #endif // MINISHELL_H

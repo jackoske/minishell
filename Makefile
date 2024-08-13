@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/09 17:40:48 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/13 14:39:17 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,15 +36,15 @@ SRC_SIGNAL_DIR = ./src/signal/
 SRC_TESTER_DIR = ./src/tester/
 SRC_UTILS_DIR = ./src/utils/
 
-SRC_BUILTIN = builtin_cd.c builtin_functions.c builtin_utils.c
-SRC_ENV = envp_functions.c path_resolution.c additional_env.c env_utils.c
-SRC_EXEC = execution.c
-SRC_INIT = initilisation.c
+SRC_BUILTIN = builtin_cd.c builtin_echo.c builtin_utils.c builtin_export.c builtin_exit.c builtin_pwd.c
+SRC_ENV = envp_functions.c envp_functions2.c path_resolution.c additional_env.c env_utils.c
+SRC_EXEC = execution.c exec_pipes.c exec_utils.c
+SRC_INIT = initilisation.c init_envp.c
 SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c tokenization_utils.c\
 	tokenization_utils1.c expand_vars_utils.c input.c node.c
-SRC_REDIRECT = here_doc.c redirection.c set_redir_utils.c
+SRC_REDIRECT = here_doc.c redirection.c fd.c
 SRC_SIGNAL = signal.c
-SRC_TESTER = libft_extra_tests.c execution_tests.c node_tester.c
+SRC_TESTER =# libft_extra_tests.c execution_tests.c node_tester.c
 SRC_UTILS = error.c node_utils.c utils.c prompt.c
 
 SRC = $(SRC_DIR) \

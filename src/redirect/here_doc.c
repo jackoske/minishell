@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:19:34 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 09:38:17 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 12:43:32 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	get_here_doc(const char *limit, const char *warn)
 	g_mini->exit_status = 0;
 	if (pipe(fd) == -1)
 	{
-		// mini_perror("PIPERR", NULL, 1);
 		ft_error_with_exit(4, NULL, 1, "pipe");
 		return (-1);
 	}
@@ -65,6 +64,7 @@ int	get_here_doc(const char *limit, const char *warn)
 	}
 	return (fd[READ_END]);
 }
+
 t_mini	*handle_here_doc(t_list *command, char **args, int *i)
 {
 	char	*nl;

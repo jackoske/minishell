@@ -6,53 +6,11 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:18:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 18:05:59 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/13 12:47:19 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-void	initialize_envp(char **envp)
-{
-	char	cwd[PATH_MAX];
-	char	*shlvl_str;
-	int		shlvl;
-
-	g_mini->envp = copy_env(envp);
-	if (!g_mini->envp)
-	{
-		// Handle memory allocation failure
-		perror("Failed to initialize environment variables");
-		exit(EXIT_FAILURE);
-	}
-	// Set any additional required environment variables
-	if (getcwd(cwd, sizeof(cwd)))
-	{
-		g_mini->envp = ft_setenv("PWD", cwd, g_mini->envp, 1);
-		if (!g_mini->envp)
-		{
-			perror("Failed to set PWD environment variable");
-			exit(EXIT_FAILURE);
-		}
-	}
-	g_mini->envp = ft_setenv("SHELL", "jackoshell", g_mini->envp, 1);
-
-	// Handle SHLVL
-	shlvl_str = ft_getenv("SHLVL", g_mini->envp, strlen("SHLVL"));
-	if (shlvl_str)
-	{
-		shlvl = atoi(shlvl_str) + 1;
-	}
-	else
-	{
-		shlvl = 1;
-	}
-	char shlvl_value[12];
-	snprintf(shlvl_value, sizeof(shlvl_value), "%d", shlvl);
-	g_mini->envp = ft_setenv("SHLVL", shlvl_value, g_mini->envp, 1);
-}
-
 
 t_cmd	*init_cmd(void)
 {

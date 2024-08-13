@@ -5,118 +5,95 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 09:39:30 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/13 12:42:27 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_access(char *path, int mode)
+static t_cmd	*handle_redirection(t_cmd *node, char **full_command, int **i,
+		int mode)
 {
+	int	fd;
+
+	fd = get_fd(node->fd_out, NULL, full_command[++(**i)], mode);
 	if (mode == 1)
-	{
-		if (access(path, F_OK) == -1)
-		{
-			ft_error_with_exit(3, path, 127, ": No such file or directory");
-			return (0);
-		}
-		else if (access(path, R_OK) == -1)
-		{
-			ft_error_with_exit(5, path, 126, ": Permission denied");
-			return (0);
-		}
-		return (1);
-	}
-	else if (mode == 2)
-	{
-		if (access(path, F_OK) != -1 && access(path, W_OK) == -1)
-		{
-			ft_error_with_exit(5, path, 126, ": Permission denied");
-			return (0);
-		}
-		return (1);
-	}
-	return (1);
-}
-
-static int	open_file_for_reading(char *path)
-{
-	int fd;
-
-	fd = open(path, O_RDONLY);
+		fd = get_fd(node->fd_in, NULL, full_command[++(**i)], mode);
 	if (fd == -1)
-		ft_error_with_exit(3, path, 127, ": Unable to open for reading");
-	return (fd);
-}
-
-static int	open_file_for_writing(char *path, int append)
-{
-	int fd;
-
-	if (append)
-		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	else
-		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-
-	if (fd == -1)
-		ft_error_with_exit(3, path, 127, ": Unable to open for writing");
-
-	return (fd);
-}
-
-static int	determine_fd(t_cmd *cmd, char *path)
-{
-	if (cmd->is_outfile)
-		return open_file_for_writing(path, cmd->is_append);
-	else
-		return open_file_for_reading(path);
-}
-
-int	get_fd(int oldfd, t_cmd *cmd, char *path, int mode)
-{
-	if (oldfd > 2)
-		close(oldfd);
-	if (!path)
-		return (-1);
-	if (!check_access(path, mode))
-		return (-1);
-
-	if (cmd)
-		return determine_fd(cmd, path);
-	else
 	{
+		**i = -2;
 		if (mode == 1)
-			return open_file_for_reading(path);
-		else if (mode == 2)
-			return open_file_for_writing(path, 0);
-		else if (mode == 3)
-			return open_file_for_writing(path, 1);
+			node->fd_in = -1;
+		else
+			node->fd_out = -1;
+		return (node);
 	}
-
-	return (-1);
+	if (mode == 1)
+		node->fd_in = fd;
+	else
+		node->fd_out = fd;
+	return (node);
 }
 
-t_mini	*get_file(t_mini *mini, t_list *command, char **args, int *i)
+static t_cmd	*get_redir_heredoc(t_cmd *node, char **full_command, int **i)
 {
-	t_cmd	*cmd;
+	if (!full_command[++(**i)])
+	{
+		**i = -2;
+		node->fd_in = -1;
+		ft_error(1, NULL);
+		return (node);
+	}
+	node->fd_in = get_here_doc(full_command[(*(*i))],
+			"minishell: warning: here-document delimited by end-of-file");
+	if (node->fd_in == -1)
+	{
+		**i = -2;
+		node->fd_in = -1;
+	}
+	node->is_heredoc = 1;
+	return (node);
+}
 
-	cmd = (t_cmd *)command->content;
-	(*i)++;
-	if (args[*i])
+t_cmd	*handle_redirections(t_cmd *node, char *input, char **full_command,
+		int *i)
+{
+	if (input[0] == '>' && input[1] == '>')
+		node = handle_redirection(node, full_command, &i, 3);
+	else if (input[0] == '>')
+		node = handle_redirection(node, full_command, &i, 2);
+	else if (input[0] == '<' && input[1] == '<')
+		node = get_redir_heredoc(node, full_command, &i);
+	else if (input[0] == '<')
+		node = handle_redirection(node, full_command, &i, 1);
+	return (node);
+}
+
+t_cmd	*handle_non_redir_commands(t_cmd *node, char *input)
+{
+	if (!is_string_quoted(input))
+		node->full_command = ft_add_row_2d_array(node->full_command, input, 0);
+	else
+		node->full_command = ft_add_row_2d_array(node->full_command,
+				ft_remove_paired_quotes(input), 0);
+	return (node);
+}
+
+t_cmd	*set_redir(t_cmd *node, char *input, char **full_command, int *i)
+{
+	if (input[0])
 	{
-		if (cmd->is_outfile)
-			cmd->fd_out = get_fd(cmd->fd_out, cmd, args[*i], cmd->is_append ? 3 : 2);
-		else
-			cmd->fd_in = get_fd(cmd->fd_in, cmd, args[*i], 1);
+		if (input[0] == '>' || input[0] == '<')
+			node = handle_redirections(node, input, full_command, i);
+		else if (input[0] != '|')
+			node = handle_non_redir_commands(node, input);
 	}
-	if (!args[*i] || (cmd->is_outfile ? cmd->fd_out : cmd->fd_in) == -1)
+	if (node->fd_in == -1 || node->fd_out == -1)
 	{
-		*i = -1;
-		if ((cmd->is_outfile ? cmd->fd_out : cmd->fd_in) != -1)
-			g_mini->exit_status = 2;
-		else
-			g_mini->exit_status = 1;
+		ft_free_2d_array(&node->full_command);
+		free(node);
+		return (NULL);
 	}
-	return (mini);
+	return (node);
 }
