@@ -6,25 +6,59 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:23:12 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/05 17:32:20 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/14 09:48:12 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*check_direct_command(char *command)
+{
+	if (access(command, F_OK) == -1)
+	{
+		g_mini->exit_status = 127;
+		ft_error_with_exit(4, command, 127, "No such file or directory\n");
+		return (NULL);
+	}
+	if (access(command, X_OK) == -1)
+	{
+		g_mini->exit_status = 126;
+		ft_error_with_exit(4, command, 126, "Permission denied\n");
+		return (NULL);
+	}
+	return (strdup(command));
+}
+
+static char	*try_paths(char **paths, char *command)
+{
+	char	*cmd_path;
+	int		i;
+
+	i = 0;
+	while (paths[i])
+	{
+		cmd_path = ft_strjoin(paths[i], "/");
+		if (!cmd_path)
+			return (NULL);
+		cmd_path = ft_strjoin_free(cmd_path, command);
+		if (!cmd_path)
+			return (NULL);
+		if (access(cmd_path, X_OK) == 0)
+			return (cmd_path);
+		free(cmd_path);
+		i++;
+	}
+	return (NULL);
+}
 
 char	*resolve_command_path(char *command)
 {
 	char	*path_env;
 	char	**paths;
 	char	*cmd_path;
-	int		i;
 
 	if (command[0] == '/' || command[0] == '.')
-	{
-		if (access(command, X_OK) == 0)
-			return (strdup(command));
-		return (g_mini->exit_status = 126, NULL);
-	}
+		return (check_direct_command(command));
 	path_env = find_var("PATH");
 	if (!path_env)
 		return (NULL);
@@ -32,32 +66,12 @@ char	*resolve_command_path(char *command)
 	free(path_env);
 	if (!paths)
 		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		cmd_path = ft_strjoin(paths[i], "/");
-		if (!cmd_path)
-		{
-			ft_free_2d_array(&paths);
-			return (NULL);
-		}
-		cmd_path = ft_strjoin_free(cmd_path, command);
-		if (!cmd_path)
-		{
-			ft_free_2d_array(&paths);
-			return (NULL);
-		}
-		if (access(cmd_path, X_OK) == 0)
-		{
-			// printf("Command path found: %s\n", cmd_path); // Debug print
-			ft_free_2d_array(&paths);
-			return (cmd_path);
-		}
-		free(cmd_path);
-		i++;
-	}
+	cmd_path = try_paths(paths, command);
 	ft_free_2d_array(&paths);
-	// g_mini->exit_status = 127;
-	// printf("Command path not found for: %s\n", command); // Debug print
-	return (NULL);
+	if (!cmd_path)
+	{
+		g_mini->exit_status = 127;
+		ft_error_with_exit(4, command, 127, "command not found\n");
+	}
+	return (cmd_path);
 }
