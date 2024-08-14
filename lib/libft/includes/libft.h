@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/09 17:01:05 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/14 10:38:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int					ft_strchr_i(const char *s, int c);
 int					ft_is_only_special(char *str);
 int					ft_is_special_symbol(char c);
 int					ft_strcmp(const char *s1, const char *s2);
+int					ft_isstr_digit(char *str);
 
 #endif

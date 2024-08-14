@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_functions.c                                :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/14 10:30:08 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/14 10:38:24 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_isdigit_str(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 // Handle the `exit` built-in command
 void	mini_exit(char **args)
@@ -41,7 +23,7 @@ void	mini_exit(char **args)
 		ft_error_with_exit(8, NULL, 1, "too many arguments");
 		exit(1);
 	}
-	else if (args[1] && !ft_isdigit_str(args[1]))
+	else if (args[1] && !ft_isstr_digit(args[1]))
 	{
 		ft_error_with_exit(7, args[1], 2, "numeric argument required");
 		exit(2);

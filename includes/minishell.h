@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 20:33:40 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:41:23 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,10 @@ char							**ft_remove_quotes(char **tokenizedInput);
 char							*remove_quotes(char *str, char q);
 char							**manage_replaced(char **replaced,
 									char **last_str);
-int								calculate_new_length(const char *input, int replacement_len);
-void							replace_and_build(const char *input, char *output, \
+int								calculate_new_length(const char *input,
+									int replacement_len);
+void							replace_and_build(const char *input,
+									char *output,
 									const char *replacement_value);
 char							*replace_special_signs(const char *input);
 int								is_str_has_sigle_quottes(char *str);
@@ -223,5 +225,8 @@ char							**copy_env(char **envp);
 /// temporary
 
 int								check_special_in_key(char *str);
+int								handle_edge_cases(char **args);
+void							copy_envp(t_mini *mini, char ***new_envp_array,
+									char *new_env);
 
 #endif // MINISHELL_H

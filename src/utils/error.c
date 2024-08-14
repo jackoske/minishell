@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 14:06:08 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 12:10:56 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/08/13 12:28:43 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/14 10:45:53 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static void	handle_exit(int exit_code, char *arg, const char *message)
 	g_mini->exit_status = exit_code;
 }
 
-static void	handle_message(int exit_code, char *arg __attribute__((unused)),
-		const char *message)
+static void	handle_message(int exit_code, const char *message)
 {
 	if (message)
 	{
@@ -42,61 +41,34 @@ static void	handle_message(int exit_code, char *arg __attribute__((unused)),
 	g_mini->exit_status = exit_code;
 }
 
-static t_error_info			g_error_table[] = {
-	{1, NEWLINE_ERR, handle_message},
-	{2, SYNTAX_ERR, handle_message},
-	{3, NO_FILE_ERR, handle_exit},
-	{4, CMD_NOT_FOUND, handle_exit},
-	{5, PERM_ERR, handle_message},
-	{6, NULL, handle_message}, // Special case handled in the function below
-	{7, NUM_REQ, handle_exit},
-	{8, NULL, handle_exit}, // Custom message will be passed
-	{9, NULL, handle_exit}  // Special case handled in the function below
-};
-
-static const t_error_info	*find_error_info(int error_code)
-{
-	size_t	i;
-
-	i = -1;
-	while (++i < sizeof(g_error_table) / sizeof(g_error_table[0]))
-	{
-		if (g_error_table[i].error_code == error_code)
-			return (&g_error_table[i]);
-	}
-	return (NULL);
-}
-
 void	ft_error(int error_code, char *arg)
 {
-	const t_error_info	*error_info;
-
-	error_info = find_error_info(error_code);
-	if (!error_info)
-		return ;
-	if (error_code == 6)
+	if (error_code == 1)
+		handle_message(1, NEWLINE_ERR);
+	else if (error_code == 2)
+		handle_message(2, SYNTAX_ERR);
+	else if (error_code == 3)
+		handle_exit(3, arg, NO_FILE_ERR);
+	else if (error_code == 4)
+		handle_exit(4, arg, CMD_NOT_FOUND);
+	else if (error_code == 5)
+		handle_message(5, PERM_ERR);
+	else if (error_code == 6)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(ft_strjoin(SYNTAX_ERR, ft_quote_string(arg)),
 			STDERR_FILENO);
 		g_mini->exit_status = 2;
 	}
+	else if (error_code == 7)
+		handle_exit(7, arg, NUM_REQ);
 	else
-	{
-		error_info->action(EXIT_SUCCESS, arg, error_info->message);
-		if (error_info->action == handle_exit)
-			g_mini->exit_status = error_code;
-	}
+		handle_exit(error_code, arg, NULL);
 }
 
 void	ft_error_with_exit(int error_code, char *arg, int exit_code,
 		char *message)
 {
-	const t_error_info	*error_info;
-
-	error_info = find_error_info(error_code);
-	if (!error_info)
-		return ;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (arg)
 	{
@@ -105,8 +77,20 @@ void	ft_error_with_exit(int error_code, char *arg, int exit_code,
 	}
 	if (message)
 		ft_putstr_fd(message, STDERR_FILENO);
-	else if (error_info->message)
-		ft_putstr_fd(error_info->message, STDERR_FILENO);
-	// ft_putstr_fd("\n", STDERR_FILENO); can delete I think
+	else
+	{
+		if (error_code == 1)
+			ft_putstr_fd(NEWLINE_ERR, STDERR_FILENO);
+		else if (error_code == 2)
+			ft_putstr_fd(SYNTAX_ERR, STDERR_FILENO);
+		else if (error_code == 3)
+			ft_putstr_fd(NO_FILE_ERR, STDERR_FILENO);
+		else if (error_code == 4)
+			ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
+		else if (error_code == 5)
+			ft_putstr_fd(PERM_ERR, STDERR_FILENO);
+		else if (error_code == 7)
+			ft_putstr_fd(NUM_REQ, STDERR_FILENO);
+	}
 	g_mini->exit_status = exit_code;
 }

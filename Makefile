@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
+#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/12 20:32:21 by iverniho         ###   ########.fr        #
+#    Updated: 2024/08/14 10:50:41 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,9 @@ SRC_INIT_DIR = ./src/init/
 SRC_PARS_DIR = ./src/parser/
 SRC_REDIRECT_DIR = ./src/redirect/
 SRC_SIGNAL_DIR = ./src/signal/
-SRC_TESTER_DIR = ./src/tester/
 SRC_UTILS_DIR = ./src/utils/
 
-SRC_BUILTIN = builtin_cd.c builtin_functions.c builtin_utils.c
+SRC_BUILTIN = builtin_cd.c builtin_exit.c builtin_utils.c builtin_echo.c builtin_pwd.c builtin_export.c
 SRC_ENV = envp_functions.c path_resolution.c additional_env.c env_utils.c
 SRC_EXEC = execution.c
 SRC_INIT = initilisation.c
@@ -44,8 +43,7 @@ SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c tokenization_uti
 	tokenization_utils1.c expand_vars_utils.c expand_vars_utils1.c input.c node.c
 SRC_REDIRECT = here_doc.c redirection.c set_redir_utils.c
 SRC_SIGNAL = signal.c
-SRC_TESTER = libft_extra_tests.c execution_tests.c node_tester.c
-SRC_UTILS = error.c node_utils.c utils.c prompt.c
+SRC_UTILS = error.c utils.c prompt.c
 
 SRC = $(SRC_DIR) \
 	$(SRC_GNL) \

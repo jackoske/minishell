@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:12:47 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/05 21:26:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/14 10:36:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,38 +79,22 @@ void	export_with_no_args(void)
 	}
 }
 
-void	mini_export(char **args)
+int	handle_edge_cases(char **args)
 {
-	char	*key;
-	char	*value;
-	char	**temp;
-	char	*new_env;
-	char	**new_envp_array;
-
 	if (ft_2d_array_len(args) < 2)
-		return (export_with_no_args());
+	{
+		export_with_no_args();
+		return (1);
+	}
 	if (is_special_char_in_env(*(args + 1)))
 	{
 		g_mini->exit_status = 1;
-		return ;
+		return (1);
 	}
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '=')
-		return (ft_error_with_exit(9, args[1], 1, NOT_VALID_ID));
-	if ((!ft_strchr(*(args + 1), '=')) || (!check_after_equal(*(args + 1))))
-		if (add_env_key(*(args + 1), ft_2d_array_len(g_mini->envp) + 1))
-			return ;
-	value = NULL;
-	temp = ft_split(*(args + 1), '=');
-	key = ft_strdup(temp[0]);
-	value = ft_strdup(temp[1]);
-	ft_free_2d_array(&temp);
-	if (is_already_exist(key))
-		return (replace_value(key, value), free(key), free(value));
-	new_env = ft_strjoin(key, ft_strjoin("=", value));
-	new_envp_array = ft_calloc((ft_2d_array_len(g_mini->envp) + 1) \
-		+ 2, sizeof(char *));
-	if (!new_envp_array)
-		return (free(key), free(value), free(new_env));
-	copy_envp(g_mini, &new_envp_array, new_env);
-	return (free(key), free(value), free(new_env));
+	{
+		ft_error_with_exit(9, args[1], 1, NOT_VALID_ID);
+		return (1);
+	}
+	return (0);
 }
