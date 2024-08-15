@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 20:32:01 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:40:53 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,9 @@ char	**expand_vars(char **tokenizedInput)
 	last_str = ((i = -1), temp_token_array);
 	while (temp_token_array[++i])
 	{
-		if (has_single_quoting(temp_token_array[i]) && i == 0)
-			i++;
+		if (has_single_quoting(temp_token_array[i]) && i == 0 && \
+			ft_2d_array_len(temp_token_array) > 1)
+				i++;
 		if (ft_strchr(temp_token_array[i], '$') != NULL && \
 			!has_single_quoting(temp_token_array[i]))
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 09:39:30 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/15 13:46:10 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_access(char *path, int mode)
 		}
 		else if (access(path, R_OK) == -1)
 		{
-			ft_error_with_exit(5, path, 126, ": Permission denied");
+			ft_error_with_exit(5, path, 126, ": Permission denied\n");
 			return (0);
 		}
 		return (1);
@@ -32,7 +32,7 @@ static int	check_access(char *path, int mode)
 	{
 		if (access(path, F_OK) != -1 && access(path, W_OK) == -1)
 		{
-			ft_error_with_exit(5, path, 126, ": Permission denied");
+			ft_error_with_exit(5, path, 126, ": Permission denied\n");
 			return (0);
 		}
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:06:08 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 12:10:56 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/15 13:46:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_error_with_exit(int error_code, char *arg, int exit_code,
 	error_info = find_error_info(error_code);
 	if (!error_info)
 		return ;
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell> ", STDERR_FILENO);
 	if (arg)
 	{
 		ft_putstr_fd(arg, STDERR_FILENO);
