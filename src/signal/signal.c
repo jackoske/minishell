@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/09 17:23:02 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/15 12:09:57 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ static void	handle_signal(int signal)
 	}
 	else if (signal == SIGQUIT)
 	{
-		write(STDOUT_FILENO, "\nQuit\n", 6);
-		free_mini(&g_mini);
+		write(STDOUT_FILENO, PROMPT, 11);
+
+		// write(STDOUT_FILENO, "\nQuit\n", 6);
+		// free_mini(&g_mini);
 	}
 }
 
