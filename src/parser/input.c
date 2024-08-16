@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:20:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 10:44:00 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 15:41:21 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	handle_input(char *input)
 	commands = create_commands(tokenized_input);
 	if (commands)
 	{
-		check_to_fork(commands);
+		exec_pipes(commands);
 		ft_lstclear(&commands, free_cmd);
 	}
 	ft_free_2d_array(&tokenized_input);

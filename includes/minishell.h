@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/16 10:47:52 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 15:42:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,16 @@ void							initialize_envp(char **envp);
 void							process_redirections(t_cmd *cmd,
 									char **tokenized_input, int *i);
 
+void							setup_pipe_redirection(int i, int num_cmds,
+									int pipes[][2]);
+void							handle_fd_redirection(t_cmd *cmd);
+void							execute_command(t_cmd *cmd);
+void							create_pipes(int num_cmds, int pipes[][2]);
+void							close_pipes_in_child(int num_cmds,
+									int pipes[][2], int i);
+void							close_pipes_in_parent(int num_cmds,
+									int pipes[][2]);
+
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
 void							ft_error(int error_code, char *arg);
@@ -181,7 +191,7 @@ int								is_str_has_sigle_quottes(char *str);
 int								has_single_quoting(const char *str);
 
 /* Command Handling */
-void							*check_to_fork(t_list *command);
+void							exec_pipes(t_list *commands);
 t_cmd							*set_redir(t_cmd *node, char *input,
 									char **full_command, int *i);
 char							*resolve_command_path(char *command);
