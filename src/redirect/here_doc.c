@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:19:34 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/12 09:38:17 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 11:07:40 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static char	*read_string_until_limit(const char *limit, const char *warn)
 	char	*temp;
 	char	*line;
 
-	str = NULL;
+	str = ft_strdup("");
+	if (!str)
+		return (NULL);
 	while (g_mini->exit_status != 130)
 	{
 		line = readline("> ");
@@ -32,11 +34,18 @@ static char	*read_string_until_limit(const char *limit, const char *warn)
 			free(line);
 			break ;
 		}
-		temp = str;
-		str = ft_strjoin(str, line);
-		str = ft_strjoin(str, "\n");
-		free(temp);
+		temp = ft_strjoin(str, line);
 		free(line);
+		if (!temp) 
+		{
+			free(str);
+			return (NULL);
+		}
+		free(str);
+		str = ft_strjoin(temp, "\n");
+		free(temp);
+		if (!str)
+			return (NULL);
 	}
 	return (str);
 }
@@ -49,7 +58,6 @@ int	get_here_doc(const char *limit, const char *warn)
 	g_mini->exit_status = 0;
 	if (pipe(fd) == -1)
 	{
-		// mini_perror("PIPERR", NULL, 1);
 		ft_error_with_exit(4, NULL, 1, "pipe");
 		return (-1);
 	}
@@ -65,26 +73,26 @@ int	get_here_doc(const char *limit, const char *warn)
 	}
 	return (fd[READ_END]);
 }
-t_mini	*handle_here_doc(t_list *command, char **args, int *i)
-{
-	char	*nl;
-	char	*warn;
-	t_cmd	*cmd;
+// t_mini	*handle_here_doc(t_list *command, char **args, int *i)
+// {
+// 	char	*nl;
+// 	char	*warn;
+// 	t_cmd	*cmd;
 
-	cmd = (t_cmd *)command->content;
-	warn = "minishell: warning: here-document delimited by end-of-file";
-	nl = "minishell: syntax error near unexpected token `newline'";
-	(*i)++;
-	if (args[*i])
-		cmd->fd_in = get_here_doc(args[*i], warn);
-	if (!args[*i] || cmd->fd_in == -1)
-	{
-		*i = -1;
-		if (cmd->fd_in != -1)
-		{
-			ft_putendl_fd(nl, 2);
-			g_mini->exit_status = 2;
-		}
-	}
-	return (g_mini);
-}
+// 	cmd = (t_cmd *)command->content;
+// 	warn = "minishell: warning: here-document delimited by end-of-file";
+// 	nl = "minishell: syntax error near unexpected token `newline'";
+// 	(*i)++;
+// 	if (args[*i])
+// 		cmd->fd_in = get_here_doc(args[*i], warn);
+// 	if (!args[*i] || cmd->fd_in == -1)
+// 	{
+// 		*i = -1;
+// 		if (cmd->fd_in != -1)
+// 		{
+// 			ft_putendl_fd(nl, 2);
+// 			g_mini->exit_status = 2;
+// 		}
+// 	}
+// 	return (g_mini);
+// }

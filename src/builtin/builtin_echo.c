@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/14 10:28:58 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/14 12:46:35 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	mini_echo(t_cmd *cmd)
 
 	i = 1;
 	newline = check_newline_option(cmd->full_command, &i);
-	print_command_arguments(cmd->full_command, i, cmd->fd_out);
+	print_command_arguments(cmd->full_command, i, 1);
 	if (newline)
-		ft_putstr_fd("\n", cmd->fd_out);
+		ft_putstr_fd("\n", 1);
 }

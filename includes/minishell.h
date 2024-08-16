@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/14 10:41:23 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 10:47:52 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,14 @@ void							free_mini(t_mini **mini);
 void							init_envp(char **envp);
 void							free_cmd(void *cmd_ptr);
 void							handle_input(char *input);
-t_list							*create_nodes(char **input);
+// t_list							*create_nodes(char **input);
+t_list							*create_commands(char **tokenized_input);
 void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
 void							initialize_envp(char **envp);
+void							process_redirections(t_cmd *cmd,
+									char **tokenized_input, int *i);
 
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
