@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/16 16:45:08 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/16 16:48:57 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,12 @@ SRC_SIGNAL_DIR = ./src/signal/
 SRC_UTILS_DIR = ./src/utils/
 
 SRC_BUILTIN = builtin_cd.c builtin_exit.c builtin_utils.c builtin_echo.c builtin_pwd.c builtin_export.c
-SRC_ENV = envp_functions.c path_resolution.c additional_env.c env_utils.c
+SRC_ENV = envp_functions.c additional_env.c env_utils.c
 SRC_EXEC = execution.c command_utils.c path_utils.c pipe_utils.c
 SRC_INIT = initilisation.c
 SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c tokenization_utils.c\
 	tokenization_utils1.c expand_vars_utils.c expand_vars_utils1.c input.c node.c
-SRC_REDIRECT = here_doc.c redirection.c fd.c
+SRC_REDIRECT = here_doc.c redirection.c
 SRC_SIGNAL = signal.c
 SRC_UTILS = error.c utils.c prompt.c
 

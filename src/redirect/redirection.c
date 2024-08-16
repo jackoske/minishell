@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 10:47:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 17:00:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, char **input, int *i)
 		*i = -2;
 		return (cmd);
 	}
-	cmd->fd_in = get_here_doc(input[(*i)], "minishell: warning: here-document delimited by end-of-file");
+	cmd->fd_in = get_here_doc(input[(*i)],
+			"minishell: warning: here-document delimited by end-of-file");
 	if (cmd->fd_in == -1)
 	{
 		*i = -2;
@@ -78,7 +79,7 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, char **input, int *i)
 	return (cmd);
 }
 
-void process_redirections(t_cmd *cmd, char **tokenized_input, int *i)
+void	process_redirections(t_cmd *cmd, char **tokenized_input, int *i)
 {
 	if (tokenized_input[*i][0] == '>' && tokenized_input[*i][1] == '>')
 		cmd = handle_append_redir(cmd, tokenized_input, i);

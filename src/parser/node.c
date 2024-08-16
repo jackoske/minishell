@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 11:39:59 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 17:04:34 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_cmd	*create_command_node(char **tokenized_input, int *i)
 		else
 		{
 			new_array = ft_add_row_2d_array(cmd->full_command,
-					tokenized_input[*i], 0);
+					ft_remove_paired_quotes(tokenized_input[*i]), 0);
 			if (!new_array)
 			{
 				free_cmd(cmd);
