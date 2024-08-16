@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:04 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 15:33:11 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 16:41:50 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void execute_command(t_cmd *cmd)
 	}
 	else
 		g_mini->exit_status = 127;
-	printf("minishell: %s: %s\n", cmd->full_command[0], strerror(errno));
+	// printf("minishell: %s: %s\n", cmd->full_command[0], strerror(errno));
 }
 
 void handle_fd_redirection(t_cmd *cmd)
