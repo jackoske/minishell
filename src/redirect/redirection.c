@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/19 10:47:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/19 11:24:56 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static t_cmd	*handle_append_redir(t_cmd *cmd, char **input, int *i)
 	fd = open(input[++(*i)], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("open");
 		cmd->fd_out = -1;
 		*i = -2;
 		return (cmd);
@@ -35,7 +34,6 @@ static t_cmd	*handle_output_redir(t_cmd *cmd, char **input, int *i)
 	fd = open(input[++(*i)], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("open");
 		cmd->fd_out = -1;
 		*i = -2;
 		return (cmd);
@@ -51,7 +49,6 @@ static t_cmd	*handle_input_redir(t_cmd *cmd, char **input, int *i)
 	fd = open(input[++(*i)], O_RDONLY);
 	if (fd == -1)
 	{
-		perror("open");
 		cmd->fd_in = -1;
 		*i = -2;
 		return (cmd);
