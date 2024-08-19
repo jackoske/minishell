@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/16 15:42:20 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:47:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void							close_pipes_in_parent(int num_cmds,
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
 void							ft_error(int error_code, char *arg);
-void							ft_error_with_exit(int error_code, char *arg,
+void							ft_error_with_exit( char *arg,
 									int exit_code, char *message);
 /* Input Handling and Parsing */
 char							**tokenize_input(char *input);
@@ -218,8 +218,7 @@ void							mini_unset(char **args);
 
 /* Execution and Testing */
 void							prompt_loop(void);
-int								get_here_doc(const char *limit,
-									const char *warn);
+int								get_here_doc(const char *limit);
 void							libft_extra_tester(void);
 void							print_nodes(t_list *node);
 void							test_exec(void);

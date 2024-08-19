@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/14 10:30:08 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 17:56:17 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	mini_exit(char **args)
 	exit_status = g_mini->exit_status;
 	if (ft_2d_array_len(args) > 2)
 	{
-		ft_error_with_exit(8, NULL, 1, "too many arguments");
+		ft_error_with_exit( NULL, 1, "too many arguments");
 		exit(1);
 	}
 	else if (args[1] && !ft_isdigit_str(args[1]))
 	{
-		ft_error_with_exit(7, args[1], 2, "numeric argument required");
+		ft_error_with_exit( args[1], 2, "numeric argument required");
 		exit(2);
 	}
 	else if (args[1])

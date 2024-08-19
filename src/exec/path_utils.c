@@ -6,25 +6,18 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:20 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 16:45:57 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 18:04:10 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_error(char *command, int exit_code, char *message)
-{
-	g_mini->exit_status = exit_code;
-	ft_error_with_exit(4, command, exit_code, message);
-	return (NULL);
-}
-
 char	*check_direct_command(char *command)
 {
 	if (access(command, F_OK) == -1)
-		return (handle_error(command, 127, "No such file or directory\n"));
+		return (ft_error_with_exit(command, 127, "No such file or directory\n"), NULL);
 	if (access(command, X_OK) == -1)
-		return (handle_error(command, 126, "Permission denied\n"));
+		return (ft_error_with_exit(command, 126, "Permission denied\n"), NULL);
 	return (strdup(command));
 }
 
@@ -68,6 +61,6 @@ char	*resolve_command_path(char *command)
 	cmd_path = try_paths(paths, command);
 	ft_free_2d_array(&paths);
 	if (!cmd_path)
-		handle_error(command, 127, "command not found\n");
+		ft_error_with_exit(command, 127, "command not found\n");
 	return (cmd_path);
 }

@@ -6,93 +6,32 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:19:34 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 11:07:40 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:49:11 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*read_string_until_limit(const char *limit, const char *warn)
+int	get_here_doc(const char *delimiter)
 {
-	char	*str;
-	char	*temp;
+	int		pipefd[2];
 	char	*line;
 
-	str = ft_strdup("");
-	if (!str)
-		return (NULL);
-	while (g_mini->exit_status != 130)
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		return (-1);
+	}
+	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			printf("%s (wanted `%s`)\n", warn, limit);
+		if (!line || strcmp(line, delimiter) == 0)
 			break ;
-		}
-		if (strcmp(line, limit) == 0)
-		{
-			free(line);
-			break ;
-		}
-		temp = ft_strjoin(str, line);
+		write(pipefd[1], line, strlen(line));
+		write(pipefd[1], "\n", 1);
 		free(line);
-		if (!temp) 
-		{
-			free(str);
-			return (NULL);
-		}
-		free(str);
-		str = ft_strjoin(temp, "\n");
-		free(temp);
-		if (!str)
-			return (NULL);
 	}
-	return (str);
+	free(line);
+	close(pipefd[1]); 
+	return (pipefd[0]);
 }
-
-int	get_here_doc(const char *limit, const char *warn)
-{
-	int		fd[2];
-	char	*str;
-
-	g_mini->exit_status = 0;
-	if (pipe(fd) == -1)
-	{
-		ft_error_with_exit(4, NULL, 1, "pipe");
-		return (-1);
-	}
-	str = read_string_until_limit(limit, warn);
-	if (str)
-		ft_putstr_fd(str, fd[WRITE_END]);
-	free(str);
-	close(fd[WRITE_END]);
-	if (g_mini->exit_status == 130)
-	{
-		close(fd[READ_END]);
-		return (-1);
-	}
-	return (fd[READ_END]);
-}
-// t_mini	*handle_here_doc(t_list *command, char **args, int *i)
-// {
-// 	char	*nl;
-// 	char	*warn;
-// 	t_cmd	*cmd;
-
-// 	cmd = (t_cmd *)command->content;
-// 	warn = "minishell: warning: here-document delimited by end-of-file";
-// 	nl = "minishell: syntax error near unexpected token `newline'";
-// 	(*i)++;
-// 	if (args[*i])
-// 		cmd->fd_in = get_here_doc(args[*i], warn);
-// 	if (!args[*i] || cmd->fd_in == -1)
-// 	{
-// 		*i = -1;
-// 		if (cmd->fd_in != -1)
-// 		{
-// 			ft_putendl_fd(nl, 2);
-// 			g_mini->exit_status = 2;
-// 		}
-// 	}
-// 	return (g_mini);
-// }

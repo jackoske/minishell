@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 17:04:34 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/16 17:35:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ t_cmd	*create_command_node(char **tokenized_input, int *i)
 	while (tokenized_input[*i] && tokenized_input[*i][0] != '|')
 	{
 		if (is_redirection(tokenized_input[*i]))
-		{
 			process_redirections(cmd, tokenized_input, i);
-		}
 		else
 		{
 			new_array = ft_add_row_2d_array(cmd->full_command,
