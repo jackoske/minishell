@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 23:20:39 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/19 15:22:13 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/08/19 12:11:01 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/19 12:11:09 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "minishell.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+int	is_redirection(const char *token)
 {
-	char	*str;
-
-	if(nmemb != 0 && size > SIZE_MAX / nmemb)
-		return (NULL);
-	if (nmemb == 0 || size == 0)
-	{
-		nmemb = 1;
-		size = 1;
-	}
-	str = (char *)malloc(nmemb * size);
-	if (!str)
-		return (NULL);
-	return (ft_memset(str, 0, nmemb * size));
+	if (!token)
+		return (0);
+	if (strcmp(token, ">") == 0 || strcmp(token, ">>") == 0 || strcmp(token,
+			"<") == 0 || strcmp(token, "<<") == 0)
+		return (1);
+	return (0);
 }

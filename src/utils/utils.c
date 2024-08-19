@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/09 16:19:25 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:01:56 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,33 +51,33 @@ int	is_all_num(char *str)
 	return (1);
 }
 
-int	is_string_quoted(char *str)
-{
-	int	single_quote_open;
-	int	double_quote_open;
-	int	has_quotes;
+// int	is_string_quoted(char *str)
+// {
+// 	int	single_quote_open;
+// 	int	double_quote_open;
+// 	int	has_quotes;
 
-	single_quote_open = ((double_quote_open = 0), (has_quotes = 0), 0);
-	while (*str)
-	{
-		if (*str == '\'' && !double_quote_open)
-		{
-			single_quote_open = !single_quote_open;
-			has_quotes = 1;
-		}
-		else if (*str == '\"' && !single_quote_open)
-		{
-			double_quote_open = !double_quote_open;
-			has_quotes = 1;
-		}
-		str++;
-	}
-	if (single_quote_open || double_quote_open)
-		return (-1);
-	if (!has_quotes)
-		return (0);
-	return (1);
-}
+// 	single_quote_open = ((double_quote_open = 0), (has_quotes = 0), 0);
+// 	while (*str)
+// 	{
+// 		if (*str == '\'' && !double_quote_open)
+// 		{
+// 			single_quote_open = !single_quote_open;
+// 			has_quotes = 1;
+// 		}
+// 		else if (*str == '\"' && !single_quote_open)
+// 		{
+// 			double_quote_open = !double_quote_open;
+// 			has_quotes = 1;
+// 		}
+// 		str++;
+// 	}
+// 	if (single_quote_open || double_quote_open)
+// 		return (-1);
+// 	if (!has_quotes)
+// 		return (0);
+// 	return (1);
+// }
 
 int	is_special_char_input(char c)
 {

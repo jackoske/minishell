@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/19 10:47:37 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/19 16:04:41 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void							setup_child_signals(void);
 void							handle_sigint(int sig);
 void							initialize_envp(char **envp);
 void							process_redirections(t_cmd *cmd,
-									char **tokenized_input, int *i);
+									char ***tokenized_input);
 
 void							setup_pipe_redirection(int i, int num_cmds,
 									int pipes[][2]);
@@ -143,13 +143,13 @@ void							close_pipes_in_parent(int num_cmds,
 /* Error Handling */
 void							*mini_perror(char *str, char *str2, int fd);
 void							ft_error(int error_code, char *arg);
-void							ft_error_with_exit( char *arg,
-									int exit_code, char *message);
+void							ft_error_with_exit(char *arg, int exit_code,
+									char *message);
 /* Input Handling and Parsing */
 char							**tokenize_input(char *input);
 char							**tokenize_special_symbols(const char *str,
 									int i, int token_count);
-char							**split_spaces(char *input, int w_count);
+char							**split_spaces(const char *str, int token_count);
 char							**populate_token_array(char **tokenizedInput,
 									char *input);
 int								w_count_quotes(char *input);
@@ -166,11 +166,10 @@ void							imp_while(int *i, int len, const char *str,
 char							**ft_add_row_2d_array1(char **array, char *row);
 void							add_special_row(char ***tempTokenArray,
 									char *specialSymbolArray, int *i);
-char							**split_spaces(char *input, int w_count);
 void							define_symbol_len(int *len, char index1,
 									char index2);
 int								is_special_char_input(char c);
-int								is_string_quoted(char *str);
+int								is_string_quoted(const char *str);
 
 /* Variable Expansion and Environment Handling */
 char							*find_var(char *var);
@@ -205,7 +204,7 @@ int								is_already_exist(char *key);
 void							show_last_command_status(char **str);
 int								is_special_char_export(char c);
 int								is_all_num(char *str);
-int								is_string_quoted(char *str);
+// int								is_string_quoted(char *str);
 
 /* Built-in Commands */
 int								mini_cd(char **args);
@@ -225,6 +224,7 @@ void							test_exec(void);
 void							test_heredoc(void);
 void							debug_print_command_parts(t_cmd *cmd);
 void							debug_tokenized_input(char **tokenized_input);
+int								is_redirection(const char *token);
 
 char							*ft_getenv(const char *name, char **envp,
 									int len);
