@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/20 16:18:44 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 17:04:17 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,7 @@ static char	**process_expanded_array(char **expandedArray, char **tmpTokArr)
 	while (expandedArray[i])
 	{
 		if (is_string_quoted(expandedArray[i]))
-			tmpTokArr = ft_add_row_2d_array(tmpTokArr,
-					ft_remove_paired_quotes(expandedArray[i]), 0);
+			tmpTokArr = ft_add_row_2d_array(tmpTokArr, expandedArray[i], 0);
 		else if (contains_special_symbols(expandedArray[i]))
 		{
 			tmpTokArr = process_special_symbols(expandedArray[i], tmpTokArr);
@@ -217,7 +216,8 @@ static char	**process_command(t_cmd *cmd, char **tokenized_input)
 {
 	char	**new_array;
 
-	new_array = ft_add_row_2d_array(cmd->full_command, *tokenized_input, 0);
+	new_array = ft_add_row_2d_array(cmd->full_command,
+			*tokenized_input, 0);
 	if (!new_array)
 	{
 		free_cmd(cmd);
@@ -230,11 +230,11 @@ static char	**process_command(t_cmd *cmd, char **tokenized_input)
 static char	**process_token(t_cmd *cmd, char **tokenized_input,
 		int *error_status)
 {
-	if (is_redirection(*tokenized_input))
+	if (is_redirection(ft_remove_paired_quotes(*tokenized_input)))
 	{
 		*error_status = process_redirections(cmd, &tokenized_input);
 		if (*error_status)
-			return (NULL);	
+			return (NULL);
 		return (tokenized_input);
 	}
 	else

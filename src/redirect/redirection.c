@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 16:13:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 16:48:14 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_cmd	*handle_append_redir(t_cmd *cmd, char ***input)
 	{
 		ft_putstr_fd(ft_strjoin("minishell: ", **input), STDERR_FILENO);
 		perror(" ");
+		g_mini->exit_status = 1;
 		cmd->fd_out = -1;
 		return (cmd);
 	}
@@ -50,6 +51,7 @@ static t_cmd	*handle_output_redir(t_cmd *cmd, char ***input)
 	{
 		ft_putstr_fd(ft_strjoin("minishell: ", **input), STDERR_FILENO);
 		perror(" ");
+		g_mini->exit_status = 1;
 		cmd->fd_out = -1;
 		return (cmd);
 	}
@@ -73,6 +75,7 @@ static t_cmd	*handle_input_redir(t_cmd *cmd, char ***input)
 	{
 		ft_putstr_fd(ft_strjoin("minishell: ", **input), STDERR_FILENO);
 		perror(" ");
+		g_mini->exit_status = 1;
 		cmd->fd_in = -1;
 		return (cmd);
 	}
