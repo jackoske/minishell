@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/14 10:21:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 13:28:21 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	go_to_path(int option, t_mini *mini)
 		if (update_oldpwd() != 0)
 			return (1);
 		env_path = get_env_path(mini->envp, "HOME=", 5);
+		printf("%s\n", env_path);
 		if (!env_path)
 			return (1);
 	}
@@ -99,7 +100,7 @@ static int	set_newpwd(t_mini *mini)
 int	mini_cd(char **args)
 {
 	int	cd_ret;
-
+	
 	if (!args[1])
 		return (go_to_path(0, g_mini));
 	if (ft_strcmp(args[1], "-") == 0)

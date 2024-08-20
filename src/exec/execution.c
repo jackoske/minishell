@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 16:42:36 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 13:14:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ void	exec_pipes(t_list *commands)
 	while (i < num_cmds)
 	{
 		cmd = (t_cmd *)commands->content;
+		if (is_builtin(cmd) && num_cmds == 1)
+		{
+			execute_builtin(cmd);
+			return ;
+		}
 		if ((pid = fork()) == 0)
 		{
 			close_pipes_in_child(num_cmds, pipes, i);
