@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/19 16:01:56 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 15:01:42 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_all_num(char *str)
 	return (1);
 }
 
-// int	is_string_quoted(char *str)
+// int	is_string_quoted(const char *str)
 // {
 // 	int	single_quote_open;
 // 	int	double_quote_open;

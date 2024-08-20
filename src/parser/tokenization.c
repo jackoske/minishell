@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/20 13:27:57 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 16:18:44 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,25 @@ static char	*get_next_token(const char **str)
 {
 	const char	*start;
 	char		*token;
-	int			in_quote;
-	char		quote_char;
+	int			in_single_quote;
+	int			in_double_quote;
 
-	in_quote = 0;
-	quote_char = '\0';
+	in_single_quote = 0;
+	in_double_quote = 0;
 	while (**str && is_space(**str))
 		(*str)++;
 	start = *str;
-	while (**str && (!is_space(**str) || in_quote))
+	while (**str && (!is_space(**str) || in_single_quote || in_double_quote))
 	{
-		if (is_quote(**str))
-		{
-			if (in_quote && **str == quote_char)
-				in_quote = 0;
-			else if (!in_quote)
-			{
-				in_quote = 1;
-				quote_char = **str;
-			}
-		}
+		if (**str == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (**str == '\"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
 		(*str)++;
 	}
 	token = strndup(start, *str - start);
 	return (token);
 }
-
-
 
 char	**tokenize_sp_symb(const char *str, int i, int token_count)
 {
@@ -221,18 +213,11 @@ static int	validate_command(t_cmd *cmd)
 	return (1);
 }
 
-static char	**process_redirection(t_cmd *cmd, char **tokenized_input)
-{
-	process_redirections(cmd, &tokenized_input);
-	return (tokenized_input);
-}
-
 static char	**process_command(t_cmd *cmd, char **tokenized_input)
 {
 	char	**new_array;
 
-	new_array = ft_add_row_2d_array(cmd->full_command,
-			ft_remove_paired_quotes(*tokenized_input), 0);
+	new_array = ft_add_row_2d_array(cmd->full_command, *tokenized_input, 0);
 	if (!new_array)
 	{
 		free_cmd(cmd);
@@ -242,10 +227,16 @@ static char	**process_command(t_cmd *cmd, char **tokenized_input)
 	return (tokenized_input + 1);
 }
 
-static char	**process_token(t_cmd *cmd, char **tokenized_input)
+static char	**process_token(t_cmd *cmd, char **tokenized_input,
+		int *error_status)
 {
 	if (is_redirection(*tokenized_input))
-		return (process_redirection(cmd, tokenized_input));
+	{
+		*error_status = process_redirections(cmd, &tokenized_input);
+		if (*error_status)
+			return (NULL);	
+		return (tokenized_input);
+	}
 	else
 		return (process_command(cmd, tokenized_input));
 }
@@ -253,13 +244,20 @@ static char	**process_token(t_cmd *cmd, char **tokenized_input)
 t_cmd	*create_command_node(char **tokenized_input)
 {
 	t_cmd	*cmd;
+	int		error_status;
 
+	error_status = 0;
 	cmd = initialize_command();
 	if (!cmd)
 		return (NULL);
 	while (*tokenized_input && **tokenized_input != '|')
 	{
-		tokenized_input = process_token(cmd, tokenized_input);
+		tokenized_input = process_token(cmd, tokenized_input, &error_status);
+		if (error_status)
+		{
+			free_cmd(cmd);
+			return (NULL);
+		}
 		if (!tokenized_input)
 			return (NULL);
 	}

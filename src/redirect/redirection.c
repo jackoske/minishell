@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 12:40:06 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 16:13:43 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, char ***input)
 	return (cmd);
 }
 
-void	process_redirections(t_cmd *cmd, char ***tokenized_input)
+int	process_redirections(t_cmd *cmd, char ***tokenized_input)
 {
 	if (!*tokenized_input || !**tokenized_input)
-		return ;
+		return (0);
 	if ((*tokenized_input)[0][0] == '>' && (*tokenized_input)[0][1] == '>')
 		cmd = handle_append_redir(cmd, tokenized_input);
 	else if ((*tokenized_input)[0][0] == '>')
@@ -112,4 +112,7 @@ void	process_redirections(t_cmd *cmd, char ***tokenized_input)
 		cmd = handle_heredoc_redir(cmd, tokenized_input);
 	else if ((*tokenized_input)[0][0] == '<')
 		cmd = handle_input_redir(cmd, tokenized_input);
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		return (1);
+	return (0);
 }

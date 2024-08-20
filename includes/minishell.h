@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/19 16:04:41 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/20 16:13:55 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void							setup_signal_handlers(void);
 void							setup_child_signals(void);
 void							handle_sigint(int sig);
 void							initialize_envp(char **envp);
-void							process_redirections(t_cmd *cmd,
+int								process_redirections(t_cmd *cmd,
 									char ***tokenized_input);
 
 void							setup_pipe_redirection(int i, int num_cmds,
