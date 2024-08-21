@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:38:01 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 18:44:05 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ static void	fork_and_execute(t_cmd *cmd, int pipes[][2], int i, int num_cmds)
 {
 	pid_t	pid;
 
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+	{
+		g_mini->exit_status = 1;
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{

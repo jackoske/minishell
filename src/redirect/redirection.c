@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 17:40:12 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 18:50:22 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,5 @@ int	process_redirections(t_cmd *cmd, char ***tokenized_input)
 		cmd = handle_heredoc_redir(cmd, tokenized_input);
 	else if ((*tokenized_input)[0][0] == '<')
 		cmd = handle_input_redir(cmd, tokenized_input);
-	if (cmd->fd_in == -1 || cmd->fd_out == -1)
-		return (1);
-	return (0);
+	return (cmd->fd_in == -1 || cmd->fd_out == -1);
 }

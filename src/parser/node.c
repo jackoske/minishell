@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:07:33 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 18:51:08 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	validate_command(t_cmd *cmd)
 {
 	if (cmd->fd_in == -1 || cmd->fd_out == -1)
 	{
-		free_cmd(cmd);
-		return (0);
+		g_mini->exit_status = 1;
+		return (1);
 	}
 	return (1);
 }
@@ -62,16 +62,10 @@ t_cmd	*create_command_node(char **tokenized_input)
 	while (*tokenized_input && **tokenized_input != '|')
 	{
 		tokenized_input = process_token(cmd, tokenized_input, &error_status);
-		if (error_status)
-		{
-			free_cmd(cmd);
-			return (NULL);
-		}
 		if (!tokenized_input)
-			return (NULL);
+			break;
 	}
-	if (!validate_command(cmd))
-		return (NULL);
+	validate_command(cmd);
 	return (cmd);
 }
 
