@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:12:47 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/16 17:56:17 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:44:37 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	handle_edge_cases(char **args)
 	}
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '=')
 	{
-		ft_error_with_exit( args[1], 1, NOT_VALID_ID);
+		ft_error_with_exit(args[1], 1, NOT_VALID_ID);
 		return (1);
 	}
 	return (0);

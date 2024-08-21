@@ -1,79 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenization_utils.c                               :+:      :+:    :+:   */
+/*   tokenisation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:33:17 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/08 12:41:09 by iverniho         ###   ########.fr       */
+/*   Created: 2024/08/21 17:26:21 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/21 17:53:05 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	allocate_and_copy_token1(char **tokens,	int token_count, \
-	const char *str, int c[5])
+static void	handle_quote(char c, int *in_quote, char *quote_char)
 {
-	tokens[token_count] = ft_calloc(c[0] + 1, sizeof(char));
-	if (!tokens[token_count])
-		return ;
-	ft_strlcpy(tokens[token_count], &str[c[3]], c[0] + 1);
-	tokens[token_count][c[0]] = '\0';
-}
-
-void	allocate_and_copy_token2(char **tokens, \
-	int token_count, const char *str, int n[5])
-{
-	tokens[token_count] = ft_calloc(n[5] + 1, sizeof(char));
-	if (!tokens[token_count])
-		return ;
-	ft_strlcpy(tokens[token_count], &str[n[4]], n[5] + 1);
-	tokens[token_count][n[5]] = '\0';
-}
-
-void	imp_while(int *i, int len, const char *str, int *start)
-{
-	(*start) = (*i);
-	while ((*i) < len && !ft_is_space(str[(*i)])
-		&& !ft_is_special_symbol(str[(*i)]))
-		(*i)++;
-}
-
-char	**ft_add_row_2d_array1(char **array, char *row)
-{
-	int		i;
-	char	**new_array;
-
-	i = 0;
-	if (!array)
+	if (*in_quote && c == *quote_char)
+		*in_quote = 0;
+	else if (!*in_quote)
 	{
-		new_array = ft_calloc(2, sizeof(char *));
-		if (!new_array)
-			return (NULL);
-		new_array[0] = ft_strdup(row);
-		new_array[1] = NULL;
-		return (new_array);
+		*in_quote = 1;
+		*quote_char = c;
 	}
-	while (array[i])
-		i++;
-	new_array = ft_calloc(i + 2, sizeof(char *));
-	if (!new_array)
-		return (NULL);
-	i = -1;
-	while (array[++i])
-		new_array[i] = ft_strdup(array[i]);
-	new_array[i] = ft_strdup(row);
-	new_array[i + 1] = NULL;
-	ft_free_2d_array(&array);
-	return (new_array);
 }
 
-// Add Special Row Function
-void	add_special_row(char ***tempTokenArray, char *specialSymbolArray, \
-	int *i)
+static const char	*skip_spaces(const char *str)
 {
-	*tempTokenArray = ft_add_row_2d_array(*tempTokenArray, specialSymbolArray,
-			0);
-	*i += 1;
+	while (*str && ft_is_space(*str))
+		str++;
+	return (str);
+}
+
+int	count_tokens(const char *str)
+{
+	int		count;
+	int		in_quote;
+	char	quote_char;
+
+	count = 0;
+	in_quote = 0;
+	quote_char = '\0';
+	while (*str)
+	{
+		str = skip_spaces(str);
+		if (*str)
+			count++;
+		while (*str && (!ft_is_space(*str) || in_quote))
+		{
+			if (ft_is_quote(*str))
+				handle_quote(*str, &in_quote, &quote_char);
+			str++;
+		}
+	}
+	return (count);
 }

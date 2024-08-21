@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 12:39:12 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:44:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	mini_unset(char **args)
-{
-	int		i;
-	char	**new_env_arr;
-	int		j;
-
-	if (ft_2d_array_len(args) < 2)
-		return ;
-	i = -1;
-	j = 0;
-	new_env_arr = ft_calloc(ft_2d_array_len(g_mini->envp), sizeof(char *));
-	if (!new_env_arr)
-		return ;
-	while (g_mini->envp[++i])
-	{
-		if (ft_strncmp(g_mini->envp[i], args[1], ft_strlen(args[1])) != 0)
-			new_env_arr[j++] = ft_strdup(g_mini->envp[i]);
-	}
-	new_env_arr[j] = NULL;
-	ft_free_2d_array(&g_mini->envp);
-	g_mini->envp = new_env_arr;
-}
 
 int	check_special_in_key(char *str)
 {
@@ -66,7 +43,7 @@ int	check_after_equal(char *str)
 	return (1);
 }
 
-//does actions if there is only key, without any value
+// does actions if there is only key, without any value
 int	add_env_key(char *str, int len)
 {
 	char	*value;
@@ -103,8 +80,9 @@ int	is_special_char_in_env(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i])) \
-			|| str[i] == '_' || str[i] == '=')) && (!is_special_char_export(str[i])) )
+		if (((ft_isalpha(str[i]) || (i > 0 && ft_isdigit(str[i]))
+					|| str[i] == '_' || str[i] == '='))
+			&& (!is_special_char_export(str[i])))
 			i++;
 		else if (str[i] == '=')
 			return (0);

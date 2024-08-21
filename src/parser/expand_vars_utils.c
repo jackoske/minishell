@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:50:12 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 17:31:51 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:31:29 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*remove_quotes(char *str, char q)
 	i = 0;
 	while (i < len)
 	{
-		// if (str[i] != '\"')
 		if (str[i] != q)
 			result[j++] = str[i];
 		i++;

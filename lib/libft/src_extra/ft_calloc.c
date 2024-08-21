@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:20:39 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/19 15:22:13 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:49:59 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*str;
 
-	if(nmemb != 0 && size > SIZE_MAX / nmemb)
+	if (nmemb != 0 && size > SIZE_MAX / nmemb)
 		return (NULL);
 	if (nmemb == 0 || size == 0)
 	{
