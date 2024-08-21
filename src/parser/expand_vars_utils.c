@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:50:12 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:31:29 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 19:53:46 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,28 @@ char	**manage_replaced(char **replaced, char **last_str)
 	replaced = NULL;
 	ft_free_2d_array(&replaced);
 	return (last_str);
+}
+
+char	**remove_empty_elements(char **arr)
+{
+	int		i;
+	int		j;
+	char	**new_arr;
+
+	i = 0;
+	j = 0;
+	new_arr = ft_calloc(ft_2d_array_len(arr) + 1, sizeof(char *));
+	if (!new_arr)
+		return (NULL);
+	while (arr[i])
+	{
+		if (arr[i][0] != ' ')
+		{
+			new_arr[j] = ft_strdup(arr[i]);
+			j++;
+		}
+		i++;
+	}
+	ft_free_2d_array(&arr);
+	return (new_arr);
 }

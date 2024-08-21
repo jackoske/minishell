@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/21 18:05:46 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/21 19:51:51 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC_ENV = envp_functions.c additional_env.c env_utils.c
 SRC_EXEC = execution.c command_utils.c path_utils.c pipe_utils.c exec_utils.c
 SRC_INIT = initilisation.c
 SRC_PARS = parser.c parser_utils.c expand_vars.c  tokenization_utils.c tokenization.c tokenization2.c\
-	expand_vars_utils.c expand_vars_utils1.c input.c node.c node_utils.c
+	expand_vars_utils.c expand_vars_utils1.c expand_vars_utils2.c input.c node.c node_utils.c
 SRC_REDIRECT = here_doc.c redirection.c
 SRC_SIGNAL = signal.c
 SRC_UTILS = error.c utils.c prompt.c

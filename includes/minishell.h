@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:57:04 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 19:55:05 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,14 @@ void						replace_and_build(const char *input, char *output,
 char						*replace_special_signs(const char *input);
 int							is_str_has_sigle_quottes(char *str);
 int							has_single_quoting(const char *str);
+char						*handle_sprintf(int *src_idx);
+void						getenv_handler(char **env_value, int len, int *k);
+char						*imp_while1(char *str, int *src_idx, int *var_idx);
+int							if_env(char *env_value, char *str, \
+	char **result, int *index);
+void						manage_replacing(int *index, \
+	char *str, char **env_value);
+char						**remove_empty_elements(char **arr);
 
 /* Command Handling */
 void						exec_pipes(t_list *commands);

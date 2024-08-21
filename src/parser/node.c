@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 18:51:08 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 19:55:34 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmd	*create_command_node(char **tokenized_input)
 	{
 		tokenized_input = process_token(cmd, tokenized_input, &error_status);
 		if (!tokenized_input)
-			break;
+			break ;
 	}
 	validate_command(cmd);
 	return (cmd);
