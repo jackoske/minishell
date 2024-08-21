@@ -6,11 +6,88 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/12 20:32:01 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:46:52 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//                echo "asdsa$USERdas$?sads$PWDdsad$DASAS"
+char *replace_env_variables(const char *str)
+{
+	int src_idx = 0, dest_idx = 0;
+	char *result;
+	char var_name[100];
+	int var_idx;
+	char *env_value;
+	char exitcode[12];
+
+	result = (char *)malloc(strlen(str) * 2 + 1);
+	if (!result)
+		return NULL;
+
+	while (str[src_idx])
+	{
+		if (str[src_idx] == '$')
+		{
+			src_idx++;
+			var_idx = 0;
+
+			if (str[src_idx] == '?')
+			{
+				snprintf(exitcode, sizeof(exitcode), "%d", g_mini->exit_status);
+				env_value = exitcode;
+				src_idx++;
+			}
+			else
+			{
+				while (str[src_idx] && (ft_isalnum(str[src_idx]) || str[src_idx] == '_'))
+				{
+					var_name[var_idx++] = str[src_idx++];
+					var_name[var_idx] = '\0';
+					env_value = getenv(var_name);
+					if (env_value)
+						break;
+				}
+				var_name[var_idx] = '\0';
+				env_value = NULL;
+				env_value = getenv(var_name);
+				if (!env_value)
+				{
+					int j = -1;
+					int k = -1;
+					env_value = (char *)malloc(ft_strlen(var_name) + 2);
+					env_value[++k] = '$';
+					while (var_name[++j])
+					{
+						env_value[++k] = var_name[j];
+					}
+					env_value[++k] = '\0';
+				}
+			}
+			if (env_value)
+			{
+				int env_len = strlen(env_value);
+				if (dest_idx + env_len >= (int)ft_strlen(str) * 2)
+				{
+					result = ft_realloc(result, dest_idx + env_len + 1);
+					if (!result)
+						return NULL;
+				}
+				while (*env_value)
+					result[dest_idx++] = *env_value++;
+			}
+			else
+				result[dest_idx++] = str[src_idx++];
+		}
+		else
+			result[dest_idx++] = str[src_idx++];
+	}
+	result[dest_idx] = '\0';
+	return result;
+}
+
+
 
 char	*find_var(char *var)
 {
@@ -40,27 +117,24 @@ char	**replace_var(char *var, char **tokenizedInput)
 {
 	char	**expanded_array;
 	int		i;
-	char	*var_value;
 	char	*trimmed;
 
 	i = -1;
-	expanded_array = ft_calloc(ft_2d_array_len(tokenizedInput) + 1, \
+	expanded_array = ft_calloc(ft_2d_array_len(tokenizedInput) + 1,
 		sizeof(char *));
 	if (!expanded_array)
 		return (NULL);
 	while (tokenizedInput[++i])
 	{
 		trimmed = remove_quotes(tokenizedInput[i], '\"');
-		if ((trimmed[0] != '$' && trimmed[1] != '$') || trimmed[1] == '\0')
-			expanded_array[i] = ft_strdup(tokenizedInput[i]);
-		else
+		if (ft_strchr(trimmed, '$') == NULL  || trimmed[1] != '\0')
 		{
-			var_value = find_var(var);
-			if (var_value)
-				expanded_array[i] = var_value;
-			else
+			expanded_array[i] = ft_strdup(replace_env_variables(tokenizedInput[i]));
+			if (ft_strchr(expanded_array[i], '$') != NULL && ft_strcmp(expanded_array[i], tokenizedInput[i]) == 0)
 				expanded_array[i] = ft_strdup(" ");
 		}
+		else
+			expanded_array[i] = ft_strdup(tokenizedInput[i]);
 	}
 	return (free(var), expanded_array);
 }
@@ -108,7 +182,7 @@ char	**find_env_var_and_replace(char *var, char **tokenizedInput)
 	else
 	{
 		while (*tmp)
-			tmp_var[j++] = *++tmp;
+			tmp_var[j++] = *tmp++;
 		tmp_var[j] = '\0';
 	}
 	res = replace_var(tmp_var, tokenizedInput);
