@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_only_special.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:33:28 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/07 19:45:41 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:55:43 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_is_only_special(char *str)
 {
-	int	 i;
+	int	i;
+
 	i = -1;
 	while (str[++i])
 	{
@@ -26,7 +27,8 @@ int	ft_is_only_special(char *str)
 
 int	ft_is_special_in_str(char *str)
 {
-	int	 i;
+	int	i;
+
 	i = -1;
 	while (str[++i])
 	{

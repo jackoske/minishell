@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 13:28:21 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:46:03 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static char	*get_env_path(char **envp, const char *var, size_t len)
 		if (ft_strncmp(*envp, var, len) == 0)
 		{
 			s_alloc = ft_strlen(*envp) - len;
-			if (!(path = malloc(sizeof(char) * (s_alloc + 1))))
+			path = malloc(sizeof(char) * (s_alloc + 1));
+			if (!(path))
 				return (NULL);
 			i = len;
 			j = 0;
@@ -45,7 +46,8 @@ static int	update_oldpwd(void)
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	if (!(oldpwd = ft_strjoin("OLDPWD=", cwd)))
+	oldpwd = ft_strjoin("OLDPWD=", cwd);
+	if (!(oldpwd))
 		return (1);
 	g_mini->envp = ft_setenv("OLDPWD", cwd, g_mini->envp, 1);
 	free(oldpwd);
@@ -79,6 +81,7 @@ static int	go_to_path(int option, t_mini *mini)
 	free(env_path);
 	return (ret);
 }
+
 static int	set_newpwd(t_mini *mini)
 {
 	char	*newpwd;
@@ -100,7 +103,7 @@ static int	set_newpwd(t_mini *mini)
 int	mini_cd(char **args)
 {
 	int	cd_ret;
-	
+
 	if (!args[1])
 		return (go_to_path(0, g_mini));
 	if (ft_strcmp(args[1], "-") == 0)

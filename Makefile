@@ -6,7 +6,7 @@
 #    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/19 17:16:53 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/21 17:52:31 by Jskehan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,12 @@ SRC_REDIRECT_DIR = ./src/redirect/
 SRC_SIGNAL_DIR = ./src/signal/
 SRC_UTILS_DIR = ./src/utils/
 
-SRC_BUILTIN = builtin_cd.c builtin_exit.c builtin_utils.c builtin_echo.c builtin_pwd.c builtin_export.c
+SRC_BUILTIN = builtin_cd.c builtin_exit.c builtin_utils.c builtin_echo.c builtin_pwd.c builtin_export.c builtin_unset.c
 SRC_ENV = envp_functions.c additional_env.c env_utils.c
 SRC_EXEC = execution.c command_utils.c path_utils.c pipe_utils.c exec_utils.c
 SRC_INIT = initilisation.c
-SRC_PARS = parser.c parser_utils.c expand_vars.c tokenization.c tokenization_utils.c\
-	tokenization_utils1.c expand_vars_utils.c expand_vars_utils1.c input.c node.c
+SRC_PARS = parser.c parser_utils.c expand_vars.c  tokenization_utils.c tokenization.c tokenization2.c\
+	expand_vars_utils.c expand_vars_utils1.c input.c node.c node_utils.c
 SRC_REDIRECT = here_doc.c redirection.c
 SRC_SIGNAL = signal.c
 SRC_UTILS = error.c utils.c prompt.c

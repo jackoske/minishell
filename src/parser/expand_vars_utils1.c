@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 20:31:00 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/14 10:55:57 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:31:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	calculate_new_length(const char *input, int replacement_len)
 	input_len = ((new_len = 0), (i = 0), ft_strlen(input));
 	while (i < input_len)
 	{
-		if (input[i] == '?' || (input[i] == '$' && i + 1 < input_len && input[i
+		if (input[i] == '?' || (input[i] == '$' && i + 1 < input_len && input[i \
 				+ 1] == '?'))
 		{
 			new_len += replacement_len;
@@ -54,7 +54,7 @@ void	replace_and_build(const char *input, char *output,
 	replacement_len = strlen(replacement_value);
 	while (i < input_len)
 	{
-		if (input[i] == '?' || (input[i] == '$' && i + 1 < input_len && input[i
+		if (input[i] == '?' || (input[i] == '$' && i + 1 < input_len && input[i \
 				+ 1] == '?'))
 		{
 			k = 0;

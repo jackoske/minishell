@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 12:17:27 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:38:01 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,27 @@ static void	handle_child(t_cmd *cmd, int pipes[][2], int i, int num_cmds)
 	exit(g_mini->exit_status);
 }
 
+static void	fork_and_execute(t_cmd *cmd, int pipes[][2], int i, int num_cmds)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		close_pipes_in_child(num_cmds, pipes, i);
+		handle_child(cmd, pipes, i, num_cmds);
+	}
+	else if (pid < 0)
+	{
+		perror("fork");
+		g_mini->exit_status = 1;
+	}
+}
+
 void	exec_pipes(t_list *commands)
 {
 	int		num_cmds;
 	int		pipes[128][2];
-	pid_t	pid;
 	int		i;
 	t_cmd	*cmd;
 
@@ -57,16 +73,7 @@ void	exec_pipes(t_list *commands)
 			execute_builtin(cmd);
 			return ;
 		}
-		if ((pid = fork()) == 0)
-		{
-			close_pipes_in_child(num_cmds, pipes, i);
-			handle_child(cmd, pipes, i, num_cmds);
-		}
-		else if (pid < 0)
-		{
-			perror("fork");
-			g_mini->exit_status = 1;
-		}
+		fork_and_execute(cmd, pipes, i, num_cmds);
 		commands = commands->next;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:20 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/16 18:04:10 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:33:59 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 char	*check_direct_command(char *command)
 {
 	if (access(command, F_OK) == -1)
-		return (ft_error_with_exit(command, 127, "No such file or directory\n"), NULL);
+		return (ft_error_with_exit(command, 127, "No such file or directory\n"),
+			NULL);
 	if (access(command, X_OK) == -1)
 		return (ft_error_with_exit(command, 126, "Permission denied\n"), NULL);
 	return (strdup(command));

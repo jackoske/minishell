@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 13:10:21 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:42:45 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,54 +29,76 @@ char	*ft_getenv(const char *name, char **envp, int len)
 	return (NULL);
 }
 
-char	**ft_setenv(const char *name, const char *value, char **envp,
-		int overwrite)
+static char	*update_existing_envp(char **envp, const char *name,
+		const char *value, int overwrite)
 {
 	int		i;
 	char	*new_envp;
-	char	**new_envp_array;
 	char	*temp;
 
-	// printf("ft_setenv called with name=%s, value=%s, overwrite=%d\n", name,
-		// value, overwrite);
 	i = 0;
 	while (envp && envp[i])
 	{
-		// printf("Checking envp[%d]: %s\n", i, envp[i]);
 		if (!strncmp(envp[i], name, strlen(name))
 			&& envp[i][strlen(name)] == '=')
 		{
-			// printf("Match found at envp[%d]\n", i);
 			if (overwrite)
 			{
-				// printf("Overwriting existing value\n");
 				temp = ft_strjoin(name, "=");
 				new_envp = ft_strjoin_free(temp, (char *)value);
 				free(envp[i]);
 				envp[i] = new_envp;
 			}
-			return (envp);
+			return (envp[i]);
 		}
 		i++;
 	}
-	printf("No existing entry found, adding new\n");
-	new_envp_array = ft_calloc(i + 2, sizeof(char *));
+	return (NULL);
+}
+
+static char	**add_new_envp(char **envp, const char *name, const char *value,
+		int count)
+{
+	char	**new_envp_array;
+	char	*new_envp;
+	char	*temp;
+	int		j;
+
+	j = 0;
+	new_envp_array = ft_calloc(count + 2, sizeof(char *));
 	if (!new_envp_array)
 	{
 		printf("Memory allocation for new_envp_array failed\n");
 		return (NULL);
 	}
-	for (int j = 0; j < i; j++)
+	while (j < count)
 	{
 		new_envp_array[j] = envp[j];
+		j++;
 	}
 	temp = ft_strjoin(name, "=");
 	new_envp = ft_strjoin_free(temp, (char *)value);
-	new_envp_array[i] = new_envp;
-	new_envp_array[i + 1] = NULL;
+	new_envp_array[count] = new_envp;
+	new_envp_array[count + 1] = NULL;
 	free(envp);
 	printf("New environment variable added: %s=%s\n", name, value);
 	return (new_envp_array);
+}
+
+char	**ft_setenv(const char *name, const char *value, char **envp,
+		int overwrite)
+{
+	int		i;
+	char	*updated_envp;
+
+	i = 0;
+	updated_envp = update_existing_envp(envp, name, value, overwrite);
+	if (updated_envp)
+		return (envp);
+	printf("No existing entry found, adding new\n");
+	while (envp && envp[i])
+		i++;
+	return (add_new_envp(envp, name, value, i));
 }
 
 char	**copy_env(char **envp)
@@ -84,22 +106,24 @@ char	**copy_env(char **envp)
 	int		i;
 	char	**new_envp;
 
-	for (i = 0; envp[i]; i++)
-		;
+	i = 0;
+	while (envp[i])
+		i++;
 	new_envp = malloc((i + 1) * sizeof(char *));
 	if (!new_envp)
 		return (NULL);
-	for (i = 0; envp[i]; i++)
+	i = 0;
+	while (envp[i])
 	{
 		new_envp[i] = strdup(envp[i]);
 		if (!new_envp[i])
 		{
-			// Free previously allocated memory in case of failure
 			while (i--)
 				free(new_envp[i]);
 			free(new_envp);
 			return (NULL);
 		}
+		i++;
 	}
 	new_envp[i] = NULL;
 	return (new_envp);

@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/09 16:56:10 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/21 17:29:36 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
 	{
 		s_quote = (s_quote + (!d_quote && *s1 == '\'')) % 2;
 		d_quote = (d_quote + (!s_quote && *s1 == '\"')) % 2;
-		if ((*s1 != '\"' || s_quote) && (*s1 != '\'' || d_quote) \
-			&& ++i >= 0)
+		if ((*s1 != '\"' || s_quote) && (*s1 != '\'' || d_quote) && ++i >= 0)
 			trimmed[i] = *s1;
 		s1++;
 	}
@@ -106,4 +105,3 @@ char	**ft_remove_quotes(char **tokenizedInput)
 	}
 	return (temp);
 }
-
