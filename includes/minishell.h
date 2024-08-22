@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 19:55:05 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:56:14 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <linux/limits.h>
 
 # define PROMPT "minishell> "
 # define NEWLINE_ERR "minishell> syntax error near unexpected token `newline'"
@@ -94,6 +95,7 @@ extern t_mini				*g_mini;
 
 typedef struct s_cmd
 {
+	int						pipe_fd;
 	char					**full_command;
 	char					*command_path;
 	int						fd_in;

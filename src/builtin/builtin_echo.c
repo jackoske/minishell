@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 12:16:24 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 12:54:51 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	mini_echo(t_cmd *cmd)
 
 	i = 1;
 	newline = check_newline_option(cmd->full_command, &i);
-	print_command_arguments(cmd->full_command, i, 1);
+	print_command_arguments(cmd->full_command, i, cmd->pipe_fd);
 	if (newline)
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", cmd->pipe_fd);
 	g_mini->exit_status = 0;
 }

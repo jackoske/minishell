@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 18:44:05 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 12:55:27 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	exec_pipes(t_list *commands)
 		cmd = (t_cmd *)commands->content;
 		if (is_builtin(cmd) && num_cmds == 1)
 		{
+			cmd->pipe_fd = cmd->fd_out;
 			execute_builtin(cmd);
 			return ;
 		}

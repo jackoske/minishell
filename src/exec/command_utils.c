@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:04 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/19 11:15:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:08:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	execute_command(t_cmd *cmd)
 			return ;
 		}
 		execve(command_path, cmd->full_command, g_mini->envp);
-		perror("execve");
+		ft_putstr_fd("minishell :", STDERR_FILENO);
+		perror("");
 		free(command_path);
 		g_mini->exit_status = 126;
 	}

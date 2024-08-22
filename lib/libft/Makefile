@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+         #
+#    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 17:01:09 by Jskehan           #+#    #+#              #
-#    Updated: 2024/08/21 17:53:27 by Jskehan          ###   ########.fr        #
+#    Updated: 2024/08/22 13:01:10 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ RED=\033[0;31m
 NC=\033[0m  # No Color (reset)
 
 NAME = libft.a
-CC = gcc
+CC = cc
 AR = ar rcs
 CFLAGS = -Wall -Wextra -Werror
 

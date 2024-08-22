@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initilisation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:18:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:33:31 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 12:55:44 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_cmd	*init_cmd(void)
 	node->is_heredoc = 0;
 	node->is_append = 0;
 	node->mini = g_mini;
+	node->pipe_fd = 1;
 	return (node);
 }
 

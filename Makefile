@@ -6,13 +6,13 @@
 #    By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 15:15:48 by iverniho          #+#    #+#              #
-#    Updated: 2024/08/21 19:51:51 by iverniho         ###   ########.fr        #
+#    Updated: 2024/08/22 13:01:07 by iverniho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -static-libasan -g
 
 LIBFT = ./lib/libft/
