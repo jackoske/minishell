@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:09:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/09 17:36:43 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 14:17:44 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	prompt_loop(void)
 {
 	char	*input;
 
-	setup_signal_handlers();
 	while (1)
 	{
+		setup_signal_handlers();
 		if (g_mini->signals.sigint_received)
 		{
 			g_mini->signals.sigint_received = 0;
@@ -35,6 +35,7 @@ void	prompt_loop(void)
 			continue ;
 		}
 		g_mini->signals.is_executing_command = 1;
+		setup_signal_handlers_exec();
 		handle_input(input);
 		g_mini->signals.is_executing_command = 0;
 	}

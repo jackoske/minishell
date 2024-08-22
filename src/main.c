@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:09:06 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:46:44 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 14:15:43 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	g_mini = mini;
 	initialize_envp(envp);
 	init_mini(mini);
-	setup_signal_handlers();
 	prompt_loop();
 	free_mini(&g_mini);
 	return (EXIT_SUCCESS);

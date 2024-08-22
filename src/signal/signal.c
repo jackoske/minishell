@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/14 10:58:51 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/22 14:16:44 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,24 @@ static void	handle_signal(int signal)
 		if (!g_mini->signals.is_executing_command)
 			rl_redisplay();
 	}
-	else if (signal == SIGQUIT)
+	else if (signal == SIGQUIT && g_mini->signals.is_executing_command)
 	{
 		write(STDOUT_FILENO, "\nQuit\n", 6);
 		free_mini(&g_mini);
+		exit(131);
 	}
+}
+
+void	setup_signal_handlers_exec(void)
+{
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
 }
 
 void	setup_signal_handlers(void)
 {
 	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_child_signals(void)

@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/22 12:56:14 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:18:29 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ void						*mini_perror(char *str, char *str2, int fd);
 void						ft_error(int error_code, char *arg);
 void						ft_error_with_exit(char *arg, int exit_code,
 								char *message);
+void						setup_signal_handlers_exec(void);
+
 /* Input Handling and Parsing */
 char						**tokenize_input(char *input);
 char						**tokenize_special_symbols(const char *str, int i,

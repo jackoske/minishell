@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:04 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 13:08:43 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:38:33 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	execute_command(t_cmd *cmd)
 		free(command_path);
 		g_mini->exit_status = 126;
 	}
-	else
-		g_mini->exit_status = 127;
 }
 
 void	handle_fd_redirection(t_cmd *cmd)
