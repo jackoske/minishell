@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/20 15:01:42 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:46:25 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	free_cmd(void *cmd_ptr)
 		ft_free_2d_array(&(cmd->full_command));
 	if (cmd->command_path)
 		free(cmd->command_path);
+	if (cmd->fd_in > 2)
+		close(cmd->fd_in);
+	if (cmd->fd_out > 2)
+		close(cmd->fd_out);
 	free(cmd);
 }
 

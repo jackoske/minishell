@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:52:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 12:55:27 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:07:25 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ void	exec_pipes(t_list *commands)
 	}
 	close_pipes_in_parent(num_cmds, pipes);
 	wait_for_children(num_cmds);
+	ft_lstclear(&commands, free_cmd);
 }

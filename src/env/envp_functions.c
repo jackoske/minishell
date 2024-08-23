@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:42:45 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 13:07:03 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static char	**add_new_envp(char **envp, const char *name, const char *value,
 	new_envp = ft_strjoin_free(temp, (char *)value);
 	new_envp_array[count] = new_envp;
 	new_envp_array[count + 1] = NULL;
-	free(envp);
-	printf("New environment variable added: %s=%s\n", name, value);
 	return (new_envp_array);
 }
 
@@ -95,7 +93,6 @@ char	**ft_setenv(const char *name, const char *value, char **envp,
 	updated_envp = update_existing_envp(envp, name, value, overwrite);
 	if (updated_envp)
 		return (envp);
-	printf("No existing entry found, adding new\n");
 	while (envp && envp[i])
 		i++;
 	return (add_new_envp(envp, name, value, i));

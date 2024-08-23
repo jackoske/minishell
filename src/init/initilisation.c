@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:18:28 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 12:55:44 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:06:37 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,16 @@ static void	set_shell_level(void)
 {
 	char	*shlvl_str;
 	int		shlvl;
-	char	shlvl_value[12];
+	char	*shlvl_value;
 
 	shlvl_str = ft_getenv("SHLVL", g_mini->envp, strlen("SHLVL"));
 	if (shlvl_str)
 		shlvl = atoi(shlvl_str) + 1;
 	else
 		shlvl = 1;
-	snprintf(shlvl_value, sizeof(shlvl_value), "%d", shlvl);
+	shlvl_value = ft_itoa(shlvl);
 	g_mini->envp = ft_setenv("SHLVL", shlvl_value, g_mini->envp, 1);
+	free(shlvl_value);
 }
 
 void	initialize_envp(char **envp)

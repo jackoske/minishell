@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:04 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 14:38:33 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:02:33 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	execute_command(t_cmd *cmd)
 	{
 		if (is_directory(command_path))
 		{
-			fprintf(stderr, "minishell: %s: Is a directory\n", command_path);
+			ft_putstr_fd("minishell >", STDERR_FILENO);
+			perror("");
 			free(command_path);
 			g_mini->exit_status = 126;
 			return ;

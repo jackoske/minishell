@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:20:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:18:44 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:53:19 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ void	handle_input(char *input)
 		ft_lstclear(&commands, free_cmd);
 	}
 	ft_free_2d_array(&tokenized_input);
+	ft_lstclear(&commands, free_cmd);
 	free(input);
 }
