@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:47:19 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:28 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 14:20:56 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,25 +104,25 @@ void	replace_value(char *key, char *value)
 	char	**temp;
 	char	*temp_key;
 	char	*new_env;
+	char	*temp_value;
 
-	i = 0;
-	while (g_mini->envp[i])
+	i = -1;
+	while (g_mini->envp[++i])
 	{
 		temp = ft_split(g_mini->envp[i], '=');
 		if (!temp[0])
 			return ;
-		temp_key = ft_strdup(temp[0]);
+		temp_key = temp[0];
 		if (ft_strcmp(temp_key, key) == 0)
 		{
-			new_env = ft_strjoin(key, ft_strjoin("=", value));
+			temp_value = ft_strjoin("=", value);
+			new_env = ft_strjoin(key, temp_value);
+			free(temp_value);
 			free(g_mini->envp[i]);
 			g_mini->envp[i] = ft_strdup(new_env);
-			free(temp_key);
 			ft_free_2d_array(&temp);
-			return ;
+			return (free(new_env));
 		}
-		free(temp_key);
 		ft_free_2d_array(&temp);
-		i++;
 	}
 }

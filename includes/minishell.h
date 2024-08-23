@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:11:41 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/22 14:18:29 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:26:11 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ int							if_env(char *env_value, char *str, \
 void						manage_replacing(int *index, \
 	char *str, char **env_value);
 char						**remove_empty_elements(char **arr);
+void						split_handler(char ***temp, char *key_to_compare);
 
 /* Command Handling */
 void						exec_pipes(t_list *commands);

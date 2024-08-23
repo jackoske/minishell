@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   additional_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:12:47 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:37 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 14:25:38 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,21 @@ int	is_already_exist(char *key)
 	char	*key_to_compare;
 
 	i = -1;
-	key_to_compare = key;
-	if (ft_strchr(key_to_compare, '='))
+	if (key)
 	{
-		temp = ft_split(key_to_compare, '=');
-		key_to_compare = ft_strdup(temp[0]);
-		ft_free_2d_array(&temp);
-	}
-	while (g_mini->envp[++i])
-	{
-		temp = ft_split(g_mini->envp[i], '=');
-		if (!temp[0])
-			return (1);
-		temp_key = ft_strdup(temp[0]);
-		if (ft_strcmp(temp_key, key_to_compare) == 0)
-			return (free(temp_key), ft_free_2d_array(&temp), 1);
-		free(temp_key);
-		ft_free_2d_array(&temp);
+		key_to_compare = key;
+		if (ft_strchr(key_to_compare, '='))
+			split_handler(&temp, key_to_compare);
+		while (g_mini->envp[++i])
+		{
+			temp = ft_split(g_mini->envp[i], '=');
+			if (!temp[0])
+				return (1);
+			temp_key = temp[0];
+			if (ft_strcmp(temp_key, key_to_compare) == 0)
+				return (ft_free_2d_array(&temp), 1);
+			ft_free_2d_array(&temp);
+		}
 	}
 	return (0);
 }

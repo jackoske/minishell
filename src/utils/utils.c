@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:34:53 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/23 12:46:25 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:25:59 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,11 @@ int	is_special_char_input(char c)
 		prohibited_chars++;
 	}
 	return (0);
+}
+
+void	split_handler(char ***temp, char *key_to_compare)
+{
+	(*temp) = ft_split(key_to_compare, '=');
+	key_to_compare = ft_strdup((*temp)[0]);
+	ft_free_2d_array(&(*temp));
 }

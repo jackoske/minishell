@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:32:11 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/13 14:35:15 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/23 14:21:27 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ static int	prepare_key_value(char **args, char **key, char **value)
 
 static void	replace_existing_value(char *key, char *value)
 {
-	if (is_already_exist(key))
-	{
-		replace_value(key, value);
-		free(key);
-		free(value);
-	}
+	replace_value(key, value);
+	free(key);
+	free(value);
 }
 
 static void	add_new_env_var(char *key, char *value)
 {
 	char	*new_env;
 	char	**new_envp_array;
+	char	*temp;
 
-	new_env = ft_strjoin(key, ft_strjoin("=", value));
+	temp = ft_strjoin("=", value);
+	new_env = ft_strjoin(key, temp);
+	free(temp);
 	new_envp_array = ft_calloc((ft_2d_array_len(g_mini->envp) + 1) + 2,
 			sizeof(char *));
 	if (!new_envp_array)
@@ -81,7 +81,8 @@ void	mini_export(char **args)
 		free(value);
 		return ;
 	}
-	replace_existing_value(key, value);
 	if (!is_already_exist(key))
 		add_new_env_var(key, value);
+	else
+		replace_existing_value(key, value);
 }
