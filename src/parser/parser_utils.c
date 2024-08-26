@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:38:35 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:29:36 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:23:32 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,28 @@ char	*ft_trimm_quotes(char const *s1, int s_quote, int d_quote)
 	return (trimmed);
 }
 
-char	**ft_remove_quotes(char **tokenizedInput)
-{
-	char	**temp;
-	char	*aux;
-	int		i;
+char **ft_remove_quotes(char **tokenizedInput) {
+    int i = 0;
+    
+    // Iterate over each string in the tokenized input array
+    while (tokenizedInput[i] != NULL) {
+        int len = strlen(tokenizedInput[i]);
 
-	i = -1;
-	temp = ft_duplicate_2d_array(tokenizedInput);
-	while (temp && temp[++i])
-	{
-		aux = ft_trimm_quotes(temp[i], 0, 0);
-		free(temp[i]);
-		temp[i] = aux;
-	}
-	return (temp);
+        // Check if the string length is more than 1 and starts and ends with the same quote character
+        if (len > 1 && 
+            ((tokenizedInput[i][0] == '"' && tokenizedInput[i][len - 1] == '"') ||
+             (tokenizedInput[i][0] == '\'' && tokenizedInput[i][len - 1] == '\''))) {
+
+            // Shift characters left to remove the starting quote
+            memmove(tokenizedInput[i], tokenizedInput[i] + 1, len - 1);
+
+            // Null terminate the string after removing the ending quote
+            tokenizedInput[i][len - 2] = '\0'; 
+        }
+        
+        i++;
+    }
+
+    // Return the modified input array
+    return tokenizedInput;
 }

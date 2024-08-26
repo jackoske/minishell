@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:46:05 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/26 19:31:26 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:23:20 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**tokenize_input(char *input)
 	tok_input = split_spaces(input, w_count_quotes(input));
 	if (!tok_input)
 		return (NULL);
-	expanded_arr = expand_vars(ft_remove_paired_quotes(tok_input));
+	expanded_arr = expand_vars(tok_input);
 	if (!expanded_arr)
 	{
 		ft_free_2d_array(&tok_input);
