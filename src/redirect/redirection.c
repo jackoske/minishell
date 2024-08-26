@@ -3,11 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 14:23:13 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 18:50:22 by Jskehan          ###   ########.fr       */
-/*                                                                            */
+/*   Created: 2024/06/10 14:08:23 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/15 13:46:10 by iverniho         ###   ########.fr       */
+x/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -19,8 +19,18 @@ static t_cmd	*handle_append_redir(t_cmd *cmd, char ***input)
 	(*input)++;
 	if (!**input)
 	{
-		cmd->fd_out = -1;
 		return (cmd);
+	/*	if (access(path, F_OK) == -1)
+		{
+			ft_error_with_exit(3, path, 127, ": No such file or directory");
+			return (0);
+		}
+		else if (access(path, R_OK) == -1)
+		{
+			ft_error_with_exit(5, path, 126, ": Permission denied\n");
+			return (0);
+		}
+		return (1);*/
 	}
 	fd = open(**input, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
@@ -30,6 +40,12 @@ static t_cmd	*handle_append_redir(t_cmd *cmd, char ***input)
 		g_mini->exit_status = 1;
 		cmd->fd_out = -1;
 		return (cmd);
+	/*	if (access(path, F_OK) != -1 && access(path, W_OK) == -1)
+		{
+			ft_error_with_exit(5, path, 126, ": Permission denied\n");
+			return (0);
+		}
+		return (1);*/
 	}
 	cmd->fd_out = fd;
 	(*input)++;

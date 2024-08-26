@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 18:35:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/15 12:27:07 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,25 @@ static void	handle_signal(int signal)
 		// free_mini(&g_mini);
 		exit(131);
 	}
+	// else if (signal == SIGQUIT)
+	// {
+	// 	// write(STDOUT_FILENO, PROMPT, 11);
+	// 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+
+	// 	rl_replace_line("", 0);
+	// 	rl_on_new_line();
+
+	// 	// write(STDOUT_FILENO, "\nQuit\n", 6);
+	// 	// free_mini(&g_mini);
+	// }
 }
 
 void	setup_signal_handlers_exec(void)
 {
 	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	// signal(SIGQUIT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
+
 }
 
 void	setup_signal_handlers(void)

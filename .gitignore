@@ -3,5 +3,6 @@
 .cache/
 .cache
 compile_commands.json
+/minishell_tester/
 
 noperm
