@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:40:36 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:44 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/26 18:30:39 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	mini_exit(char **args)
 		exit_status = ft_atoi(args[1]);
 	else
 		exit_status = g_mini->exit_status;
+	free_mini(&g_mini);
 	exit(exit_status);
 }

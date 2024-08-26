@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:20:49 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/23 12:53:19 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:34:01 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	check_tokenized_input(char **tokenized_input)
 void	handle_input(char *input)
 {
 	char	**tokenized_input;
-	t_list	*commands;
 
 	tokenized_input = tokenize_input(input);
 	if (!tokenized_input || !tokenized_input[0]
@@ -48,13 +47,13 @@ void	handle_input(char *input)
 		free(input);
 		return ;
 	}
-	commands = create_commands(tokenized_input);
-	if (commands)
-	{
-		exec_pipes(commands);
-		ft_lstclear(&commands, free_cmd);
-	}
+	g_mini->node = create_commands(tokenized_input);
 	ft_free_2d_array(&tokenized_input);
-	ft_lstclear(&commands, free_cmd);
+	if (g_mini->node)
+	{
+		exec_pipes(g_mini->node);
+		ft_lstclear(&g_mini->node, free_cmd);
+	}
+	ft_lstclear(& g_mini->node, free_cmd);
 	free(input);
 }

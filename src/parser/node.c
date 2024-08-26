@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 12:56:37 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:28:18 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ t_cmd	*create_command_node(char **tokenized_input)
 
 t_list	*create_commands(char **tokenized_input)
 {
-	t_list	*commands;
 	t_cmd	*cmd;
 
-	commands = NULL;
 	while (*tokenized_input)
 	{
 		cmd = create_command_node(tokenized_input);
@@ -86,11 +84,11 @@ t_list	*create_commands(char **tokenized_input)
 				tokenized_input++;
 			continue ;
 		}
-		ft_lstadd_back(&commands, ft_lstnew(cmd));
+		ft_lstadd_back(&g_mini->node, ft_lstnew(cmd));
 		while (*tokenized_input && **tokenized_input != '|')
 			tokenized_input++;
 		if (*tokenized_input)
 			tokenized_input++;
 	}
-	return (commands);
+	return (g_mini->node);
 }
