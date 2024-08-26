@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 14:19:34 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 19:19:32 by Jskehan          ###   ########.fr       */
+/*   Created: 2024/08/26 19:15:28 by Jskehan           #+#    #+#             */
+/*   Updated: 2024/08/26 19:16:56 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	get_here_doc(const char *delimiter)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	int		pipefd[2];
-	char	*line;
+	char	*dup;
+	size_t	i;
 
-	if (pipe(pipefd) == -1)
+	dup = (char *)malloc(n + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s1[i] && i < n)
 	{
-		perror("pipe");
-		return (-1);
+		dup[i] = s1[i];
+		i++;
 	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
-			break ;
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
-		free(line);
-	}
-	free(line);
-	close(pipefd[1]); 
-	return (pipefd[0]);
+	dup[i] = '\0';
+	return (dup);
 }

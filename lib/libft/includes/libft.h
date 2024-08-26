@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:37:54 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:53:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/26 19:17:28 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ char				*ft_remove_paired_quotes(char *str);
 int					ft_is_quote(char c);
 int					ft_is_string_quoted(const char *str);
 int					ft_contains_special_symbols(const char *str);
+char				*ft_strndup(const char *s1, size_t n);
 
 #endif

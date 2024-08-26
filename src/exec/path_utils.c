@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:20 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/22 13:08:53 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:18:03 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*check_direct_command(char *command)
 			NULL);
 	if (access(command, X_OK) == -1)
 		return (ft_error_with_exit(command, 126, "Permission denied\n"), NULL);
-	return (strdup(command));
+	return (ft_strdup(command));
 }
 
 char	*try_paths(char **paths, char *command)
