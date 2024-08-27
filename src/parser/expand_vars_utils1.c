@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 20:31:00 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 17:31:18 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 12:07:29 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	replace_and_build(const char *input, char *output,
 	int	j;
 	int	k;
 
-	input_len = ((i = 0), (j = 0), strlen(input));
-	replacement_len = strlen(replacement_value);
+	input_len = ((i = 0), (j = 0), ft_strlen(input));
+	replacement_len = ft_strlen(replacement_value);
 	while (i < input_len)
 	{
 		if (input[i] == '?' || (input[i] == '$' && i + 1 < input_len && input[i \
@@ -80,7 +80,7 @@ char	*replace_special_signs(const char *input)
 	char	*output;
 
 	replacement_value = ft_itoa(g_mini->exit_status);
-	replacement_len = strlen(replacement_value);
+	replacement_len = ft_strlen(replacement_value);
 	new_len = calculate_new_length(input, replacement_len);
 	output = NULL;
 	output = (char *)malloc(new_len + 1);
@@ -116,7 +116,7 @@ int	has_single_quoting(const char *str)
 {
 	size_t	len;
 
-	len = strlen(str);
+	len = ft_strlen(str);
 	if (len >= 2 && str[0] == '\'' && str[len - 1] == '\'')
 		return (1);
 	return (0);

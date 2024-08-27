@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:40:44 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 19:54:11 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/27 12:06:53 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*replace_env_variables(char *str)
 	char	*result;
 	int		index[3];
 
-	result = (char *)malloc(strlen(str) * 2 + 1);
+	result = (char *)malloc(ft_strlen(str) * 2 + 1);
 	if (!result)
 		return (0);
 	index[0] = ((index[1] = 0), (env_value = NULL), 0);

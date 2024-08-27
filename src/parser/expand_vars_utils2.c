@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:51:04 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 19:51:34 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/27 12:07:04 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	if_env(char *env_value, char *str, char **result, int *index)
 
 	if (env_value)
 	{
-		env_len = strlen(env_value);
+		env_len = ft_strlen(env_value);
 		if (index[1] + env_len >= (int)ft_strlen(str) * 2)
 		{
 			(*result) = ft_realloc((*result), index[1] + env_len + 1);

@@ -6,7 +6,7 @@
 /*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:50:12 by iverniho          #+#    #+#             */
-/*   Updated: 2024/08/21 19:53:46 by iverniho         ###   ########.fr       */
+/*   Updated: 2024/08/27 12:02:21 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,21 @@ char	**remove_empty_elements(char **arr)
 	}
 	ft_free_2d_array(&arr);
 	return (new_arr);
+}
+
+char	**ft_remove_quotes(char **tokenizedInput)
+{
+	char	**temp;
+	char	*aux;
+	int		i;
+
+	i = -1;
+	temp = ft_duplicate_2d_array(tokenizedInput);
+	while (temp && temp[++i])
+	{
+		aux = ft_trimm_quotes(temp[i], 0, 0);
+		free(temp[i]);
+		temp[i] = aux;
+	}
+	return (temp);
 }

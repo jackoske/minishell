@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:49:43 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 19:19:01 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 12:07:48 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static char	*update_existing_envp(char **envp, const char *name,
 	i = 0;
 	while (envp && envp[i])
 	{
-		if (!ft_strncmp(envp[i], name, strlen(name))
-			&& envp[i][strlen(name)] == '=')
+		if (!ft_strncmp(envp[i], name, ft_strlen(name))
+			&& envp[i][ft_strlen(name)] == '=')
 		{
 			if (overwrite)
 			{

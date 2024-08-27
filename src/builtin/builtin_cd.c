@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
+/*   By: iverniho <iverniho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:06:33 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/21 17:46:03 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 12:04:21 by iverniho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static int	go_to_path(int option, t_mini *mini)
 		if (update_oldpwd() != 0)
 			return (1);
 		env_path = get_env_path(mini->envp, "HOME=", 5);
-		printf("%s\n", env_path);
 		if (!env_path)
 			return (1);
 	}
