@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 15:33:20 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 20:40:24 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 11:08:03 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ char	*try_paths(char **paths, char *command)
 	}
 	return (NULL);
 }
-char *remove_quotes2(char *str)
-{
-	printf("%s\n", str);
-	int i;
-	int j;
-	char *new_str;
 
+char	*remove_quotes2(char *str)
+{
+	int		i;
+	int		j;
+	char	*new_str;
+
+	printf("%s\n", str);
 	i = 0;
 	j = 0;
 	new_str = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));

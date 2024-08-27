@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Jskehan <jskehan@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:21:00 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 20:42:55 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 11:03:31 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static char	**process_command(t_cmd *cmd, char **tokenized_input)
 static char	**process_token(t_cmd *cmd, char **tokenized_input,
 		int *error_status)
 {
-	tokenized_input = ft_remove_quotes(tokenized_input);
 	if (is_redirection(ft_remove_paired_quotes(*tokenized_input)))
 	{
 		*error_status = process_redirections(cmd, &tokenized_input);

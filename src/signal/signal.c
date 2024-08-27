@@ -6,7 +6,7 @@
 /*   By: Jskehan <jskehan@student.42Berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:30:14 by Jskehan           #+#    #+#             */
-/*   Updated: 2024/08/26 18:35:50 by Jskehan          ###   ########.fr       */
+/*   Updated: 2024/08/27 11:07:38 by Jskehan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	handle_signal(int signal)
 	else if (signal == SIGQUIT && g_mini->signals.is_executing_command)
 	{
 		write(STDOUT_FILENO, "\nQuit\n", 6);
-		// free_mini(&g_mini);
 		exit(131);
 	}
 }
